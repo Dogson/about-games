@@ -1,0 +1,32 @@
+@import "tailwindcss";
+@import "./fonts.css";
+
+
+@theme {
+    /* Colors */
+    --color-ghost: #f2f5ff;
+    --color-black: #101010;
+    --color-maize: #03256C;
+    --color-mauve: #0d1321;
+    --color-salmon: #f49097;
+    --color-turquoise: #55d6c2;
+    --color-corn: #f5e960;
+
+    /* Fonts */
+    --font-default: 'Nunito', sans-serif;
+    --font-title: 'Syne', sans-serif;
+
+    /* Sizes */
+    --text-xxs: 0.625rem; /* 10px */
+}
+
+@layer base {
+    body {
+        @apply relative;
+        @apply bg-mauve;
+        @apply text-turquoise;
+        @apply font-default;
+        @apply leading-tight;
+    }
+}
+

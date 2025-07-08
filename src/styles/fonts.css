@@ -1,0 +1,23 @@
+@font-face {
+    font-family: 'Nunito';
+    src: url('/src/fonts/NunitoSans-VariableFont_YTLC,opsz,wdth,wght.ttf') format('truetype');
+    font-weight: 100 900; /* Variable font weights range */
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('/src/fonts/NunitoSans-Italic-VariableFont_YTLC,opsz,wdth,wght.ttf') format('truetype');
+    font-weight: 100 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Syne';
+    src: url('/src/fonts/Syne-VariableFont_wght.ttf') format('truetype');
+    font-weight: 100 900; /* Variable font weights range */
+    font-style: normal;
+    font-display: swap;
+}

@@ -1,10 +1,9 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
+import initI18n from "./i18n/i18n.ts";
 
 function App() {
-  const [count, setCount] = useState(0);
+  initI18n();
 
   return (
     <>
@@ -12,15 +11,9 @@ function App() {
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
       </div>
       <h1>Vite + React</h1>
       <div className="bg-black text-center text-gray-600 dark:text-gray-400">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
