@@ -6,7 +6,7 @@ import { Transition } from "@headlessui/react";
 
 export type GameCardProps = {
   title: string;
-  imgUrl: string;
+  imgUrl?: string | null;
   releaseDate: string | null;
   canBeHovered?: boolean;
 };
@@ -30,7 +30,7 @@ const GameCard: React.FC<GameCardProps> = ({
               transition-transform duration-300`
             : ""
         }`}
-      style={{ backgroundImage: `url(${imgUrl})` }}
+      style={imgUrl ? { backgroundImage: `url(${imgUrl})` } : {}}
       onMouseEnter={() => setHovered(canBeHovered)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -45,15 +45,15 @@ const GameCard: React.FC<GameCardProps> = ({
         leaveTo="opacity-0 translate-y-4"
       >
         <div
-          className="bg-gradient-to-t from-black/100 via-black/90 via-70%
-            to-black/0 px-4 pb-3"
+          className="bg-gradient-to-t from-black/100 via-black/70 via-70%
+            to-black/0 px-4 pt-10 pb-3"
         >
           <Separator bulletSize="sm" direction="horizontal" />
           <div className="flex flex-col gap-1">
-            <div className="text-corn text-xxs font-thin italic opacity-55">
+            <div className="text-corn text-xxs italic opacity-55">
               {releaseDate ? getYearFromDate(releaseDate) : t("Game.tba")}
             </div>
-            <div className="text-md font-title">{title}</div>
+            <div className="text-md font-title font-bold">{title}</div>
           </div>
         </div>
       </Transition>
