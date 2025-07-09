@@ -1,0 +1,38 @@
+<svg width="50" xmlns="http://www.w3.org/2000/svg" height="37" id="screenshot-0da7b042-74dc-80c0-8006-47890c8d0bb9" viewBox="2062 156 50 37" style="-webkit-print-color-adjust::exact" xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" version="1.1">
+  <g id="shape-0da7b042-74dc-80c0-8006-47890c8d0bb9" rx="0" ry="0">
+    <g id="shape-0da7b042-74dc-80c0-8006-47890c8d0bba">
+      <defs>
+        <radialGradient id="fill-color-gradient-render-1855-0" cx="0.5" cy="0.5" r="0.5" gradientTransform="matrix(-1.000000, 0.000000, -0.000000, -1.000000, 1.000000, 1.000000)">
+          <stop offset="0.2" stop-color="#f49097" stop-opacity="1">
+          </stop>
+          <stop offset="1" stop-color="#03256c" stop-opacity="1">
+          </stop>
+        </radialGradient>
+        <pattern patternUnits="userSpaceOnUse" x="2062" y="156" width="50" height="37" patternTransform="matrix(1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000)" id="fill-0-render-1855">
+          <g>
+            <rect width="50" height="37" style="fill:url(#fill-color-gradient-render-1855-0)">
+            </rect>
+          </g>
+        </pattern>
+      </defs>
+      <g class="fills" id="fills-0da7b042-74dc-80c0-8006-47890c8d0bba">
+        <path d="M2062,156L2112,156L2087.327392578125,193L2062,156" fill="url(#fill-0-render-1855)">
+        </path>
+      </g>
+      <g id="strokes-7ca127cd-fb37-8015-8006-76deef5be550-0da7b042-74dc-80c0-8006-47890c8d0bba" class="strokes">
+        <g class="inner-stroke-shape">
+          <defs>
+            <clipPath id="inner-stroke-render-1855-0da7b042-74dc-80c0-8006-47890c8d0bba-0">
+              <use href="#stroke-shape-render-1855-0da7b042-74dc-80c0-8006-47890c8d0bba-0">
+              </use>
+            </clipPath>
+            <path d="M2062,156L2112,156L2087.327392578125,193L2062,156" style="fill:none;fill-opacity:none;stroke-width:4;stroke:#55d6c2;stroke-opacity:1" id="stroke-shape-render-1855-0da7b042-74dc-80c0-8006-47890c8d0bba-0">
+            </path>
+          </defs>
+          <use href="#stroke-shape-render-1855-0da7b042-74dc-80c0-8006-47890c8d0bba-0" clip-path="url(&#x27;#inner-stroke-render-1855-0da7b042-74dc-80c0-8006-47890c8d0bba-0&#x27;)">
+          </use>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
