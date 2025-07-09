@@ -18,6 +18,10 @@
 
     /* Sizes */
     --text-xxs: 0.625rem; /* 10px */
+
+    /* Shadows */
+    --shadow-lg: 0 16px 16px rgba(0, 0, 0, 0.8);
+
 }
 
 @layer base {

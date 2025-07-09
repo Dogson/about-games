@@ -22,12 +22,13 @@ const GameCard: React.FC<GameCardProps> = ({
 
   return (
     <div
-      className={`slide-in flex h-52 w-39 flex-col justify-end overflow-hidden
-        rounded-xl bg-cover bg-center pt-5 outline-1 outline-transparent
-        duration-100 ${canBeHovered ? "cursor-pointer" : ""} ${
+      className={`slide-in shadow-0 flex h-52 w-39 flex-shrink-0 flex-col
+        justify-end overflow-hidden rounded-xl bg-cover bg-center pt-5 shadow
+        outline-1 outline-transparent duration-100
+        ${canBeHovered ? "cursor-pointer" : ""} ${
           hovered || !canBeHovered
-            ? `outline-turquoise translate-y-[-8px] shadow-lg transition-shadow
-              transition-transform duration-300`
+            ? `outline-turquoise translate-y-[-8px] shadow-lg transition-all
+              duration-300`
             : ""
         }`}
       style={imgUrl ? { backgroundImage: `url(${imgUrl})` } : {}}

@@ -1,5 +1,14 @@
 {
+  "common": {
+    "alts": {
+      "coverAlt": "Couverture",
+      "boxartImgAlt": "Jaquette"
+    }
+  },
   "Game": {
     "tba": "À venir"
+  },
+  "GamePageHeader": {
+    "about": "à propos de..."
   }
 }

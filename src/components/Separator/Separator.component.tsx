@@ -10,8 +10,8 @@ export interface SeparatorProps {
 
 const bulletSizesPx = {
   sm: 2,
-  md: 4,
-  lg: 8,
+  md: 3,
+  lg: 4,
 };
 
 const paddingClasses = {
@@ -31,8 +31,8 @@ const paddingClasses = {
 
 const spacings = {
   sm: 8, // small spacing between dots
-  md: 12, // medium spacing between dots
-  lg: 16, // large spacing between dots
+  md: 10, // medium spacing between dots
+  lg: 12, // large spacing between dots
 };
 
 export const Separator: React.FC<SeparatorProps> = ({
@@ -82,6 +82,7 @@ export const Separator: React.FC<SeparatorProps> = ({
     borderRadius: "50%",
     backgroundColor: "#40e0d0",
     flexShrink: 0,
+    opacity: "70%",
   };
 
   const dots = Array.from({ length: count }, (_, i) => (
