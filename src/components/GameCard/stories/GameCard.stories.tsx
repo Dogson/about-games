@@ -31,3 +31,9 @@ NoHover.args = {
   ...Default.args,
   canBeHovered: false,
 };
+
+export const isSmall = Template.bind({});
+isSmall.args = {
+  ...Default.args,
+  isSmall: true,
+};

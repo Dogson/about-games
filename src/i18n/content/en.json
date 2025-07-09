@@ -10,5 +10,8 @@
   },
   "GamePageHeader": {
     "about": "about..."
+  },
+  "GameListForVideo": {
+    "gamesItsAbout": "Games it's about"
   }
 }

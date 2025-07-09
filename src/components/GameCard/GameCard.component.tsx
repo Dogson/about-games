@@ -9,6 +9,7 @@ export type GameCardProps = {
   imgUrl?: string | null;
   releaseDate: string | null;
   canBeHovered?: boolean;
+  isSmall?: boolean;
 };
 
 const GameCard: React.FC<GameCardProps> = ({
@@ -16,18 +17,20 @@ const GameCard: React.FC<GameCardProps> = ({
   imgUrl,
   releaseDate,
   canBeHovered = true,
+  isSmall = false,
 }) => {
   const [hovered, setHovered] = React.useState(false);
   const { t } = useTranslation();
 
   return (
     <div
-      className={`slide-in shadow-0 flex h-52 w-39 flex-shrink-0 flex-col
-        justify-end overflow-hidden rounded-xl bg-cover bg-center pt-5 shadow
-        outline-1 outline-transparent duration-100
+      className={`slide-in shadow-0 flex flex-shrink-0 flex-col justify-end
+        overflow-hidden rounded-xl bg-cover bg-center pt-5 shadow outline-1
+        outline-transparent duration-100 ${isSmall ? "h-32 w-24" : "h-52 w-39"}
         ${canBeHovered ? "cursor-pointer" : ""} ${
           hovered || !canBeHovered
-            ? `outline-turquoise translate-y-[-8px] shadow-lg transition-all
+            ? `outline-turquoise transition-all
+              ${isSmall ? "translate-y-[-4px] shadow-md" : "translate-y-[-8px] shadow-lg"}
               duration-300`
             : ""
         }`}
@@ -46,15 +49,20 @@ const GameCard: React.FC<GameCardProps> = ({
         leaveTo="opacity-0 translate-y-4"
       >
         <div
-          className="bg-gradient-to-t from-black/100 via-black/70 via-70%
-            to-black/0 px-4 pt-10 pb-3"
+          className={`bg-gradient-to-t from-black/100 via-black/70 via-70%
+            to-black/0 ${isSmall ? "px-2 pt-5 pb-2" : "px-4 pt-10 pb-3"}`}
         >
           <Separator bulletSize="sm" direction="horizontal" />
           <div className="flex flex-col gap-1">
             <div className="text-corn text-xxs italic opacity-55">
               {releaseDate ? getYearFromDate(releaseDate) : t("Game.tba")}
             </div>
-            <div className="text-md font-title font-bold">{title}</div>
+            <div
+              className={`font-title font-bold
+                ${isSmall ? "text-xs" : "text-md"}`}
+            >
+              {title}
+            </div>
           </div>
         </div>
       </Transition>

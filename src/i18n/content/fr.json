@@ -10,5 +10,8 @@
   },
   "GamePageHeader": {
     "about": "à propos de..."
+  },
+  "GameListForVideo": {
+    "gamesItsAbout": "Jeux abordés"
   }
 }
