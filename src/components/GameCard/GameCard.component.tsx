@@ -23,11 +23,11 @@ const GameCard: React.FC<GameCardProps> = ({
   return (
     <div
       className={`slide-in flex h-52 w-39 flex-col justify-end overflow-hidden
-        rounded-xl bg-cover bg-center pt-5 duration-100
-        ${canBeHovered ? "cursor-pointer" : ""} ${
+        rounded-xl bg-cover bg-center pt-5 outline-1 outline-transparent
+        duration-100 ${canBeHovered ? "cursor-pointer" : ""} ${
           hovered || !canBeHovered
-            ? `outline-turquoise translate-y-[-8px] border-1 shadow-lg
-              transition-shadow transition-transform duration-300`
+            ? `outline-turquoise translate-y-[-8px] shadow-lg transition-shadow
+              transition-transform duration-300`
             : ""
         }`}
       style={{ backgroundImage: `url(${imgUrl})` }}
@@ -53,7 +53,7 @@ const GameCard: React.FC<GameCardProps> = ({
             <div className="text-corn text-xxs font-thin italic opacity-55">
               {releaseDate ? getYearFromDate(releaseDate) : t("Game.tba")}
             </div>
-            <div className="text-md">{title}</div>
+            <div className="text-md font-title">{title}</div>
           </div>
         </div>
       </Transition>
