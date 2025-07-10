@@ -19,7 +19,6 @@ const Template: StoryFn<GameGridProps> = (args) => {
         {...args}
         onGameClick={(game) => {
           setClicked(game.title);
-          console.log("Clicked game:", game);
         }}
       />
       {clicked && (

@@ -15,10 +15,7 @@ export const formatDateLocalized = (
   date: Date | string,
   locale: string,
 ): string => {
-  dayjs.locale("fr");
-
-  console.log(locale);
-  console.log(date);
+  dayjs.locale(locale);
 
   const newdate = dayjs(date).format("L");
   console.log(newdate);
