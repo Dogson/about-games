@@ -46,7 +46,7 @@ const LoadingInput = () => {
       value={value}
       onChange={setValue}
       Icon={<FiSearch />}
-      RightSlot={<ClipLoader size={16} color="#666" />}
+      RightSlot={<ClipLoader size={16} color="var(--color-black)" />}
       placeholder="Loading..."
       className="max-w-md"
     />
@@ -98,7 +98,7 @@ export const FullyLoaded: Story = {
         value={value}
         onChange={setValue}
         Icon={<FiSearch />}
-        RightSlot={<ClipLoader size={16} color="#666" />}
+        RightSlot={<ClipLoader size={16} color="var(--color-black)" />}
         placeholder="Loading data..."
         className="max-w-md"
       />

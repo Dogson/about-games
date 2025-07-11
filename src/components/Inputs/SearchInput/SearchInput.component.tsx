@@ -19,7 +19,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   isLoading = false,
 }) => {
   const rightSlot = isLoading ? (
-    <ClipLoader size={16} color="#666" />
+    <ClipLoader size={16} color="var(--color-black)" />
   ) : searchText ? (
     <button
       type="button"
