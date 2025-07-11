@@ -3,7 +3,7 @@ import DescriptionLinkify from "./DescriptionLinkify.component.tsx";
 
 export type VideoDescriptionProps = {
   description: string;
-  onTimestampClick: (timestamp: string) => void;
+  onTimestampClick: (timestamp: number) => void;
 };
 
 const COLLAPSED_MAX_HEIGHT = 120;

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Separator } from "../Separator/Separator.component.tsx";
-import { getYearFromDate } from "../../helpers/utils/date.ts";
+import { getYearFromDate } from "../../helpers/utils/datetime.ts";
 import { useTranslation } from "react-i18next";
 import { Transition } from "@headlessui/react";
 

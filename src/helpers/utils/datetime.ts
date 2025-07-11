@@ -22,3 +22,11 @@ export const formatDateLocalized = (
 
   return dayjs(date).format("L");
 };
+
+export const timestampStrToSeconds = (timestamp: string): number => {
+  return timestamp
+    .split(":")
+    .map(Number)
+    .reverse()
+    .reduce((total, value, index) => total + value * 60 ** index, 0);
+};

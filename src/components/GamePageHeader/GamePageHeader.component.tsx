@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import GameCard from "../GameCard/GameCard.component.tsx";
-import { getYearFromDate } from "../../helpers/utils/date.ts";
+import { getYearFromDate } from "../../helpers/utils/datetime.ts";
 import AppConfig from "../../config/app.config.ts";
 import { Separator } from "../Separator/Separator.component.tsx";
 

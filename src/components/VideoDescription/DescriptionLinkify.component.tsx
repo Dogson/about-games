@@ -1,6 +1,7 @@
 import React from "react";
 import Linkify from "linkify-react";
 import "linkify-plugin-hashtag";
+import { timestampStrToSeconds } from "../../helpers/utils/datetime.ts";
 
 const timestampRegex = /\b(?:\d{1,2}:)?\d{1,2}:\d{2}\b/g;
 const splitRegex = /(\b(?:\d{1,2}:)?\d{1,2}:\d{2}\b)/g;
@@ -16,7 +17,7 @@ const linkifyOptions = {
 
 type DescriptionLinkifyProps = {
   text: string;
-  onTimestampClick: (timestamp: string) => void;
+  onTimestampClick: (timestamp: number) => void;
 };
 
 const DescriptionLinkify: React.FC<DescriptionLinkifyProps> = ({
@@ -34,7 +35,7 @@ const DescriptionLinkify: React.FC<DescriptionLinkifyProps> = ({
           key={index}
           className="text-corn cursor-pointer font-bold"
           onClick={() => {
-            onTimestampClick(part);
+            onTimestampClick(timestampStrToSeconds(part));
           }}
         >
           {part}
