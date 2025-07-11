@@ -1,5 +1,5 @@
 import React from "react";
-import { formatDateLocalized } from "../../helpers/utils/datetime.ts";
+import { formatDateLocalized } from "../../helpers/utils/datetime.utils.ts";
 import { useTranslation } from "react-i18next";
 import ChannelNameAndThumbnail from "../ChannelNameAndThumbnail/ChannelNameAndThumbnail.component.tsx";
 

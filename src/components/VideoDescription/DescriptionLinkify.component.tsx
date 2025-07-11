@@ -1,7 +1,7 @@
 import React from "react";
 import Linkify from "linkify-react";
 import "linkify-plugin-hashtag";
-import { timestampStrToSeconds } from "../../helpers/utils/datetime.ts";
+import { timestampStrToSeconds } from "../../helpers/utils/datetime.utils.ts";
 
 const timestampRegex = /\b(?:\d{1,2}:)?\d{1,2}:\d{2}\b/g;
 const splitRegex = /(\b(?:\d{1,2}:)?\d{1,2}:\d{2}\b)/g;

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Separator } from "../Separator/Separator.component.tsx";
-import { getYearFromDate } from "../../helpers/utils/datetime.ts";
+import { getYearFromDate } from "../../helpers/utils/datetime.utils.ts";
 import { useTranslation } from "react-i18next";
 import { Transition } from "@headlessui/react";
 import IconButton from "../Buttons/IconButton/IconButton.component.tsx";
@@ -48,10 +48,7 @@ const GameCard: React.FC<GameCardProps> = ({
       {onDelete && (
         <IconButton
           Icon={FiTrash2}
-          onClick={(e) => {
-            e.stopPropagation();
-            onDelete();
-          }}
+          onClick={onDelete}
           isSmall={isSmall}
           className="absolute top-[-10px] right-[-10px]"
         />

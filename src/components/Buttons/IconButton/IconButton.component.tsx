@@ -15,7 +15,10 @@ const IconButton: React.FC<IconButtonProps> = ({
 }) => {
   return (
     <button
-      onClick={onClick}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick();
+      }}
       className={`bg-maize flex items-center justify-center rounded-full p-1
         transition-all duration-200 hover:scale-110
         ${isSmall ? "h-6 w-6" : "h-8 w-8"} ${className}`}
