@@ -5,7 +5,7 @@ import SearchInput, {
 import type { Meta, StoryFn } from "@storybook/react-vite";
 
 export default {
-  title: "Components/SearchInput",
+  title: "Inputs/SearchInput",
   component: SearchInput,
   argTypes: {
     placeholder: { control: "text" },

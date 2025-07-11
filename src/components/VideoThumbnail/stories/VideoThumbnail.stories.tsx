@@ -4,7 +4,7 @@ import VideoThumbnail, {
 import type { Meta, StoryFn } from "@storybook/react-vite";
 
 export default {
-  title: "Components/VideoThumbnail",
+  title: "Video/VideoThumbnail",
   component: VideoThumbnail,
   argTypes: {
     channelName: { control: "text" },

@@ -4,7 +4,7 @@ import GamePageHeader, {
 import type { Meta, StoryFn } from "@storybook/react-vite";
 
 export default {
-  title: "Components/GamePageHeader",
+  title: "Game/GamePageHeader",
   component: GamePageHeader,
   argTypes: {
     title: { control: "text" },

@@ -3,7 +3,7 @@ import { FiTrash2, FiEdit2 } from "react-icons/fi";
 import type { Meta, StoryFn } from "@storybook/react-vite";
 
 export default {
-  title: "Components/IconButton",
+  title: "Buttons/IconButton",
   component: IconButton,
   argTypes: {
     Icon: {

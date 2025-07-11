@@ -5,7 +5,7 @@ import type { Game } from "../../../models/Game.model.ts";
 import mockGames from "../../../mocks/games.mocks.json";
 
 export default {
-  title: "Components/GameGrid",
+  title: "Game/GameGrid",
   component: GameGrid,
   argTypes: {},
 } as Meta<typeof GameGrid>;

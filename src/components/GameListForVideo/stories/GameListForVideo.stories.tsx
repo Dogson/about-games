@@ -5,7 +5,7 @@ import GameListForVideo, {
 import mockGames from "../../../mocks/games.mocks.json";
 
 export default {
-  title: "Components/GameListForVideo",
+  title: "Game/GameListForVideo",
   component: GameListForVideo,
   parameters: {
     layout: "centered",

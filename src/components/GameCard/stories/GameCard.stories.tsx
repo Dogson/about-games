@@ -2,7 +2,7 @@ import GameCard, { type GameCardProps } from "../GameCard.component.tsx";
 import type { Meta, StoryFn } from "@storybook/react-vite";
 
 export default {
-  title: "Components/GameCard",
+  title: "Game/GameCard",
   component: GameCard,
   argTypes: {
     canBeHovered: { control: "boolean" },

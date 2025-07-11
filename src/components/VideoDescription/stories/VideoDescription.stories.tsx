@@ -4,7 +4,7 @@ import VideoDescription, {
 import type { Meta, StoryFn } from "@storybook/react-vite";
 
 export default {
-  title: "Components/VideoDescription",
+  title: "Video/VideoDescription",
   component: VideoDescription,
   argTypes: {
     description: { control: "text" },

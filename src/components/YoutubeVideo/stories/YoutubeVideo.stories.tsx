@@ -4,7 +4,7 @@ import YoutubeVideo, {
 import type { Meta, StoryFn } from "@storybook/react-vite";
 
 export default {
-  title: "Components/YoutubeVideo",
+  title: "Video/YoutubeVideo",
   component: YoutubeVideo,
   argTypes: {
     youtubeId: { control: "text" },
