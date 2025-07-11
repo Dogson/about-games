@@ -3,6 +3,8 @@ import { Separator } from "../Separator/Separator.component.tsx";
 import { getYearFromDate } from "../../helpers/utils/datetime.ts";
 import { useTranslation } from "react-i18next";
 import { Transition } from "@headlessui/react";
+import IconButton from "../Buttons/IconButton/IconButton.component.tsx";
+import { FiTrash2 } from "react-icons/fi";
 
 export type GameCardProps = {
   title: string;
@@ -10,6 +12,8 @@ export type GameCardProps = {
   releaseDate: string | null;
   canBeHovered?: boolean;
   isSmall?: boolean;
+  onClick: () => void;
+  onDelete?: () => void;
 };
 
 const GameCard: React.FC<GameCardProps> = ({
@@ -18,14 +22,16 @@ const GameCard: React.FC<GameCardProps> = ({
   releaseDate,
   canBeHovered = true,
   isSmall = false,
+  onClick,
+  onDelete,
 }) => {
   const [hovered, setHovered] = React.useState(false);
   const { t } = useTranslation();
 
   return (
     <div
-      className={`slide-in shadow-0 flex flex-shrink-0 flex-col justify-end
-        overflow-hidden rounded-xl bg-cover bg-center pt-5 shadow outline-1
+      className={`slide-in shadow-0 relative flex flex-shrink-0 flex-col
+        justify-end rounded-xl bg-cover bg-center pt-5 shadow outline-1
         outline-transparent duration-100 ${isSmall ? "h-32 w-24" : "h-52 w-39"}
         ${canBeHovered ? "cursor-pointer" : ""} ${
           hovered || !canBeHovered
@@ -33,11 +39,23 @@ const GameCard: React.FC<GameCardProps> = ({
               ${isSmall ? "translate-y-[-4px] shadow-md" : "translate-y-[-8px] shadow-lg"}
               duration-300`
             : ""
-        }`}
+        } ${!onDelete ? "overflow-hidden" : ""}`}
       style={imgUrl ? { backgroundImage: `url(${imgUrl})` } : {}}
       onMouseEnter={() => setHovered(canBeHovered)}
       onMouseLeave={() => setHovered(false)}
+      onClick={onClick}
     >
+      {onDelete && (
+        <IconButton
+          Icon={FiTrash2}
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete();
+          }}
+          isSmall={isSmall}
+          className="absolute top-[-10px] right-[-10px]"
+        />
+      )}
       <Transition
         show={hovered}
         as={React.Fragment}

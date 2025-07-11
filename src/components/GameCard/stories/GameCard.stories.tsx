@@ -32,8 +32,15 @@ NoHover.args = {
   canBeHovered: false,
 };
 
-export const isSmall = Template.bind({});
-isSmall.args = {
+export const IsSmall = Template.bind({});
+IsSmall.args = {
   ...Default.args,
   isSmall: true,
+};
+
+export const IsSmallAndDeletable = Template.bind({});
+IsSmallAndDeletable.args = {
+  ...IsSmall.args,
+  onDelete: () => alert("Deleting game..."),
+  onClick: () => alert("onClick"),
 };
