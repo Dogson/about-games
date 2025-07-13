@@ -11,5 +11,12 @@ export type Channel = {
     ignoreEpisodesContaining: string[];
     ignoreSearchIn: string[];
     endParsingAfter: string[];
-  }
+  };
+  videosCount: number;
+  lastParsingError: {
+    date: string;
+    message: string;
+  } | null;
+  totalGamesFoundCount: number;
+  totalGamesCount: number;
 };

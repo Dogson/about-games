@@ -1,0 +1,59 @@
+/* Import base quartz theme */
+@import "ag-grid-community/styles/ag-theme-quartz.css";
+
+/* Custom AG Grid theme using your CSS variables */
+.ag-theme-custom {
+    /* Backgrounds */
+    --ag-background-color: var(--color-maize-dark);
+    --ag-odd-row-background-color: var(--color-maize);
+    --ag-header-background-color: var(--color-salmon);
+    --ag-hover-color: var(--color-turquoise);
+
+    /* Text colors */
+    --ag-cell-text-color: var(--color-ghost);
+    --ag-foreground-color: var(--color-black);
+    --ag-header-foreground-color: var(--color-ghost);
+    --ag-odd-row-foreground-color: var(--color-corn);
+
+    /* Borders */
+    --ag-border-color: var(--color-maize);
+    --ag-header-border-color: var(--color-corn);
+
+    /* Selected row */
+    --ag-row-selected-background-color: var(--color-turquoise);
+    --ag-row-selected-foreground-color: var(--color-black);
+
+    /* Focus outline */
+    --ag-focus-outline-color: var(--color-salmon);
+
+    /* Fonts */
+    --ag-font-family: var(--font-default)
+}
+
+/* Header styling */
+.ag-theme-custom .ag-header {
+    font-family: var(--font-title);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    border-bottom: 2px solid var(--ag-header-border-color);
+}
+
+/* Hover effect for rows */
+.ag-theme-custom .ag-row:hover {
+    background-color: var(--ag-hover-color);
+    color: var(--ag-foreground-color);
+    cursor: pointer;
+}
+
+/* Cleaner borders */
+.ag-theme-custom .ag-root-wrapper,
+.ag-theme-custom .ag-header,
+.ag-theme-custom .ag-body-viewport {
+    border: none;
+}
+
+.ag-theme-custom .ag-cell {
+    border-bottom: 1px solid var(--ag-border-color);
+    display: flex;
+    align-items: center;
+}
