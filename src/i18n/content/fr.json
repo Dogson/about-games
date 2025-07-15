@@ -3,7 +3,9 @@
     "alts": {
       "coverAlt": "Couverture",
       "boxartImgAlt": "Jaquette"
-    }
+    },
+    "games": "Jeux",
+    "videos": "Vidéos"
   },
   "Game": {
     "tba": "À venir"
@@ -13,5 +15,9 @@
   },
   "GameListForVideo": {
     "gamesItsAbout": "Jeux abordés"
+  },
+  "Admin": {
+    "accuracy": "Précision",
+    "reset": "Réinitialiser"
   }
 }

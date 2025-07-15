@@ -30,8 +30,8 @@ const mockChannels: Channel[] = [
       endParsingAfter: [],
     },
     lastParsingError: { date: "2023-10-01", message: "Big Error Mate" },
-    totalGamesFoundCount: 35,
-    totalGamesCount: 50,
+    lastGamesFoundCount: 35,
+    lastGamesCount: 50,
   },
   {
     id: 2,
@@ -50,8 +50,8 @@ const mockChannels: Channel[] = [
       endParsingAfter: [],
     },
     lastParsingError: null,
-    totalGamesFoundCount: 12,
-    totalGamesCount: 18,
+    lastGamesFoundCount: 12,
+    lastGamesCount: 18,
   },
   {
     id: 3,
@@ -70,8 +70,8 @@ const mockChannels: Channel[] = [
       endParsingAfter: [],
     },
     lastParsingError: null,
-    totalGamesFoundCount: 50,
-    totalGamesCount: 55,
+    lastGamesFoundCount: 50,
+    lastGamesCount: 55,
   },
   {
     id: 4,
@@ -90,8 +90,8 @@ const mockChannels: Channel[] = [
       endParsingAfter: [],
     },
     lastParsingError: null,
-    totalGamesFoundCount: 3,
-    totalGamesCount: 5,
+    lastGamesFoundCount: 3,
+    lastGamesCount: 5,
   },
   {
     id: 5,
@@ -110,8 +110,8 @@ const mockChannels: Channel[] = [
       endParsingAfter: [],
     },
     lastParsingError: null,
-    totalGamesFoundCount: 95,
-    totalGamesCount: 100,
+    lastGamesFoundCount: 95,
+    lastGamesCount: 100,
   },
 ];
 

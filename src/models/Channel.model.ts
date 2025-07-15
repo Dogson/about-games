@@ -17,6 +17,7 @@ export type Channel = {
     date: string;
     message: string;
   } | null;
-  totalGamesFoundCount: number;
-  totalGamesCount: number;
+  lastGamesFoundCount: number;
+  lastGamesCount: number;
+  gamesCount: number;
 };

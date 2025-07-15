@@ -3,7 +3,9 @@
     "alts": {
       "coverAlt": "Cover",
       "boxartImgAlt": "Box art"
-    }
+    },
+    "games": "Games",
+    "videos": "Videos"
   },
   "Game": {
     "tba": "Coming soon"
@@ -13,5 +15,9 @@
   },
   "GameListForVideo": {
     "gamesItsAbout": "Games it's about"
+  },
+  "Admin": {
+    "accuracy": "Accuracy",
+    "reset": "Reset"
   }
 }

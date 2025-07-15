@@ -16,8 +16,8 @@ const bulletSizesPx = {
 
 const paddingClasses = {
   sm: {
-    horizontal: "py-2", // small padding top/bottom
-    vertical: "px-2", // small padding left/right
+    horizontal: "py-2",
+    vertical: "px-2",
   },
   md: {
     horizontal: "py-4",
@@ -30,9 +30,9 @@ const paddingClasses = {
 };
 
 const spacings = {
-  sm: 8, // small spacing between dots
-  md: 10, // medium spacing between dots
-  lg: 12, // large spacing between dots
+  sm: 8,
+  md: 10,
+  lg: 12,
 };
 
 export const Separator: React.FC<SeparatorProps> = ({
@@ -52,7 +52,7 @@ export const Separator: React.FC<SeparatorProps> = ({
       const length =
         direction === "horizontal" ? element.clientWidth : element.clientHeight;
       const dotsThatFit = Math.floor(length / spacings[bulletSize]);
-      setCount(dotsThatFit > 0 ? dotsThatFit : 0);
+      setCount(dotsThatFit > 0 ? dotsThatFit : 1); // fallback to 1 dot
     };
 
     calculateCount();
@@ -64,7 +64,7 @@ export const Separator: React.FC<SeparatorProps> = ({
     resizeObserver.observe(element);
 
     return () => resizeObserver.disconnect();
-  }, [direction]);
+  }, [direction, bulletSize]);
 
   const paddingClass =
     direction === "horizontal"
@@ -74,7 +74,7 @@ export const Separator: React.FC<SeparatorProps> = ({
   const containerClass =
     direction === "horizontal"
       ? `flex flex-row w-full items-center justify-between flex-nowrap ${paddingClass}`
-      : `flex flex-col h-full items-center justify-between flex-nowrap ${paddingClass}`;
+      : `flex flex-col self-stretch justify-between flex-nowrap ${paddingClass}`;
 
   const dotStyle: React.CSSProperties = {
     width: size,
