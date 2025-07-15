@@ -5,7 +5,8 @@
       "boxartImgAlt": "Jaquette"
     },
     "games": "Jeux",
-    "videos": "Vidéos"
+    "videos": "Vidéos",
+    "save": "Enregistrer"
   },
   "Game": {
     "tba": "À venir"
@@ -19,5 +20,15 @@
   "Admin": {
     "accuracy": "Précision",
     "reset": "Réinitialiser"
+  },
+  "ChannelForm": {
+    "errors": {
+      "required": "Ce champ est requis",
+      "invalidRegexp": "Expression régulière invalide"
+    },
+    "parsingAttribute": "Attribut à analyser",
+    "ignoreEpisodesContaining": "Ignorer les épisodes contenant ces regexp",
+    "ignoreSearchIn": "Ignorer la recherche de jeu dans ces regexp",
+    "endParsingAfter": "Arrêter l'analyse après ces regexp"
   }
 }

@@ -1,8 +1,7 @@
-import { FiSearch, FiX } from "react-icons/fi";
-import Input from "../Input.component.tsx";
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import { ClipLoader } from "react-spinners";
+import { FiSearch } from "react-icons/fi";
+import Input from "../Input.component.tsx";
 
 const meta: Meta<typeof Input> = {
   title: "Inputs/Input",
@@ -14,45 +13,6 @@ export default meta;
 
 type Story = StoryObj<typeof Input>;
 
-const ClearableInput = () => {
-  const [value, setValue] = useState("");
-
-  return (
-    <Input
-      value={value}
-      onChange={setValue}
-      Icon={<FiSearch />}
-      RightSlot={
-        value ? (
-          <button
-            onClick={() => setValue("")}
-            className="text-black"
-            aria-label="Clear input"
-          >
-            <FiX size={16} />
-          </button>
-        ) : null
-      }
-      placeholder="Search and clear..."
-      className="max-w-md"
-    />
-  );
-};
-
-const LoadingInput = () => {
-  const [value, setValue] = useState("Loading...");
-  return (
-    <Input
-      value={value}
-      onChange={setValue}
-      Icon={<FiSearch />}
-      RightSlot={<ClipLoader size={16} color="var(--color-black)" />}
-      placeholder="Loading..."
-      className="max-w-md"
-    />
-  );
-};
-
 export const Default: Story = {
   render: () => {
     const [value, setValue] = useState("");
@@ -60,6 +20,7 @@ export const Default: Story = {
       <Input
         value={value}
         onChange={setValue}
+        label="Default Input"
         placeholder="Type something..."
         className="max-w-md"
       />
@@ -67,39 +28,51 @@ export const Default: Story = {
   },
 };
 
-export const WithIcon: Story = {
+export const WithLoader: Story = {
   render: () => {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState("Loading...");
     return (
       <Input
         value={value}
         onChange={setValue}
         Icon={<FiSearch />}
-        placeholder="Search..."
+        label="Loading Input"
+        placeholder="Loading..."
+        loading
         className="max-w-md"
       />
     );
   },
 };
 
-export const WithClearButton: Story = {
-  render: () => <ClearableInput />,
-};
-
-export const WithLoadingSpinner: Story = {
-  render: () => <LoadingInput />,
-};
-
-export const FullyLoaded: Story = {
+export const Clearable: Story = {
   render: () => {
-    const [value, setValue] = useState("Fetching...");
+    const [value, setValue] = useState("Search term");
     return (
       <Input
         value={value}
         onChange={setValue}
         Icon={<FiSearch />}
-        RightSlot={<ClipLoader size={16} color="var(--color-black)" />}
-        placeholder="Loading data..."
+        label="Clearable Input"
+        placeholder="Search and clear..."
+        clearable
+        className="max-w-md"
+      />
+    );
+  },
+};
+
+export const WithErrorRequired: Story = {
+  render: () => {
+    const [value, setValue] = useState("");
+    return (
+      <Input
+        value={value}
+        onChange={setValue}
+        label="Username"
+        placeholder="Enter your username"
+        error="This field is required"
+        required
         className="max-w-md"
       />
     );

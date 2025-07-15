@@ -5,7 +5,8 @@
       "boxartImgAlt": "Box art"
     },
     "games": "Games",
-    "videos": "Videos"
+    "videos": "Videos",
+    "save": "Enregistrer"
   },
   "Game": {
     "tba": "Coming soon"
@@ -19,5 +20,15 @@
   "Admin": {
     "accuracy": "Accuracy",
     "reset": "Reset"
+  },
+  "ChannelForm": {
+    "errors": {
+      "required": "This field is required",
+      "invalidRegexp": "Invalid regular expression"
+    },
+    "parsingAttribute": "Parsing attribute",
+    "ignoreEpisodesContaining": "Ignore episodes containing the following regexp",
+    "ignoreSearchIn": "Ignore game search in the following regexp",
+    "endParsingAfter": "End parsing after the following regexp"
   }
 }

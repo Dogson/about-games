@@ -5,7 +5,7 @@ export type MainButtonProps = {
   onClick: () => void;
   disabled?: boolean;
   className?: string;
-  loading: boolean;
+  loading?: boolean;
   children: React.ReactNode;
 };
 

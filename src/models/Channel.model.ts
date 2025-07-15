@@ -1,3 +1,13 @@
+export const ChannelParsingAttributes = ["title", "description"] as const;
+export type ChannelParsingAttribute = (typeof ChannelParsingAttributes)[number];
+
+export type ChannelParsingOptions = {
+  parsingAttribute: ChannelParsingAttribute;
+  ignoreEpisodesContaining: string[];
+  ignoreSearchIn: string[];
+  endParsingAfter: string[];
+};
+
 export type Channel = {
   id: number;
   name: string;
@@ -6,12 +16,7 @@ export type Channel = {
   description: string;
   thumbnailUrl: string;
   language: string;
-  parsingOptions: {
-    parsingAttribute: string;
-    ignoreEpisodesContaining: string[];
-    ignoreSearchIn: string[];
-    endParsingAfter: string[];
-  };
+  parsingOptions: ChannelParsingOptions;
   videosCount: number;
   lastParsingError: {
     date: string;
