@@ -28,7 +28,8 @@
 
 @layer base {
     body {
-        @apply relative;
+        @apply absolute;
+        @apply inset-0;
         @apply bg-mauve;
         @apply text-turquoise;
         @apply font-default;

@@ -12,7 +12,7 @@ export type GameCardProps = {
   releaseDate: string | null;
   canBeHovered?: boolean;
   isSmall?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
   onDelete?: () => void;
 };
 

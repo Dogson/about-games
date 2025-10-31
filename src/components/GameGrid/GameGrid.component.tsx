@@ -1,61 +1,52 @@
-import React, { type HTMLAttributes } from "react";
-import { VirtuosoGrid } from "react-virtuoso";
+import React, { useEffect } from "react";
 import type { Game } from "../../models/Game.model.ts";
 import GameCard from "../GameCard/GameCard.component.tsx";
-
-const GridComponents = {
-  List: React.forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-    ({ style, children, ...props }, ref) => (
-      <div
-        ref={ref}
-        {...props}
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))",
-          gap: "1rem",
-          padding: "1rem",
-          ...style,
-        }}
-      >
-        {children}
-      </div>
-    ),
-  ),
-  Item: ({ children, ...props }: HTMLAttributes<HTMLDivElement>) => (
-    <div
-      {...props}
-      style={{
-        display: "flex",
-        flex: "none",
-        flexDirection: "column",
-      }}
-    >
-      {children}
-    </div>
-  ),
-};
 
 export type GameGridProps = {
   games: Game[];
   onGameClick: (game: Game) => void;
+  onScrollEnd: () => void;
 };
 
-const GameGrid: React.FC<GameGridProps> = ({ games, onGameClick }) => {
+const GameGrid: React.FC<GameGridProps> = ({
+  games,
+  onGameClick,
+  onScrollEnd,
+}) => {
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+
+      if (documentHeight - (scrollTop + windowHeight) < 100) {
+        onScrollEnd();
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [onScrollEnd]);
+
   return (
-    <VirtuosoGrid
-      data={games}
-      totalCount={games.length}
-      components={GridComponents}
-      itemContent={(_, game) => (
-        <button onClick={() => onGameClick(game)} className="text-left">
+    <div
+      className="grid w-full auto-rows-fr
+        grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4 p-4"
+    >
+      {games.map((game) => (
+        <button
+          key={game.id}
+          onClick={() => onGameClick(game)}
+          className="flex flex-col text-left"
+        >
           <GameCard
             title={game.title}
             imgUrl={game.boxartImg}
             releaseDate={game.releaseDate}
           />
         </button>
-      )}
-    />
+      ))}
+    </div>
   );
 };
 

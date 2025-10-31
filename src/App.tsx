@@ -1,26 +1,24 @@
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { AuthProvider } from "./contexts/auth/AuthProvider.tsx";
+import { AppSettingsProvider } from "./contexts/appSettings/AppSettingsProvider.tsx";
+import RouterWithTheme from "./router/RouterWithTheme.tsx";
 import initI18n from "./i18n/i18n.ts";
+import { GamesListProvider } from "./contexts/gamesList/GamesListProvider.tsx";
+
+initI18n();
 
 function App() {
-  initI18n();
-
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
+      <AuthProvider>
+        <AppSettingsProvider>
+          <GamesListProvider>
+            <RouterWithTheme />
+          </GamesListProvider>
+        </AppSettingsProvider>
+      </AuthProvider>
+      <div id="modal-root">
+        <div id="modal-root__overlay" />
       </div>
-      <h1>Vite + React</h1>
-      <div className="bg-black text-center text-gray-600 dark:text-gray-400">
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   );
 }

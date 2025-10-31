@@ -1,5 +1,5 @@
 import type { IGDBGame } from "../../models/IgdbGame.model.ts";
-import type { CreateGameDTO } from "../../data-access/games/dto/games.dto.ts";
+import type { CreateGameDTO } from "../../data-access/games/model/games.model.ts";
 
 export const mapIgdbGamesToCreateGamesDTO = (
   igdbGame: IGDBGame,

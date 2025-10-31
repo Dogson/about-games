@@ -1,6 +1,5 @@
 import React from "react";
-import { FiSearch, FiX } from "react-icons/fi";
-import { ClipLoader } from "react-spinners";
+import { FiSearch } from "react-icons/fi";
 import Input from "../Input/Input.component.tsx";
 
 export type SearchInputProps = {
@@ -16,29 +15,15 @@ const SearchInput: React.FC<SearchInputProps> = ({
   onSearch,
   onClear,
   searchText,
-  isLoading = false,
 }) => {
-  const rightSlot = isLoading ? (
-    <ClipLoader size={16} color="var(--color-black)" />
-  ) : searchText ? (
-    <button
-      type="button"
-      onClick={onClear}
-      className="text-black"
-      aria-label="Clear search"
-    >
-      <FiX size={16} />
-    </button>
-  ) : null;
-
   return (
     <Input
       value={searchText}
       onChange={onSearch}
       Icon={<FiSearch />}
-      RightSlot={rightSlot}
-      placeholder={placeholder || "Search..."}
+      placeholder={placeholder}
       className="max-w-md"
+      clearable={!!onClear}
     />
   );
 };

@@ -6,7 +6,7 @@ import {
   mapIgdbGamesToCreateGamesDTO,
 } from "../../helpers/games/games.helpers.ts";
 import type { IGDBGame } from "../../models/IgdbGame.model.ts";
-import type { CreateGameDTO } from "../../data-access/games/dto/games.dto.ts";
+import type { CreateGameDTO } from "../../data-access/games/model/games.model.ts";
 import type { Game } from "../../models/Game.model.ts";
 import { useTranslation } from "react-i18next";
 
