@@ -31,7 +31,7 @@ const GameCard: React.FC<GameCardProps> = ({
   return (
     <div
       className={`slide-in shadow-0 relative flex flex-shrink-0 flex-col
-        justify-end rounded-xl bg-black bg-cover bg-center pt-5 shadow outline-1
+        justify-end rounded-xl bg-black bg-cover bg-center pt-5 shadow outline-2
         outline-transparent duration-100 ${isSmall ? "h-32 w-24" : "h-52 w-39"}
         ${canBeHovered ? "cursor-pointer" : ""} ${
           hovered || !canBeHovered
