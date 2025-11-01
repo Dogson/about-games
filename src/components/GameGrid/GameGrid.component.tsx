@@ -31,7 +31,7 @@ const GameGrid: React.FC<GameGridProps> = ({
   return (
     <div
       className="grid w-full max-w-[1200px] auto-rows-fr
-        grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4 p-4"
+        grid-cols-[repeat(auto-fit,160px)] justify-center gap-x-5 gap-y-5 p-4"
     >
       {games.map((game) => (
         <button

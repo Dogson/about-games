@@ -26,19 +26,13 @@ const HeaderModule: React.FC<{ noSearch?: boolean }> = ({
         <Logo inline />
       </button>
       {!noSearch && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.1 }} // small delay for smooth appearance
-        >
-          <HeaderSearchBox
-            onClickGame={goToGame}
-            searchText={searchText}
-            onChangeSearchText={onChangeSearchText}
-            games={games}
-            loading={loading}
-          />
-        </motion.div>
+        <HeaderSearchBox
+          onClickGame={goToGame}
+          searchText={searchText}
+          onChangeSearchText={onChangeSearchText}
+          games={games}
+          loading={loading}
+        />
       )}
     </motion.header>
   );

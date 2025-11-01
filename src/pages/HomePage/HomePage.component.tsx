@@ -15,17 +15,11 @@ const HomePage: React.FC = () => {
 
   const { games, nextPage, onChangeSearchFilter, searchFilter } =
     useContext(GamesListContext);
-  const searchInputRef = useRef<HTMLDivElement | null>(null);
-  const [isSearchInputInView, setIsSearchInputInView] = useState(true);
   useState(false);
   const logoRef = useRef<HTMLDivElement | null>(null);
   const [isLogoInView, setIsLogoInView] = useState(true);
   const { goToGame } = useAppRoutes();
   const navigationType = useNavigationType();
-
-  useElementInViewport(searchInputRef, (inView) => {
-    setIsSearchInputInView(inView);
-  });
 
   useElementInViewport(logoRef, (inView) => {
     setIsLogoInView(inView);
@@ -38,20 +32,17 @@ const HomePage: React.FC = () => {
   }, [navigationType, onChangeSearchFilter]);
 
   return (
-    <PageLayout noHeader={isLogoInView} noSearchInHeader={isSearchInputInView}>
+    <PageLayout noHeader={isLogoInView}>
       <div className="flex min-h-full w-full flex-1 flex-col items-center gap-8">
         <section className="flex w-150 max-w-screen flex-col items-center gap-8">
-          <div ref={logoRef}>
+          <div ref={logoRef} className="cursor-default">
             <Logo />
           </div>
           <span className="font-title text-lg">{t("Homepage.tagline")}</span>
           <Separator direction="horizontal" bulletSize="md" />
         </section>
         <section className="flex w-full flex-1 flex-col items-center gap-4">
-          <div
-            ref={searchInputRef}
-            className="flex w-full flex-col items-center"
-          >
+          <div className="flex w-full flex-col items-center">
             <SearchInput
               searchText={searchFilter}
               onSearch={onChangeSearchFilter}
