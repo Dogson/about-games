@@ -39,3 +39,8 @@ export const createGameSlug = (gameId: number, gameTitle: string): string => {
     .replace(/^-+|-+$/g, "");
   return `${gameId}-${formattedTitle}`;
 };
+
+export const getGameIdFromSlug = (slug: string): number | null => {
+  const match = slug.match(/^(\d+)-/);
+  return match ? parseInt(match[1], 10) : null;
+};

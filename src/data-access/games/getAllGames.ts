@@ -9,6 +9,7 @@ const getAllGames = async (params: {
   search?: string;
   limit?: number;
   page?: number;
+  onlyValidated?: boolean;
 }): Promise<GetGamesDTO> => {
   const newParams: Record<string, string | number> = {
     page: params.page || 1,
@@ -16,6 +17,9 @@ const getAllGames = async (params: {
   };
   if (params.search) {
     newParams.search = params.search;
+  }
+  if (params.onlyValidated !== undefined) {
+    newParams.onlyValidated = params.onlyValidated ? 1 : 0;
   }
   try {
     return (

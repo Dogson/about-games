@@ -22,10 +22,12 @@ const GamePageHeader: React.FC<GamePageHeaderProps> = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <div className="relative flex flex-col items-center px-10 py-40">
+    <div
+      className="relative flex flex-col items-center self-stretch px-10 pt-48"
+    >
       <div
         style={coverImg ? { backgroundImage: `url(${coverImg})` } : {}}
-        className="absolute top-0 right-0 left-0 h-64 w-full bg-cover bg-center"
+        className="absolute top-0 right-0 left-0 h-72 w-full bg-cover bg-center"
       />
       <div className={`max-w-[${AppConfig.contentMaxWidth}] flex w-full gap-5`}>
         <GameCard

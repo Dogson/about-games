@@ -1,4 +1,4 @@
-import type { Game } from "../../../models/Game.model.ts";
+import type { GamesListItem } from "../../../models/Game.model.ts";
 import SearchInput from "../../Inputs/SearchInput/SearchInput.component.tsx";
 import HeaderSearchBoxGame from "../HeaderSearchBoxGame/HeaderSearchBoxGame.component.tsx";
 import React from "react";
@@ -7,10 +7,10 @@ import useClickOutside from "../../../hooks/useClickOutside.hook.ts";
 import { motion, AnimatePresence } from "framer-motion";
 
 type HeaderSearchBoxProps = {
-  games: Game[];
+  games: GamesListItem[];
   searchText: string;
   onChangeSearchText: (text: string) => void;
-  onClickGame: (game: Game) => void;
+  onClickGame: (game: GamesListItem) => void;
   loading: boolean;
 };
 

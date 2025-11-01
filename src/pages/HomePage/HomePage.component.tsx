@@ -33,7 +33,10 @@ const HomePage: React.FC = () => {
 
   return (
     <PageLayout noHeader={isLogoInView}>
-      <div className="flex min-h-full w-full flex-1 flex-col items-center gap-8">
+      <div
+        className="flex min-h-full w-full flex-1 flex-col items-center gap-8
+          pt-20"
+      >
         <section className="flex w-150 max-w-screen flex-col items-center gap-8">
           <div ref={logoRef} className="cursor-default">
             <Logo />

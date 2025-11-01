@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import type { Game } from "../../models/Game.model.ts";
+import type { GamesListItem } from "../../models/Game.model.ts";
 import GameCard from "../GameCard/GameCard.component.tsx";
 
 export type GameGridProps = {
-  games: Game[];
-  onGameClick: (game: Game) => void;
+  games: GamesListItem[];
+  onGameClick: (game: GamesListItem) => void;
   onScrollEnd: () => void;
 };
 

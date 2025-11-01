@@ -17,6 +17,6 @@ export const Default = Template.bind({});
 Default.args = {
   games: mockGames,
   searchText: "",
-  onChangeSearchText: (text) => console.log("Search text:", text),
+  onChangeSearchText: () => {},
   onClickGame: (game) => alert(`Clicked: ${game.title}`),
 };

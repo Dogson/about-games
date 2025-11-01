@@ -1,4 +1,6 @@
-export type Game = {
+import type { Video } from "./Video.model.ts";
+
+export type GamesListItem = {
   id: number;
   igdbId: number;
   title: string;
@@ -6,4 +8,8 @@ export type Game = {
   coverImg: string | null;
   boxartImg: string | null;
   companies: string[];
+};
+
+export type Game = GamesListItem & {
+  videos: Video[];
 };

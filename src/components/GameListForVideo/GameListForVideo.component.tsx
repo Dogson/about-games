@@ -1,10 +1,10 @@
-import type { Game } from "../../models/Game.model.ts";
+import type { GamesListItem } from "../../models/Game.model.ts";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import GameCard from "../GameCard/GameCard.component.tsx";
 
 export type GameListForVideoProps = {
-  games: Game[];
+  games: GamesListItem[];
 };
 
 const GameListForVideo: React.FC<GameListForVideoProps> = ({ games }) => {

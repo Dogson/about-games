@@ -1,7 +1,7 @@
 import { useState } from "react";
 import GameGrid, { type GameGridProps } from "../GameGrid.component.tsx";
 import type { Meta, StoryFn } from "@storybook/react-vite";
-import type { Game } from "../../../models/Game.model.ts";
+import type { GamesListItem } from "../../../models/Game.model.ts";
 import mockGames from "../../../mocks/games.mocks.json";
 
 export default {
@@ -32,5 +32,5 @@ const Template: StoryFn<GameGridProps> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  games: mockGames as Game[],
+  games: mockGames as GamesListItem[],
 };

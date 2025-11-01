@@ -1,4 +1,4 @@
-import type { Game } from "../../../models/Game.model.ts";
+import type { GamesListItem } from "../../../models/Game.model.ts";
 
 export type CreateGameDTO = {
   igdbId: number;
@@ -11,7 +11,7 @@ export type CreateGameDTO = {
 };
 
 export type GetGamesDTO = {
-  data: Game[];
+  data: GamesListItem[];
   total: number;
   page: number;
   limit: number;

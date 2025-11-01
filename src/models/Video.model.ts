@@ -1,7 +1,8 @@
 import type { Channel } from "./Channel.model.ts";
-import type { Game } from "./Game.model.ts";
+import type { GamesListItem } from "./Game.model.ts";
 
 export type Video = {
+  id: number;
   title: string;
   youtubeId: string;
   description: string;
@@ -9,6 +10,7 @@ export type Video = {
   validated?: boolean;
   gamesFoundCount: number;
   gamesCount: number;
+  thumbnailUrl: string;
   ytChannel: Channel;
-  games: Game[];
+  games: GamesListItem[];
 };

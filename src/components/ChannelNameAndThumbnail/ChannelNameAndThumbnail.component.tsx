@@ -12,7 +12,7 @@ const ChannelNameAndThumbnail: React.FC<ChannelNameAndThumbnailProps> = ({
   return (
     <div className="flex items-center gap-3">
       <img src={thumbnailUrl} alt={name} className="h-8 w-8 rounded-full" />
-      <span className="italic">{name}</span>
+      <span className="text-left italic">{name}</span>
     </div>
   );
 };

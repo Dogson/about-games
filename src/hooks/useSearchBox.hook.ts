@@ -1,17 +1,17 @@
-import type { Game } from "../models/Game.model.ts";
+import type { GamesListItem } from "../models/Game.model.ts";
 import { useCallback, useEffect, useRef, useState } from "react";
 import getAllGames from "../data-access/games/getAllGames.ts";
 
 type UseSearchBox = {
   searchText: string;
   onChangeSearchText: (text: string) => void;
-  games: Game[];
+  games: GamesListItem[];
   loading: boolean;
 };
 
 const useSearchBox = (): UseSearchBox => {
   const [searchText, setSearchText] = useState<string>("");
-  const [games, setGames] = useState<Game[]>([]);
+  const [games, setGames] = useState<GamesListItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -31,7 +31,11 @@ const useSearchBox = (): UseSearchBox => {
     const requestId = ++latestRequestId.current;
 
     try {
-      const response = await getAllGames({ search: text, limit: 5 });
+      const response = await getAllGames({
+        search: text,
+        limit: 5,
+        onlyValidated: true,
+      });
 
       // Ignore results from older requests
       if (requestId === latestRequestId.current) {

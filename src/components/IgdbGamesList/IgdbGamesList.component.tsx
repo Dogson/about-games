@@ -7,13 +7,13 @@ import {
 } from "../../helpers/games/games.helpers.ts";
 import type { IGDBGame } from "../../models/IgdbGame.model.ts";
 import type { CreateGameDTO } from "../../data-access/games/model/games.model.ts";
-import type { Game } from "../../models/Game.model.ts";
+import type { GamesListItem } from "../../models/Game.model.ts";
 import { useTranslation } from "react-i18next";
 
 export type IgdbGamesListProps = {
   games: IGDBGame[];
   onSelectGame: (game: CreateGameDTO) => void;
-  gamesSelected: Game[];
+  gamesSelected: GamesListItem[];
 };
 
 const IgdbGamesList: React.FC<IgdbGamesListProps> = ({

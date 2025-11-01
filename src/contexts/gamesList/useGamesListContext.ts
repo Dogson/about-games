@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Game } from "../../models/Game.model.ts";
+import type { GamesListItem } from "../../models/Game.model.ts";
 import getAllGames from "../../data-access/games/getAllGames.ts";
 
 export type UseGamesListContext = {
-  games: Game[];
+  games: GamesListItem[];
   reloadGames: () => Promise<void>;
   nextPage: () => Promise<void>;
   isLoadingGames: boolean;
@@ -14,7 +14,7 @@ export type UseGamesListContext = {
 };
 
 const useGameListContext = (): UseGamesListContext => {
-  const [games, setGames] = useState<Game[]>([]);
+  const [games, setGames] = useState<GamesListItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -37,7 +37,11 @@ const useGameListContext = (): UseGamesListContext => {
       const requestId = ++latestRequestId.current;
 
       try {
-        const result = await getAllGames({ page: 1, search: currentSearch });
+        const result = await getAllGames({
+          page: 1,
+          search: currentSearch,
+          onlyValidated: true,
+        });
 
         // 🧠 Ignore results from older requests
         if (requestId === latestRequestId.current) {
@@ -67,6 +71,7 @@ const useGameListContext = (): UseGamesListContext => {
       const newGames = await getAllGames({
         page: newPage,
         search: searchFilter,
+        onlyValidated: true,
       });
 
       if (requestId === latestRequestId.current) {
