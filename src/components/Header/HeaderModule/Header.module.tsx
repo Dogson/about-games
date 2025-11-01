@@ -4,12 +4,15 @@ import Logo from "../../Logo/Logo.component.tsx";
 import useSearchBox from "../../../hooks/useSearchBox.hook.ts";
 import HeaderSearchBox from "../HeaderSearchBox/HeaderSearchBox.component.tsx";
 import useAppRoutes from "../../../hooks/useAppRoutes.hook.ts";
+import { useNavigate } from "react-router-dom";
+import { routes } from "../../../router/routes.config.ts";
 
 const HeaderModule: React.FC<{ noSearch?: boolean }> = ({
   noSearch = false,
 }) => {
   const { games, searchText, onChangeSearchText, loading } = useSearchBox();
   const { goToGame } = useAppRoutes();
+  const navigate = useNavigate();
 
   return (
     <motion.header
@@ -19,7 +22,9 @@ const HeaderModule: React.FC<{ noSearch?: boolean }> = ({
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
-      <Logo inline />
+      <button onClick={() => navigate(routes.home.goTo())}>
+        <Logo inline />
+      </button>
       {!noSearch && (
         <motion.div
           initial={{ opacity: 0 }}

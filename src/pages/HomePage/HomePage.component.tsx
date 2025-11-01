@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Logo from "../../components/Logo/Logo.component.tsx";
 import { useTranslation } from "react-i18next";
 import { Separator } from "../../components/Separator/Separator.component.tsx";
@@ -8,6 +8,7 @@ import SearchInput from "../../components/Inputs/SearchInput/SearchInput.compone
 import PageLayout from "../../layouts/PageLayout/PageLayout.component.tsx";
 import useElementInViewport from "../../hooks/useElementInViewport.hook.ts";
 import useAppRoutes from "../../hooks/useAppRoutes.hook.ts";
+import { useNavigationType } from "react-router-dom";
 
 const HomePage: React.FC = () => {
   const { t } = useTranslation();
@@ -20,6 +21,7 @@ const HomePage: React.FC = () => {
   const logoRef = useRef<HTMLDivElement | null>(null);
   const [isLogoInView, setIsLogoInView] = useState(true);
   const { goToGame } = useAppRoutes();
+  const navigationType = useNavigationType();
 
   useElementInViewport(searchInputRef, (inView) => {
     setIsSearchInputInView(inView);
@@ -28,6 +30,12 @@ const HomePage: React.FC = () => {
   useElementInViewport(logoRef, (inView) => {
     setIsLogoInView(inView);
   });
+
+  useEffect(() => {
+    if (navigationType !== "POP") {
+      onChangeSearchFilter("");
+    }
+  }, [navigationType, onChangeSearchFilter]);
 
   return (
     <PageLayout noHeader={isLogoInView} noSearchInHeader={isSearchInputInView}>
