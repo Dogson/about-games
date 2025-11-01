@@ -14,6 +14,7 @@ export type GameCardProps = {
   isSmall?: boolean;
   onClick?: () => void;
   onDelete?: () => void;
+  isFlat?: boolean;
 };
 
 const GameCard: React.FC<GameCardProps> = ({
@@ -22,6 +23,7 @@ const GameCard: React.FC<GameCardProps> = ({
   releaseDate,
   canBeHovered = true,
   isSmall = false,
+  isFlat = true,
   onClick,
   onDelete,
 }) => {
@@ -30,9 +32,10 @@ const GameCard: React.FC<GameCardProps> = ({
 
   return (
     <div
-      className={`slide-in shadow-0 relative flex flex-shrink-0 flex-col
-        justify-end rounded-xl bg-black bg-cover bg-center pt-5 shadow outline-2
-        outline-transparent duration-100 ${isSmall ? "h-32 w-24" : "h-52 w-39"}
+      className={`slide-in relative flex flex-shrink-0 flex-col justify-end
+        rounded-xl bg-black bg-cover bg-center pt-5 shadow outline-2
+        outline-transparent duration-100 ${isFlat ? "shadow-0" : "shadow-md"}
+        ${isSmall ? "h-32 w-24" : "h-52 w-39"}
         ${canBeHovered ? "cursor-pointer" : ""} ${
           hovered || !canBeHovered
             ? `outline-turquoise transition-all

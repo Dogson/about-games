@@ -40,6 +40,7 @@ const GameGrid: React.FC<GameGridProps> = ({
           className="flex flex-col text-left"
         >
           <GameCard
+            isFlat={false}
             title={game.title}
             imgUrl={game.boxartImg}
             releaseDate={game.releaseDate}
