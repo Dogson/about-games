@@ -167,7 +167,7 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
         />
       </div>
       <MainButton className="self-end" onClick={validateForm}>
-        {t("common.save")}
+        {t("GameSearchsave")}
       </MainButton>
     </form>
   );

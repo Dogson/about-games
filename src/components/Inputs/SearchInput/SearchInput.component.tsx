@@ -8,6 +8,8 @@ export type SearchInputProps = {
   onClear: () => void;
   searchText: string;
   isLoading?: boolean;
+  size?: "sm" | "md";
+  onFocus?: () => void;
 };
 
 const SearchInput: React.FC<SearchInputProps> = ({
@@ -15,6 +17,8 @@ const SearchInput: React.FC<SearchInputProps> = ({
   onSearch,
   onClear,
   searchText,
+  size = "md",
+  onFocus,
 }) => {
   return (
     <Input
@@ -24,6 +28,8 @@ const SearchInput: React.FC<SearchInputProps> = ({
       placeholder={placeholder}
       className="max-w-md"
       clearable={!!onClear}
+      size={size}
+      onFocus={onFocus}
     />
   );
 };

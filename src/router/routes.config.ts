@@ -1,3 +1,5 @@
+import { createGameSlug } from "../helpers/games/games.helpers.ts";
+
 export const routes = {
   home: {
     path: "/",
@@ -8,26 +10,34 @@ export const routes = {
     goTo: () => "/login",
   },
   admin: {
-    list: {
-      path: "admin",
-      goTo: () => "/admin",
+    path: "/admin",
+    goTo: () => "/admin",
+    videos: {
+      path: "/admin/videos",
+      goTo: () => "/admin/videos",
+    },
+    channels: {
+      path: "/admin/channels",
+      goTo: () => "/admin/channels",
     },
     channel: {
-      path: "admin/channel/:idChannel",
+      path: "/admin/channels/:idChannel",
       goTo: (idChannel: string) => `/admin/channel/${idChannel}`,
     },
   },
   game: {
-    path: "/game/:idTitle",
-    goTo: (idTitle: string) => `/game/${idTitle}`,
+    path: "/games/:gameIdTitle",
+    goTo: (params: { id: number; title: string }) =>
+      `/games/${createGameSlug(params.id, params.title)}`,
     video: {
-      path: "/game/:idTitle/video/:idVideo",
-      goTo: (idTitle: string, idVideo: string) =>
-        `/game/${idTitle}/video/${idVideo}`,
-    },
-    admin: {
-      path: "/game/:idTitle/admin",
-      goTo: (idTitle: string) => `/game/${idTitle}/admin`,
+      path: "/games/:gameIdTitle/video/:idVideo",
+      goTo: (params: { gameId: number; gameTitle: string; videoId: number }) =>
+        `/games/${createGameSlug(params.gameId, params.gameTitle)}/video/${params.videoId}`,
+      admin: {
+        path: "/games/:gameIdTitle/admin",
+        goTo: (params: { id: number; title: string; videoId: number }) =>
+          `/games/${createGameSlug(params.id, params.title)}/video/${params.videoId}/admin`,
+      },
     },
   },
 };

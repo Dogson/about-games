@@ -1,8 +1,8 @@
 import React from "react";
-import HomeLayout from "../../layouts/HomeLayout/HomeLayout.component.tsx";
+import PageLayot from "../../layouts/PageLayout/PageLayout.component.tsx";
 
 const AdminHomePage: React.FC = () => {
-  return <HomeLayout>AdminHomePage</HomeLayout>;
+  return <PageLayot>AdminHomePage</PageLayot>;
 };
 
 export default AdminHomePage;

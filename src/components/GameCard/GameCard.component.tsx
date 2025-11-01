@@ -31,7 +31,7 @@ const GameCard: React.FC<GameCardProps> = ({
   return (
     <div
       className={`slide-in shadow-0 relative flex flex-shrink-0 flex-col
-        justify-end rounded-xl bg-cover bg-center pt-5 shadow outline-1
+        justify-end rounded-xl bg-black bg-cover bg-center pt-5 shadow outline-1
         outline-transparent duration-100 ${isSmall ? "h-32 w-24" : "h-52 w-39"}
         ${canBeHovered ? "cursor-pointer" : ""} ${
           hovered || !canBeHovered
@@ -73,8 +73,8 @@ const GameCard: React.FC<GameCardProps> = ({
               {releaseDate ? getYearFromDate(releaseDate) : t("Game.tba")}
             </div>
             <div
-              className={`font-title font-bold
-                ${isSmall ? "text-xs" : "text-md"}`}
+              className={`font-title line-clamp-5 font-bold
+                ${isSmall ? "text-xs" : "text-sm"}`}
             >
               {title}
             </div>

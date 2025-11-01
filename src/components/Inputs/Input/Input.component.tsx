@@ -13,6 +13,8 @@ export type InputProps = {
   required?: boolean;
   loading?: boolean;
   clearable?: boolean;
+  size?: "sm" | "md";
+  onFocus?: () => void;
 };
 
 const Input: React.FC<InputProps> = ({
@@ -26,6 +28,8 @@ const Input: React.FC<InputProps> = ({
   required = false,
   loading = false,
   clearable = false,
+  size = "md",
+  onFocus,
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
@@ -54,9 +58,11 @@ const Input: React.FC<InputProps> = ({
           value={value}
           onChange={handleChange}
           placeholder={placeholder}
-          className={`w-full rounded-full py-2 pr-10 ${Icon ? "pl-10" : "pl-4"}
+          className={`w-full rounded-full pr-10 ${Icon ? "pl-10" : "pl-4"}
             bg-ghost focus:ring-turquoise text-sm text-black focus:ring-1
-            focus:outline-none ${error ? "border border-red-500" : ""}`}
+            focus:outline-none ${error ? "border border-red-500" : ""}
+            ${size === "sm" ? "py-1" : "py-2"}`}
+          onFocus={onFocus}
         />
 
         {(loading || showClearButton) && (

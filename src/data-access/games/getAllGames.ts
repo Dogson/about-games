@@ -7,11 +7,12 @@ import type { GetGamesDTO } from "./model/games.model.ts";
 
 const getAllGames = async (params: {
   search?: string;
-  page: number;
+  limit?: number;
+  page?: number;
 }): Promise<GetGamesDTO> => {
   const newParams: Record<string, string | number> = {
-    page: params.page,
-    limit: AppConfig.maxGamesPerPage,
+    page: params.page || 1,
+    limit: params.limit || AppConfig.maxGamesPerPage,
   };
   if (params.search) {
     newParams.search = params.search;

@@ -31,3 +31,11 @@ export const getFirstReleaseDate = (igdbGame: IGDBGame): number | null => {
     ? Math.min(...(igdbGame.release_dates || []).map((date) => date.date))
     : null;
 };
+
+export const createGameSlug = (gameId: number, gameTitle: string): string => {
+  const formattedTitle = gameTitle
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return `${gameId}-${formattedTitle}`;
+};

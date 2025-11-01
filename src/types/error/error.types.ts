@@ -6,9 +6,9 @@ export enum ApiErrorType {
 }
 
 export const ErrorMessageI18nKeys: Record<ApiErrorType, string> = {
-  [ApiErrorType.FORBIDDEN]: "common.apiErrors.forbidden",
+  [ApiErrorType.FORBIDDEN]: "GameSearchapiErrors.forbidden",
   [ApiErrorType.BAD_CREDENTIALS]: "loginPage.errors.badCredentials",
-  [ApiErrorType.SESSION_EXPIRED]: "common.apiErrors.sessionExpired",
+  [ApiErrorType.SESSION_EXPIRED]: "GameSearchapiErrors.sessionExpired",
   [ApiErrorType.USER_NOT_FOUND]: "loginPage.errors.userNotFound",
 };
 

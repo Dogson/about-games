@@ -31,13 +31,13 @@ const ChannelInfos: React.FC<ChannelInfosProps> = ({
       <Separator bulletSize="md" direction="vertical" />
       <div className="flex gap-10">
         <div className="flex flex-col items-center gap-1">
-          <span className="text-sm">{t("common.games")}</span>
+          <span className="text-sm">{t("GameSearchgames")}</span>
           <span className="font-title text-turquoise text-2xl font-bold">
             {gamesCount}
           </span>
         </div>
         <div className="flex flex-col items-center gap-1">
-          <span className="text-sm">{t("common.videos")}</span>
+          <span className="text-sm">{t("GameSearchvideos")}</span>
           <span className="font-title text-turquoise text-2xl font-bold">
             {videosCount}
           </span>

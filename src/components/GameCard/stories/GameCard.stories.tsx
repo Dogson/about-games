@@ -14,7 +14,7 @@ const Template: StoryFn<GameCardProps> = (args) => <GameCard {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  title: "The Legend of Zelda: Breath of the Wild",
+  title: "The Legend of Zelda: Breath of the Wild ",
   imgUrl: "https://images.igdb.com/igdb/image/upload/t_cover_big/co3p2d.webp",
   releaseDate: "2024-11-01",
   canBeHovered: true,

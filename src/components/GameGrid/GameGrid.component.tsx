@@ -30,7 +30,7 @@ const GameGrid: React.FC<GameGridProps> = ({
 
   return (
     <div
-      className="grid w-full auto-rows-fr
+      className="grid w-full max-w-[1200px] auto-rows-fr
         grid-cols-[repeat(auto-fill,minmax(160px,1fr))] gap-4 p-4"
     >
       {games.map((game) => (

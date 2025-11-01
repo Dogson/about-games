@@ -10,6 +10,7 @@ import AdminHomePage from "../pages/AdminHomePage/AdminHomePage.component.tsx";
 import AdminChannelsListPage from "../pages/AdminChannelsListPage/AdminChannelsListPage.component.tsx";
 import AdminChannelPage from "../pages/AdminChannelPage/AdminChannelPage.component.tsx";
 import AdminVideoPage from "../pages/AdminVideoPage/AdminVideoPage.component.tsx";
+import AdminVideosListPage from "../pages/AdminVideosListPage/AdminVideosListPage.component.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -26,27 +27,32 @@ export const router = createBrowserRouter([
     children: [
       // Public pages
       { path: "", element: <HomePage /> },
-      { path: "/game/:idTitle", element: <GamePage /> },
-      { path: "/game/:idTitle/video/:idVideo", element: <VideoPage /> },
+      { path: routes.game.path, element: <GamePage /> },
+      { path: routes.game.video.path, element: <VideoPage /> },
 
       // Admin routes with AuthRoute as parent
       {
-        path: "/game/:idTitle/admin",
+        path: routes.admin.path,
         element: <AuthRoute />,
         children: [{ path: "", element: <AdminHomePage /> }],
       },
       {
-        path: "/admin",
+        path: routes.admin.channels.path,
         element: <AuthRoute />,
         children: [{ path: "", element: <AdminChannelsListPage /> }],
       },
       {
-        path: "/admin/channel/:idChannel",
+        path: routes.admin.channel.path,
         element: <AuthRoute />,
         children: [{ path: "", element: <AdminChannelPage /> }],
       },
       {
-        path: "/game/:idTitle/video/:idVideo/admin",
+        path: routes.admin.videos.path,
+        element: <AuthRoute />,
+        children: [{ path: "", element: <AdminVideosListPage /> }],
+      },
+      {
+        path: routes.game.video.admin.path,
         element: <AuthRoute />,
         children: [{ path: "", element: <AdminVideoPage /> }],
       },

@@ -8,6 +8,10 @@
     "videos": "Vidéos",
     "save": "Enregistrer"
   },
+  "GameSearch": {
+    "noResults": "Aucun jeu trouvé",
+    "searchPlaceholder": "Rechercher un jeu"
+  },
   "Game": {
     "tba": "À venir"
   },
@@ -32,7 +36,6 @@
     "endParsingAfter": "Arrêter l'analyse après ces regexp"
   },
   "Homepage": {
-    "tagline": "Là où les vidéastes et essayistes parlent jeux.",
-    "searchPlaceholder": "Rechercher un jeu"
+    "tagline": "Là où les vidéastes et essayistes parlent jeux."
   }
 }
