@@ -1,51 +1,75 @@
-/* Import base quartz theme */
 @import "ag-grid-community/styles/ag-theme-quartz.css";
 
-/* Custom AG Grid theme using your CSS variables */
+/* ---------- Base theme ---------- */
 .ag-theme-custom {
-    /* Backgrounds */
-    --ag-background-color: var(--color-maize-dark);
-    --ag-odd-row-background-color: var(--color-maize);
-    --ag-header-background-color: var(--color-salmon);
-    --ag-hover-color: var(--color-turquoise);
-
-    /* Text colors */
-    --ag-cell-text-color: var(--color-ghost);
-    --ag-foreground-color: var(--color-black);
-    --ag-header-foreground-color: var(--color-ghost);
-    --ag-odd-row-foreground-color: var(--color-corn);
-
-    /* Borders */
-    --ag-border-color: var(--color-maize);
-    --ag-header-border-color: var(--color-corn);
-
-    /* Selected row */
-    --ag-row-selected-background-color: var(--color-turquoise);
-    --ag-row-selected-foreground-color: var(--color-black);
-
-    /* Focus outline */
-    --ag-focus-outline-color: var(--color-salmon);
-
-    /* Fonts */
-    --ag-font-family: var(--font-default)
+    --ag-background-color: #0d1321;         /* Dark background for rows */
+    --ag-odd-row-background-color: #101a3d; /* Slightly lighter dark for odd rows */
+    --ag-header-background-color: #03256C;  /* Solid maize (elegant header) */
+    --ag-hover-color: #021a4d;              /* Slightly darker hover */
+    --ag-cell-text-color: #f2f5ff;          /* Ghost white text */
+    --ag-header-foreground-color: #f2f5ff;  /* Ghost white header text */
+    --ag-border-color: #03256c;             /* Maize border */
+    --ag-header-border-color: #021a4d;      /* Dark maize header border */
+    --ag-row-selected-background-color: #021a4d;
+    --ag-row-selected-foreground-color: #f2f5ff;
+    --ag-font-family: "Inter", sans-serif;
+    --ag-font-size: 14px;
 }
 
-/* Header styling */
+/* ---------- Header (refined minimal version) ---------- */
 .ag-theme-custom .ag-header {
-    font-family: var(--font-title);
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    border-bottom: 2px solid var(--ag-header-border-color);
+    background-color: var(--ag-header-background-color);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.015em;
+    text-transform: none;
+    padding-block: 0.15rem;
 }
 
-/* Hover effect for rows */
+.ag-theme-custom .ag-header-cell {
+    padding: 0.4rem 0.75rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.ag-theme-custom .ag-header-cell:last-child {
+    border-right: none;
+}
+
+.ag-theme-custom .ag-header-cell-text {
+    color: var(--color-white);
+    font-size: 0.8rem;
+    line-height: 1.2;
+    font-weight: 500;
+    font-family: var(--font-default);
+}
+
+.ag-theme-custom .ag-header-cell-label .ag-icon {
+    color: var(--color-white);
+    opacity: 0.7;
+    transform: scale(0.85);
+}
+
+
+/* ---------- Rows & cells ---------- */
+
+.ag-theme-custom .ag-cell {
+    border-bottom: 1px solid var(--ag-border-color);
+    display: flex;
+    align-items: center;
+    padding: 0.65rem 0.9rem; /* slightly more horizontal and vertical padding */
+    font-family: var(--font-default);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
 .ag-theme-custom .ag-row:hover {
     background-color: var(--ag-hover-color);
-    color: var(--ag-foreground-color);
+    color: #f2f5ff;
     cursor: pointer;
+    transition: background-color 180ms ease;
 }
 
-/* Cleaner borders */
 .ag-theme-custom .ag-root-wrapper,
 .ag-theme-custom .ag-header,
 .ag-theme-custom .ag-body-viewport {
@@ -56,4 +80,22 @@
     border-bottom: 1px solid var(--ag-border-color);
     display: flex;
     align-items: center;
+    padding: 0.5rem 0.75rem;
+    font-family: var(--font-default);
+}
+
+/* Selected row */
+.ag-theme-custom .ag-row-selected {
+    font-weight: 600;
+}
+
+/* Odd row text color */
+.ag-theme-custom .ag-row-odd {
+    color: #f2f5ff;
+}
+
+/* Wrapper */
+.ag-theme-custom .ag-root-wrapper {
+    border-radius: 10px;
+    overflow: hidden;
 }

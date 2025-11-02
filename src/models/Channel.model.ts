@@ -12,6 +12,7 @@ export type Channel = {
   id: number;
   name: string;
   youtubeHandle: string;
+  accuracy: number;
   youtubeId: string;
   description: string;
   thumbnailUrl: string;
@@ -22,7 +23,7 @@ export type Channel = {
     date: string;
     message: string;
   } | null;
-  lastGamesFoundCount: number;
-  lastGamesCount: number;
+  totalGamesCount: number;
+  totalGamesFoundCount: number;
   gamesCount: number;
 };
