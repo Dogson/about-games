@@ -1,16 +1,18 @@
 import VideoThumbnail from "../VideoThumbnail/VideoThumbnail.component.tsx";
 import React from "react";
 
+type VideoGridItem = {
+  id: number;
+  channelName: string;
+  channelAvatarUrl: string;
+  videoTitle: string;
+  videoThumbnailUrl: string;
+  publicationDate: string;
+};
+
 type VideosGridProps = {
-  videos: {
-    id: number;
-    channelName: string;
-    channelAvatarUrl: string;
-    videoTitle: string;
-    videoThumbnailUrl: string;
-    publicationDate: string;
-  }[];
-  onClickVideo: (videoId: number) => void;
+  videos: VideoGridItem[];
+  onClickVideo: (video: VideoGridItem) => void;
 };
 
 export const VideosGrid: React.FC<VideosGridProps> = ({
@@ -21,7 +23,7 @@ export const VideosGrid: React.FC<VideosGridProps> = ({
     <div
       className="grid w-full max-w-[1200px] flex-1
         [grid-template-columns:repeat(auto-fill,minmax(250px,1fr))] items-start
-        justify-items-center gap-6"
+        justify-items-center gap-6 px-10"
     >
       {videos.map((video) => (
         <VideoThumbnail
@@ -31,7 +33,7 @@ export const VideosGrid: React.FC<VideosGridProps> = ({
           videoThumbnailUrl={video.videoThumbnailUrl}
           publicationDate={video.publicationDate}
           key={video.id}
-          onClick={() => onClickVideo(video.id)}
+          onClick={() => onClickVideo(video)}
         />
       ))}
     </div>

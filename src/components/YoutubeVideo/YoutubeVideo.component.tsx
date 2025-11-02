@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 export type YoutubeVideoProps = {
   seekTo: number;
   youtubeId: string;
+  title: string;
   smallContainer?: boolean;
 };
 
@@ -16,6 +17,7 @@ declare global {
 const YoutubeVideo: React.FC<YoutubeVideoProps> = ({
   youtubeId,
   seekTo,
+  title,
   smallContainer = false,
 }) => {
   const playerRef = useRef<YT.Player | null>(null);
@@ -71,11 +73,14 @@ const YoutubeVideo: React.FC<YoutubeVideoProps> = ({
   }, [seekTo, playerReady]);
 
   return (
-    <div
-      className={`aspect-video w-full
-        ${smallContainer ? "max-w-[400px]" : "max-w-[1200px]"}`}
-    >
-      <div ref={containerRef} className="h-full w-full rounded-lg" />
+    <div className={"flex flex-col gap-3"}>
+      <span className="font-title text-2xl">{title}</span>
+      <div
+        className={`flex aspect-video w-full
+          ${smallContainer ? "h-[300px]" : "h-[600px]"}`}
+      >
+        <div ref={containerRef} className="h-full w-full rounded-lg" />
+      </div>
     </div>
   );
 };

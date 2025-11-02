@@ -9,7 +9,10 @@ const PageLayout: React.FC<{
   return (
     <div>
       {!noHeader && <HeaderModule noSearch={noSearchInHeader} />}
-      <div className="box-border flex min-h-screen flex-col items-center gap-2">
+      <div
+        className="box-border flex min-h-screen flex-col items-center gap-2
+          pb-10"
+      >
         {children}
       </div>
     </div>

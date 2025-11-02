@@ -56,7 +56,7 @@ const VideoDescription: React.FC<VideoDescriptionProps> = ({
   return (
     <div
       className={`bg-maize rounded-xl px-3 py-3 ${
-        !expanded && isOverflowing ? "cursor-pointer" : ""
+        !expanded && isOverflowing ? "cursor-pointer shadow-md" : ""
       }`}
       onClick={() => {
         if (isOverflowing && !expanded) setExpanded(true);

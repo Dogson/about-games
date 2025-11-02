@@ -1,29 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PageLayout from "../../layouts/PageLayout/PageLayout.component.tsx";
-import type { Game } from "../../models/Game.model.ts";
 import useAppRoutes from "../../hooks/useAppRoutes.hook.ts";
-import getOneGame from "../../data-access/games/getOneGame.ts";
 import GamePageHeader from "../../components/GamePageHeader/GamePageHeader.component.tsx";
 import VideosGrid from "../../components/VideosGrid/VideosGrid.component.tsx";
+import useCurrentGame from "../../hooks/useCurrentGame.hook.ts";
 
 const GamePage: React.FC = () => {
-  const [game, setGame] = React.useState<Game>();
-  const { currentGameId } = useAppRoutes();
+  const { currentGameId, goToVideo } = useAppRoutes();
 
-  const fetchGame = async (gameId: number) => {
-    try {
-      setGame(await getOneGame(gameId));
-    } catch (e) {
-      console.error(e);
-      // todo manage error
-    }
-  };
+  if (!currentGameId) {
+    // todo navigate back
+  }
 
-  useEffect(() => {
-    if (currentGameId) {
-      fetchGame(currentGameId);
-    }
-  }, [currentGameId]);
+  const { game } = useCurrentGame(currentGameId || -1);
 
   return (
     <PageLayout>
@@ -45,7 +34,14 @@ const GamePage: React.FC = () => {
               videoThumbnailUrl: video.thumbnailUrl,
               publicationDate: video.releaseDate,
             }))}
-            onClickVideo={() => {}}
+            onClickVideo={(video) => {
+              console.log(video);
+              goToVideo({
+                id: video.id,
+                title: video.videoTitle,
+                game: { title: game.title, id: game.id },
+              });
+            }}
           />
         </div>
       )}

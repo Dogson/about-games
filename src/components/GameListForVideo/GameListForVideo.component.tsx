@@ -5,17 +5,21 @@ import GameCard from "../GameCard/GameCard.component.tsx";
 
 export type GameListForVideoProps = {
   games: GamesListItem[];
+  onGameClick: (game: GamesListItem) => void;
 };
 
-const GameListForVideo: React.FC<GameListForVideoProps> = ({ games }) => {
+const GameListForVideo: React.FC<GameListForVideoProps> = ({
+  games,
+  onGameClick,
+}) => {
   const { t } = useTranslation();
 
   return (
     <div className="flex flex-col">
-      <span className="font-title text-ghost pb-2 font-bold opacity-75">
+      <span className="font-title text-ghost px-2 pb-1 font-bold opacity-75">
         {t("GameListForVideo.gamesItsAbout")}
       </span>
-      <div className="flex max-h-68 flex-wrap gap-2 overflow-auto pt-2">
+      <div className="flex max-h-68 flex-wrap gap-2 overflow-auto px-2 pt-2">
         {games.map((game) => (
           <button
             // onClick={() => handleNavigateToGame(game.id)} todo
@@ -26,6 +30,7 @@ const GameListForVideo: React.FC<GameListForVideoProps> = ({ games }) => {
               releaseDate={game.releaseDate}
               imgUrl={game.boxartImg}
               isSmall
+              onClick={() => onGameClick(game)}
             />
           </button>
         ))}

@@ -1,4 +1,4 @@
-import { createGameSlug } from "../helpers/games/games.helpers.ts";
+import { createSlug } from "../helpers/games/games.helpers.ts";
 
 export const routes = {
   home: {
@@ -28,15 +28,27 @@ export const routes = {
   game: {
     path: "/games/:gameIdTitle",
     goTo: (params: { id: number; title: string }) =>
-      `/games/${createGameSlug(params.id, params.title)}`,
+      `/games/${createSlug(params.id, params.title)}`,
     video: {
-      path: "/games/:gameIdTitle/video/:idVideo",
-      goTo: (params: { gameId: number; gameTitle: string; videoId: number }) =>
-        `/games/${createGameSlug(params.gameId, params.gameTitle)}/video/${params.videoId}`,
+      path: "/games/:gameIdTitle/:videoIdTitle",
+      goTo: (params: {
+        gameId: number;
+        gameTitle: string;
+        videoId: number;
+        videoTitle: string;
+      }) =>
+        `/games/${createSlug(params.gameId, params.gameTitle)}/${createSlug(
+          params.videoId,
+          params.videoTitle,
+        )}`,
       admin: {
         path: "/games/:gameIdTitle/admin",
-        goTo: (params: { id: number; title: string; videoId: number }) =>
-          `/games/${createGameSlug(params.id, params.title)}/video/${params.videoId}/admin`,
+        goTo: (params: {
+          id: number;
+          title: string;
+          videoId: number;
+          videoTitle: string;
+        }) => `/games/${createSlug(params.id, params.title)}/admin`,
       },
     },
   },

@@ -32,15 +32,15 @@ export const getFirstReleaseDate = (igdbGame: IGDBGame): number | null => {
     : null;
 };
 
-export const createGameSlug = (gameId: number, gameTitle: string): string => {
-  const formattedTitle = gameTitle
+export const createSlug = (id: number, title: string): string => {
+  const formattedTitle = title
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
-  return `${gameId}-${formattedTitle}`;
+  return `${id}-${formattedTitle}`;
 };
 
-export const getGameIdFromSlug = (slug: string): number | null => {
+export const getIdFromSlug = (slug: string): number | null => {
   const match = slug.match(/^(\d+)-/);
   return match ? parseInt(match[1], 10) : null;
 };
