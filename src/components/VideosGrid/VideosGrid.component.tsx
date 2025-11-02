@@ -21,9 +21,9 @@ export const VideosGrid: React.FC<VideosGridProps> = ({
 }) => {
   return (
     <div
-      className="grid w-full max-w-[1200px] flex-1
+      className="grid w-full flex-1
         [grid-template-columns:repeat(auto-fill,minmax(250px,1fr))] items-start
-        justify-items-center gap-6 px-10"
+        justify-items-center gap-6"
     >
       {videos.map((video) => (
         <VideoThumbnail

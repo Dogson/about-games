@@ -76,8 +76,8 @@ const GameCard: React.FC<GameCardProps> = ({
               {releaseDate ? getYearFromDate(releaseDate) : t("Game.tba")}
             </div>
             <div
-              className={`font-title line-clamp-5 font-bold
-                ${isSmall ? "text-xs" : "text-sm"}`}
+              className={`font-title line-clamp-5 font-bold break-normal
+                break-words ${isSmall ? "text-xs" : "text-sm"}`}
             >
               {title}
             </div>

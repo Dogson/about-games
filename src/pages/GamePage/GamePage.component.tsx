@@ -25,24 +25,28 @@ const GamePage: React.FC = () => {
             coverImg={game.coverImg}
             companies={game.companies}
           />
-          <VideosGrid
-            videos={game.videos.map((video) => ({
-              id: video.id,
-              channelName: video.ytChannel.name,
-              channelAvatarUrl: video.ytChannel.thumbnailUrl,
-              videoTitle: video.title,
-              videoThumbnailUrl: video.thumbnailUrl,
-              publicationDate: video.releaseDate,
-            }))}
-            onClickVideo={(video) => {
-              console.log(video);
-              goToVideo({
-                id: video.id,
-                title: video.videoTitle,
-                game: { title: game.title, id: game.id },
-              });
-            }}
-          />
+          <div className="flex w-full flex-col items-center px-10">
+            <div className="max-w-container">
+              <VideosGrid
+                videos={game.videos.map((video) => ({
+                  id: video.id,
+                  channelName: video.ytChannel.name,
+                  channelAvatarUrl: video.ytChannel.thumbnailUrl,
+                  videoTitle: video.title,
+                  videoThumbnailUrl: video.thumbnailUrl,
+                  publicationDate: video.releaseDate,
+                }))}
+                onClickVideo={(video) => {
+                  console.log(video);
+                  goToVideo({
+                    id: video.id,
+                    title: video.videoTitle,
+                    game: { title: game.title, id: game.id },
+                  });
+                }}
+              />
+            </div>
+          </div>
         </div>
       )}
     </PageLayout>

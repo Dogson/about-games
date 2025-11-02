@@ -23,7 +23,12 @@
     /* Shadows */
     --shadow-lg: 0 16px 16px rgba(0, 0, 0, 0.8);
     --shadow-md :0 8px 8px rgba(0,0,0,0.8);
+}
 
+.max-w-container {
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
 }
 
 @layer base {

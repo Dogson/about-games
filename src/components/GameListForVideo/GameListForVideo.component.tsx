@@ -19,20 +19,16 @@ const GameListForVideo: React.FC<GameListForVideoProps> = ({
       <span className="font-title text-ghost px-2 pb-1 font-bold opacity-75">
         {t("GameListForVideo.gamesItsAbout")}
       </span>
-      <div className="flex max-h-68 flex-wrap gap-2 overflow-auto px-2 pt-2">
+      <div className="grid grid-cols-3 gap-3 px-2 pt-2">
         {games.map((game) => (
-          <button
-            // onClick={() => handleNavigateToGame(game.id)} todo
-            className="gap-1 text-left"
-          >
-            <GameCard
-              title={game.title}
-              releaseDate={game.releaseDate}
-              imgUrl={game.boxartImg}
-              isSmall
-              onClick={() => onGameClick(game)}
-            />
-          </button>
+          <GameCard
+            key={game.id} // always add a key when mapping
+            title={game.title}
+            releaseDate={game.releaseDate}
+            imgUrl={game.boxartImg}
+            isSmall
+            onClick={() => onGameClick(game)}
+          />
         ))}
       </div>
     </div>
