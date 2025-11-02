@@ -6,6 +6,7 @@ import HeaderSearchBox from "../HeaderSearchBox/HeaderSearchBox.component.tsx";
 import useAppRoutes from "../../../hooks/useAppRoutes.hook.ts";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../../router/routes.config.ts";
+import type { GamesListItem } from "../../../models/Game.model.ts";
 
 const HeaderModule: React.FC<{ noSearch?: boolean }> = ({
   noSearch = false,
@@ -13,6 +14,11 @@ const HeaderModule: React.FC<{ noSearch?: boolean }> = ({
   const { games, searchText, onChangeSearchText, loading } = useSearchBox();
   const { goToGame } = useAppRoutes();
   const navigate = useNavigate();
+
+  const handleClickGame = (game: GamesListItem) => {
+    onChangeSearchText("");
+    goToGame(game);
+  };
 
   return (
     <motion.header
@@ -28,7 +34,7 @@ const HeaderModule: React.FC<{ noSearch?: boolean }> = ({
       </button>
       {!noSearch && (
         <HeaderSearchBox
-          onClickGame={goToGame}
+          onClickGame={handleClickGame}
           searchText={searchText}
           onChangeSearchText={onChangeSearchText}
           games={games}
