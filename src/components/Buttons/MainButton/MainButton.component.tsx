@@ -2,11 +2,12 @@ import React from "react";
 import { ClipLoader } from "react-spinners";
 
 export type MainButtonProps = {
-  onClick: () => void;
+  onClick?: () => void;
   disabled?: boolean;
   className?: string;
   loading?: boolean;
   children: React.ReactNode;
+  type?: "button" | "submit";
 };
 
 const MainButton: React.FC<MainButtonProps> = ({
@@ -15,20 +16,31 @@ const MainButton: React.FC<MainButtonProps> = ({
   className = "",
   loading = false,
   children,
+  type = "button",
 }) => {
+  const handleClick = () => {
+    if (disabled || loading) return;
+    if (onClick) onClick();
+  };
+
   return (
     <button
-      onClick={onClick}
-      className={`font-title bg-maize flex cursor-pointer items-center gap-3
-        rounded-md px-6 py-2 leading-none duration-50 duration-200 ${
+      type={type}
+      onClick={handleClick}
+      className={`font-title bg-maize relative flex justify-center gap-3
+        rounded-md px-10 py-3 leading-none duration-50 duration-200 ${
           disabled || loading
             ? "cursor-default opacity-50"
-            : `hover:translate-y-[-4px] hover:shadow-md
+            : `cursor-pointer hover:translate-y-[-4px] hover:shadow-md
               active:translate-y-[-4px] active:shadow-md`
         } ${loading ? "translate-y-[-4px] shadow-md" : ""} ${className}`}
     >
       {children}
-      {loading && <ClipLoader color="var(--color-ghost)" size={14} />}
+      {loading && (
+        <div className="absolute right-5">
+          <ClipLoader color="var(--color-ghost)" size={14} />
+        </div>
+      )}
     </button>
   );
 };

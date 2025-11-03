@@ -5,8 +5,9 @@ export type AuthContextType = UseAuthContext;
 
 export const AuthContext = createContext<AuthContextType>({
   hasInitializedAuth: false,
-  authUser: null,
+  authInfos: null,
   isAuthenticated: false,
   login: () => {},
   logout: () => {},
+  isAdmin: null,
 });

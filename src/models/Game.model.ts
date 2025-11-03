@@ -10,6 +10,11 @@ export type GamesListItem = {
   companies: string[];
 };
 
-export type Game = GamesListItem & {
-  videos: Video[];
+export type GameOptions = {
+  ignoreDuringSearch: boolean;
 };
+
+export type Game = GamesListItem &
+  GameOptions & {
+    videos: Video[];
+  };

@@ -1,5 +1,4 @@
 const AppConfig = {
-  contentMaxWidth: "1200px",
   maxGamesPerPage: 40,
 };
 

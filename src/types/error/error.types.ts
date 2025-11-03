@@ -2,14 +2,12 @@ export enum ApiErrorType {
   FORBIDDEN = "FORBIDDEN",
   BAD_CREDENTIALS = "BAD_CREDENTIALS",
   SESSION_EXPIRED = "SESSION_EXPIRED",
-  USER_NOT_FOUND = "USER_NOT_FOUND",
 }
 
 export const ErrorMessageI18nKeys: Record<ApiErrorType, string> = {
-  [ApiErrorType.FORBIDDEN]: "GameSearchapiErrors.forbidden",
-  [ApiErrorType.BAD_CREDENTIALS]: "loginPage.errors.badCredentials",
-  [ApiErrorType.SESSION_EXPIRED]: "GameSearchapiErrors.sessionExpired",
-  [ApiErrorType.USER_NOT_FOUND]: "loginPage.errors.userNotFound",
+  [ApiErrorType.FORBIDDEN]: "ApiErrors.forbidden",
+  [ApiErrorType.BAD_CREDENTIALS]: "LoginPage.errors.badCredentials",
+  [ApiErrorType.SESSION_EXPIRED]: "ApiErrors.sessionExpired",
 };
 
 export class SpecificError extends Error {

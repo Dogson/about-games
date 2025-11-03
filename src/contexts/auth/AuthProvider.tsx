@@ -5,10 +5,26 @@ import useAuthContext from "./useAuthContext.ts";
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const { authUser, isAuthenticated, logout, login } = useAuthContext();
+  const {
+    authInfos,
+    isAuthenticated,
+    logout,
+    login,
+    hasInitializedAuth,
+    isAdmin,
+  } = useAuthContext();
 
   return (
-    <AuthContext.Provider value={{ authUser, isAuthenticated, logout, login }}>
+    <AuthContext.Provider
+      value={{
+        authInfos,
+        isAuthenticated,
+        logout,
+        login,
+        hasInitializedAuth,
+        isAdmin,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -18,8 +18,6 @@ const VideoPage: React.FC = () => {
     // todo navigate back
   }
 
-  console.log(currentGameId);
-
   const [seekTo, setSeekTo] = React.useState<number>(0);
 
   const { game } = useCurrentGame(currentGameId || -1);

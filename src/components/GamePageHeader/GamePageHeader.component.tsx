@@ -2,8 +2,9 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import GameCard from "../GameCard/GameCard.component.tsx";
 import { getYearFromDate } from "../../helpers/utils/datetime.utils.ts";
-import AppConfig from "../../config/app.config.ts";
 import { Separator } from "../Separator/Separator.component.tsx";
+import IconButton from "../Buttons/IconButton/IconButton.component.tsx";
+import { LuSettings } from "react-icons/lu";
 
 export type GamePageHeaderProps = {
   title: string;
@@ -11,6 +12,8 @@ export type GamePageHeaderProps = {
   coverImg: string | null;
   boxartImg: string | null;
   companies: string[];
+  admin: boolean;
+  onAdminSettingsClick: () => void;
 };
 
 const GamePageHeader: React.FC<GamePageHeaderProps> = ({
@@ -19,6 +22,8 @@ const GamePageHeader: React.FC<GamePageHeaderProps> = ({
   coverImg,
   boxartImg,
   companies,
+  admin,
+  onAdminSettingsClick,
 }) => {
   const { t } = useTranslation();
   return (
@@ -29,25 +34,37 @@ const GamePageHeader: React.FC<GamePageHeaderProps> = ({
         style={coverImg ? { backgroundImage: `url(${coverImg})` } : {}}
         className="absolute top-0 right-0 left-0 h-72 w-full bg-cover bg-center"
       />
-      <div className={`max-w-[${AppConfig.contentMaxWidth}] flex w-full gap-5`}>
+      <div className={"max-w-container flex w-full gap-5"}>
         <GameCard
           title={title}
           releaseDate={releaseDate}
           imgUrl={boxartImg}
           canBeHovered={false}
         />
-        <div className="mt-27 flex flex-col">
+        <div className="mt-27 flex flex-1 flex-col">
           <span className="text-ghost text-xs opacity-50">
             {t("GamePageHeader.about")}
           </span>
           <span className="font-title mt-1 text-3xl font-bold">{title}</span>
-          <span className="text-corn text-xs italic opacity-60">
-            {releaseDate ? getYearFromDate(releaseDate) : t("Game.tba")}{" "}
-            {companies.length > 0 ? ` - ${companies.join(", ")}` : ""}
+          <span className="text-corn flex flex-col opacity-60">
+            <span className="text-sm font-bold">
+              {releaseDate ? getYearFromDate(releaseDate) : t("Game.tba")}
+            </span>
+            <span className="text-xs italic">
+              {companies.length > 0 ? `${companies.join(", ")}` : ""}
+            </span>
           </span>
         </div>
+        {admin && (
+          <IconButton
+            noCircle
+            className="mt-27"
+            Icon={LuSettings}
+            onClick={onAdminSettingsClick}
+          />
+        )}
       </div>
-      <div className={`my-3 w-full max-w-[${AppConfig.contentMaxWidth}]`}>
+      <div className={"max-w-container my-3 w-full"}>
         <Separator direction="horizontal" bulletSize="sm" />
       </div>
     </div>

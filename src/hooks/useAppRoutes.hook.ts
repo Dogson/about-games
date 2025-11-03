@@ -1,6 +1,6 @@
 import { routes } from "../router/routes.config.ts";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useCallback, useMemo } from "react";
 import { getIdFromSlug } from "../helpers/games/games.helpers.ts";
 
 type UseAppRoutes = {
@@ -12,12 +12,14 @@ type UseAppRoutes = {
   }) => void;
   currentGameId: number | null;
   currentVideoId: number | null;
+  isAdminRoute: boolean;
+  goToParentRoute: () => void;
 };
 
 const useAppRoutes = (): UseAppRoutes => {
   const navigate = useNavigate();
-  const [currentGameId, setCurrentGameId] = useState<number | null>(null);
-  const [currentVideoId, setCurrentVideoId] = useState<number | null>(null);
+
+  const location = useLocation();
 
   const { gameIdTitle, videoIdTitle } = useParams<{
     gameIdTitle: string;
@@ -48,23 +50,29 @@ const useAppRoutes = (): UseAppRoutes => {
     );
   };
 
-  useEffect(() => {
-    if (gameIdTitle) {
-      setCurrentGameId(getIdFromSlug(gameIdTitle));
-    }
+  const currentGameId = useMemo(() => {
+    if (gameIdTitle) return getIdFromSlug(gameIdTitle);
+    return null;
   }, [gameIdTitle]);
 
-  useEffect(() => {
-    if (videoIdTitle) {
-      setCurrentVideoId(getIdFromSlug(videoIdTitle));
-    }
+  const currentVideoId = useMemo(() => {
+    if (videoIdTitle) return getIdFromSlug(videoIdTitle);
+    return null;
   }, [videoIdTitle]);
+
+  const goToParentRoute = useCallback(() => {
+    const parentPath =
+      location.pathname.split("/").slice(0, -1).join("/") || "/";
+    navigate(parentPath);
+  }, []);
 
   return {
     goToGame,
     goToVideo,
     currentGameId,
     currentVideoId,
+    goToParentRoute,
+    isAdminRoute: location.pathname.endsWith("/admin"),
   };
 };
 

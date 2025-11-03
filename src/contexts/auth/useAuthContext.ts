@@ -2,32 +2,33 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { persistAuth } from "../../helpers/auth/persistAuth.ts";
 import { launchErrorToast } from "../../helpers/toasts/toasts.ts";
 import { useTranslation } from "react-i18next";
-import type { AuthUser } from "../../data-access/auth/model/auth.model.ts";
+import type { AuthInfos } from "../../data-access/auth/model/auth.model.ts";
 import { SpecificError } from "../../types/error/error.types.ts";
 
 export type UseAuthContext = {
-  authUser: AuthUser | null;
+  authInfos: AuthInfos | null;
   isAuthenticated: boolean;
   hasInitializedAuth: boolean;
-  login: (authToken: string) => void;
+  login: (authUser: AuthInfos) => void;
   logout: () => void;
+  isAdmin: boolean | null;
 };
 
 export const useAuthContext = (): UseAuthContext => {
   const { t } = useTranslation();
-  const [authUser, setAuthUser] = useState<AuthUser | null>(null);
+  const [authInfos, setAuthInfos] = useState<AuthInfos | null>(null);
   const [hasInitializedAuth, setHasInitializedAuth] = useState(false);
 
   const logout = useCallback(() => {
-    setAuthUser(null);
+    setAuthInfos(null);
     persistAuth.remove();
-  }, [setAuthUser]);
+  }, [setAuthInfos]);
 
   const login = useCallback(
-    async (authToken: string) => {
+    async (authInfos: AuthInfos) => {
       try {
-        persistAuth.save(authToken);
-        setAuthUser({ token: authToken });
+        persistAuth.save(authInfos);
+        setAuthInfos(authInfos);
       } catch (e) {
         if (e instanceof SpecificError) {
           launchErrorToast(t(`${e.apiErrorKey}`));
@@ -35,10 +36,10 @@ export const useAuthContext = (): UseAuthContext => {
         logout();
       }
     },
-    [logout, setAuthUser, t],
+    [logout, setAuthInfos, t],
   );
 
-  const isAuthenticated = useMemo(() => !!authUser, [authUser]);
+  const isAuthenticated = useMemo(() => !!authInfos, [authInfos]);
 
   const loginUserFromLocalOrSessionStorage = useCallback(async () => {
     try {
@@ -55,16 +56,21 @@ export const useAuthContext = (): UseAuthContext => {
     setHasInitializedAuth(true);
   }, [login, logout]);
 
+  const isAdmin = useMemo(() => {
+    return authInfos && authInfos.user.admin;
+  }, [authInfos]);
+
   useEffect(() => {
     loginUserFromLocalOrSessionStorage();
   }, [loginUserFromLocalOrSessionStorage]);
 
   return {
-    authUser,
+    authInfos: authInfos,
     isAuthenticated,
     hasInitializedAuth,
     login,
     logout,
+    isAdmin,
   };
 };
 
