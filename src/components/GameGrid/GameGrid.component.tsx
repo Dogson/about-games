@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import type { GamesListItem } from "../../models/Game.model.ts";
 import GameCard from "../GameCard/GameCard.component.tsx";
 
@@ -13,6 +13,8 @@ const GameGrid: React.FC<GameGridProps> = ({
   onGameClick,
   onScrollEnd,
 }) => {
+  const calledForGamesRef = useRef<GamesListItem[] | null>(null);
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
@@ -20,13 +22,17 @@ const GameGrid: React.FC<GameGridProps> = ({
       const documentHeight = document.documentElement.scrollHeight;
 
       if (documentHeight - (scrollTop + windowHeight) < 100) {
-        onScrollEnd();
+        // Only call if we haven't called for the current games list
+        if (calledForGamesRef.current !== games) {
+          onScrollEnd();
+          calledForGamesRef.current = games;
+        }
       }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [onScrollEnd]);
+  }, [onScrollEnd, games]);
 
   return (
     <div
