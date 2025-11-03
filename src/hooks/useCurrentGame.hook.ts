@@ -33,7 +33,9 @@ const useCurrentGame = (gameId: number): UseCurrentGame => {
         setLoading(false);
       }
     },
-    [navigate, t],
+    // t render two times on app mount :'(
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [navigate],
   );
 
   const changeGameOptions = async (options: Partial<GameOptions>) => {

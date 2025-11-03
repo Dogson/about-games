@@ -29,7 +29,9 @@ const useCurrentVideo = (videoId: number): UseCurrentVideo => {
         setLoading(false);
       }
     },
-    [goToParentRoute, t],
+    // t render two times on app mount :'(
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [goToParentRoute],
   );
 
   useEffect(() => {
