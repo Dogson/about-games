@@ -15,6 +15,7 @@ export type InputProps = {
   clearable?: boolean;
   size?: "sm" | "md";
   onFocus?: () => void;
+  type?: "password" | "number" | "text";
 };
 
 const Input: React.FC<InputProps> = ({
@@ -29,6 +30,7 @@ const Input: React.FC<InputProps> = ({
   loading = false,
   clearable = false,
   size = "md",
+  type = "text",
   onFocus,
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,7 +55,7 @@ const Input: React.FC<InputProps> = ({
         {Icon && <div className="absolute left-3 text-black">{Icon}</div>}
 
         <input
-          type="text"
+          type={type}
           spellCheck={false}
           value={value}
           onChange={handleChange}

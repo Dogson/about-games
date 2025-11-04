@@ -22,7 +22,7 @@ api.interceptors.request.use(
   (config) => {
     const authenticateUserToken = persistAuth.get();
     if (authenticateUserToken) {
-      config.headers.Authorization = `Bearer ${authenticateUserToken}`;
+      config.headers.Authorization = `Bearer ${authenticateUserToken.access_token}`;
     }
 
     return config;

@@ -12,9 +12,7 @@
     "noResults": "Aucun jeu trouvé",
     "searchPlaceholder": "Rechercher un jeu"
   },
-  "Game": {
-    "tba": "À venir"
-  },
+
   "GamePageHeader": {
     "about": "à propos de..."
   },
@@ -37,5 +35,28 @@
   },
   "Homepage": {
     "tagline": "Là où les vidéastes et essayistes parlent jeux."
+  },
+  "LoginPage": {
+    "areYouGameMaster": "Êtes-vous le maître du jeu ?",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "errors": {
+      "apiLoginError": "Une erreur est survenue lors de l'authentification.",
+      "badCredentials": "Le nom d'utilisateur ou le mot de passe est incorrect."
+    },
+    "login": "Se connecter"
+  },
+  "ApiErrors": {
+    "forbidden": "Vous n'avez pas les droits pour cette route.",
+    "sessionExpired": "La session a expiré, veuillez vous reconnecter.",
+    "unknown": "Une erreur inconnue est survenue"
+  },
+  "Video": {
+    "notFound": "La vidéo recherchée n'existe pas"
+  },
+  "Game": {
+    "tba": "À venir",
+    "notFound": "Le jeu recherché n'existe pas",
+    "ignoreDuringSearch": "Ignorer ce jeu de la détection automatique de jeux"
   }
 }

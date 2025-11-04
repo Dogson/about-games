@@ -42,13 +42,17 @@ export const routes = {
           params.videoTitle,
         )}`,
       admin: {
-        path: "/games/:gameIdTitle/admin",
+        path: "/games/:videoIdTitle/:gameIdTitle/admin",
         goTo: (params: {
-          id: number;
-          title: string;
+          gameId: number;
+          gameTitle: string;
           videoId: number;
           videoTitle: string;
-        }) => `/games/${createSlug(params.id, params.title)}/admin`,
+        }) =>
+          `/games/${createSlug(params.gameId, params.gameTitle)}/${createSlug(
+            params.videoId,
+            params.videoTitle,
+          )}/admin`,
       },
     },
   },

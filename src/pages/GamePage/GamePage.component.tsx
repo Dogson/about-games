@@ -1,21 +1,42 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import PageLayout from "../../layouts/PageLayout/PageLayout.component.tsx";
 import useAppRoutes from "../../hooks/useAppRoutes.hook.ts";
 import GamePageHeader from "../../components/GamePageHeader/GamePageHeader.component.tsx";
 import VideosGrid from "../../components/VideosGrid/VideosGrid.component.tsx";
 import useCurrentGame from "../../hooks/useCurrentGame.hook.ts";
+import Modal from "../../components/Modal/Modal.component.tsx";
+import Switch from "../../components/Switch/Switch.component.tsx";
+import { useTranslation } from "react-i18next";
+import { AuthContext } from "../../contexts/auth/AuthContext.ts";
 
 const GamePage: React.FC = () => {
   const { currentGameId, goToVideo } = useAppRoutes();
+  const { isAdmin } = useContext(AuthContext);
+  const [modalOpened, setModalOpened] = useState(false);
+  const { t } = useTranslation();
 
   if (!currentGameId) {
     // todo navigate back
   }
 
-  const { game } = useCurrentGame(currentGameId || -1);
+  const { game, changeGameOptions } = useCurrentGame(currentGameId || -1);
 
   return (
     <PageLayout>
+      {modalOpened && game && (
+        <Modal onClose={() => setModalOpened(false)}>
+          <div className="flex min-w-0 grow-0 justify-center">
+            <Switch
+              checked={game.ignoreDuringSearch}
+              onChange={(checked) =>
+                changeGameOptions({ ignoreDuringSearch: checked })
+              }
+              danger
+              label={t("Game.ignoreDuringSearch")}
+            />
+          </div>
+        </Modal>
+      )}
       {game && (
         <div className="flex w-full flex-1 flex-col items-center gap-3">
           <GamePageHeader
@@ -24,6 +45,8 @@ const GamePage: React.FC = () => {
             boxartImg={game.boxartImg}
             coverImg={game.coverImg}
             companies={game.companies}
+            admin={!!isAdmin}
+            onAdminSettingsClick={() => setModalOpened(true)}
           />
           <div className="flex w-full flex-col items-center px-10">
             <div className="max-w-container">
@@ -37,7 +60,6 @@ const GamePage: React.FC = () => {
                   publicationDate: video.releaseDate,
                 }))}
                 onClickVideo={(video) => {
-                  console.log(video);
                   goToVideo({
                     id: video.id,
                     title: video.videoTitle,

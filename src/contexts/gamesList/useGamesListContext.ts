@@ -62,6 +62,7 @@ const useGameListContext = (): UseGamesListContext => {
   );
 
   const nextPage = useCallback(async () => {
+    if (loading) return;
     setLoading(true);
     const newPage = page + 1;
 
