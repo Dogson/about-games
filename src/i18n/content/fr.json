@@ -63,5 +63,8 @@
     "tba": "À venir",
     "notFound": "Le jeu recherché n'existe pas",
     "ignoreDuringSearch": "Ignorer ce jeu de la détection automatique de jeux"
+  },
+  "IgdbGameSearch": {
+    "noResults": "Aucun jeu trouvé"
   }
 }

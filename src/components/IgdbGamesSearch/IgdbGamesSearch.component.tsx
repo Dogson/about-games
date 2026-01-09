@@ -17,6 +17,8 @@ export type IgdbGameSearchProps = {
   games: IGDBGame[];
   onSelectGame: (game: CreateGameDTO) => void;
   gamesSelected: GamesListItem[];
+  searching: boolean;
+  noGamesFound: boolean;
 };
 
 const IgdbGameSearch: React.FC<IgdbGameSearchProps> = ({
@@ -25,6 +27,8 @@ const IgdbGameSearch: React.FC<IgdbGameSearchProps> = ({
   games,
   onSelectGame,
   gamesSelected,
+  searching,
+  noGamesFound,
 }) => {
   const { t } = useTranslation();
 
@@ -38,50 +42,59 @@ const IgdbGameSearch: React.FC<IgdbGameSearchProps> = ({
         onSearch={onChangeSearchValue}
         searchText={searchValue}
         size="sm"
+        isLoading={searching}
       />
-      {games.length > 0 && (
+      {(noGamesFound || games.length > 0) && (
         <ul
           className="divide-y divide-gray-100 overflow-hidden rounded-xl border
             border-gray-200 bg-white shadow-lg"
         >
-          {games.map((game) => {
-            const selected = isSelected(game.id);
-            return (
-              <li
-                key={game.id}
-                className={`flex items-center gap-3 px-4 py-3 text-sm
-                transition-all
-                ${selected ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
-                onClick={() => {
-                  if (!selected)
-                    onSelectGame(mapIgdbGamesToCreateGamesDTO(game));
-                }}
-              >
-                {selected ? (
-                  <FiCheck className="shrink-0 text-lg text-black" />
-                ) : (
-                  <FiPlus className="shrink-0 text-lg text-black" />
-                )}
-                <span
-                  className="flex items-end gap-1 overflow-hidden text-black"
+          {noGamesFound ? (
+            <div className="px-4 py-3 text-sm text-gray-500 italic">
+              {t("IgdbGameSearch.noResults")}
+            </div>
+          ) : (
+            games.map((game) => {
+              const selected = isSelected(game.id);
+              return (
+                <li
+                  key={game.id}
+                  className={`flex items-center gap-3 px-4 py-3 text-sm
+                    transition-all
+                    ${selected ? "cursor-not-allowed opacity-50" : "cursor-pointer"}`}
+                  onClick={() => {
+                    if (!selected)
+                      onSelectGame(mapIgdbGamesToCreateGamesDTO(game));
+                  }}
                 >
+                  {selected ? (
+                    <FiCheck className="shrink-0 text-lg text-black" />
+                  ) : (
+                    <FiPlus className="shrink-0 text-lg text-black" />
+                  )}
                   <span
-                    title={game.name}
-                    className="block flex-1 flex-shrink truncate overflow-hidden
-                      whitespace-nowrap"
+                    className="flex items-end gap-1 overflow-hidden text-black"
                   >
-                    {game.name}
+                    <span
+                      title={game.name}
+                      className="block flex-1 flex-shrink truncate
+                        overflow-hidden whitespace-nowrap"
+                    >
+                      {game.name}
+                    </span>
+                    <span
+                      className="mb-[1px] text-xs font-bold italic opacity-70"
+                    >
+                      (
+                      {getYearFromDate(getFirstReleaseDate(game)) ||
+                        t("Game.tba")}
+                      )
+                    </span>
                   </span>
-                  <span className="mb-[1px] text-xs font-bold italic opacity-70">
-                    (
-                    {getYearFromDate(getFirstReleaseDate(game)) ||
-                      t("Game.tba")}
-                    )
-                  </span>
-                </span>
-              </li>
-            );
-          })}
+                </li>
+              );
+            })
+          )}
         </ul>
       )}
     </div>

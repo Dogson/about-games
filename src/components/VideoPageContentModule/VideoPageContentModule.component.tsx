@@ -38,8 +38,13 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
   const { goToGame, isAdminRoute } = useAppRoutes();
   const { video, addGame, removeGame, validateVideo } =
     useCurrentVideo(currentVideoId);
-  console.log(video);
-  const { searchValue, onChangeSearchValue, igdbGames } = useIgdbSearch();
+  const {
+    searchValue,
+    onChangeSearchValue,
+    igdbGames,
+    isSearching,
+    noGamesFound,
+  } = useIgdbSearch();
 
   const [seekTo, setSeekTo] = useState<number>(0);
 
@@ -143,6 +148,8 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                     onSelectGame={addGame}
                     searchValue={searchValue}
                     onChangeSearchValue={onChangeSearchValue}
+                    searching={isSearching}
+                    noGamesFound={noGamesFound}
                   />
                 </div>
               )}

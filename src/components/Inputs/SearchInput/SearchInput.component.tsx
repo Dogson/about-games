@@ -19,6 +19,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   searchText,
   size = "md",
   onFocus,
+  isLoading,
 }) => {
   return (
     <Input
@@ -30,6 +31,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
       clearable={!!onClear}
       size={size}
       onFocus={onFocus}
+      loading={isLoading}
     />
   );
 };
