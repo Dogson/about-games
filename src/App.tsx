@@ -3,6 +3,7 @@ import { AppSettingsProvider } from "./contexts/appSettings/AppSettingsProvider.
 import RouterWithTheme from "./router/RouterWithTheme.tsx";
 import initI18n from "./i18n/i18n.ts";
 import { GamesListProvider } from "./contexts/gamesList/GamesListProvider.tsx";
+import { UnverifiedVideosListProvider } from "./contexts/unverifiedVideosList/UnverifiedVideosListProvider.tsx";
 
 initI18n();
 
@@ -12,7 +13,9 @@ function App() {
       <AuthProvider>
         <AppSettingsProvider>
           <GamesListProvider>
-            <RouterWithTheme />
+            <UnverifiedVideosListProvider>
+              <RouterWithTheme />
+            </UnverifiedVideosListProvider>
           </GamesListProvider>
         </AppSettingsProvider>
       </AuthProvider>

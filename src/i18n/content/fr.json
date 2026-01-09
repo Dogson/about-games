@@ -23,7 +23,10 @@
   },
   "Admin": {
     "accuracy": "Précision",
-    "reset": "Réinitialiser"
+    "reset": "Réinitialiser",
+    "gameMasterMode": "Game Master Mode: ON",
+    "manageChannels": "Gérer les chaînes Youtube",
+    "reviewVideos": "Vérifier les nouvelles vidéos"
   },
   "ChannelForm": {
     "errors": {

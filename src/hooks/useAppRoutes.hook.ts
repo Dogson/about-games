@@ -72,7 +72,9 @@ const useAppRoutes = (): UseAppRoutes => {
     currentGameId,
     currentVideoId,
     goToParentRoute,
-    isAdminRoute: location.pathname.endsWith("/admin"),
+    isAdminRoute:
+      location.pathname.endsWith("/admin") ||
+      location.pathname.includes("/admin/"),
   };
 };
 
