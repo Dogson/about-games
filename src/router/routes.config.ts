@@ -42,7 +42,7 @@ export const routes = {
           params.videoTitle,
         )}`,
       admin: {
-        path: "/games/:videoIdTitle/:gameIdTitle/admin",
+        path: "/games/:gameIdTitle/:videoIdTitle/admin",
         goTo: (params: {
           gameId: number;
           gameTitle: string;

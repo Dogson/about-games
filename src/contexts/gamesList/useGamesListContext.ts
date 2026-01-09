@@ -86,7 +86,7 @@ const useGameListContext = (): UseGamesListContext => {
         setLoading(false);
       }
     }
-  }, [page, searchFilter]);
+  }, [loading, page, searchFilter]);
 
   // === Debounce search ===
   useEffect(() => {

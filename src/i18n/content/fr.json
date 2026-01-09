@@ -17,7 +17,9 @@
     "about": "à propos de..."
   },
   "GameListForVideo": {
-    "gamesItsAbout": "Jeux abordés"
+    "gamesItsAbout": "Jeux abordés",
+    "iChecked": "J'ai verifié chef ✅",
+    "searchForGames": "Rechercher des jeux à ajouter"
   },
   "Admin": {
     "accuracy": "Précision",

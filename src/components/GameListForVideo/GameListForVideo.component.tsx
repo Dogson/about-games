@@ -6,11 +6,13 @@ import GameCard from "../GameCard/GameCard.component.tsx";
 export type GameListForVideoProps = {
   games: GamesListItem[];
   onGameClick: (game: GamesListItem) => void;
+  onDeleteGame?: (game: GamesListItem) => void;
 };
 
 const GameListForVideo: React.FC<GameListForVideoProps> = ({
   games,
   onGameClick,
+  onDeleteGame,
 }) => {
   const { t } = useTranslation();
 
@@ -22,12 +24,13 @@ const GameListForVideo: React.FC<GameListForVideoProps> = ({
       <div className="grid grid-cols-3 gap-3 px-2 pt-2">
         {games.map((game) => (
           <GameCard
-            key={game.id} // always add a key when mapping
+            key={game.id}
             title={game.title}
             releaseDate={game.releaseDate}
             imgUrl={game.boxartImg}
             isSmall
             onClick={() => onGameClick(game)}
+            onDelete={onDeleteGame && (() => onDeleteGame(game))}
           />
         ))}
       </div>
