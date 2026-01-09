@@ -18,7 +18,8 @@
   },
   "GameListForVideo": {
     "gamesItsAbout": "Jeux abordés",
-    "iChecked": "J'ai verifié chef ✅"
+    "iChecked": "J'ai verifié chef ✅",
+    "searchForGames": "Rechercher des jeux à ajouter"
   },
   "Admin": {
     "accuracy": "Précision",

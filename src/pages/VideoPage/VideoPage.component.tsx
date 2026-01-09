@@ -97,7 +97,13 @@ const VideoPage: React.FC = () => {
                 )}
               </div>
               {isAdminRoute && (
-                <div className="mt-2 w-[300px] shrink-0">
+                <div className="mt-2 flex w-[300px] shrink-0 flex-col gap-1">
+                  <span
+                    className="font-title text-ghost px-2 pb-1 font-bold
+                      opacity-75"
+                  >
+                    {t("GameListForVideo.searchForGames")}
+                  </span>
                   <IgdbGameSearch
                     games={igdbGames}
                     gamesSelected={video.games}
