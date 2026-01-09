@@ -11,14 +11,14 @@ const AdminVideoCarouselPage: React.FC = () => {
     isFirstVideo,
     isLastVideo,
     isLoadingVideos,
-    noUnverifiedVideos,
+    unverifiedVideosCount,
   } = useContext(UnverifiedVideosListContext);
 
   console.log(currentVideo);
 
   return (
     <PageLayout>
-      {!isLoadingVideos && !noUnverifiedVideos && currentVideo && (
+      {!isLoadingVideos && unverifiedVideosCount && currentVideo && (
         <VideoPageContentModule
           currentVideoId={currentVideo.id}
           goToNextVideo={goToNextUnverifiedVideo}

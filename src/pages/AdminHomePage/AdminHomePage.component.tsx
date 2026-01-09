@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PageLayout from "../../layouts/PageLayout/PageLayout.component";
 import Logo from "../../components/Logo/Logo.component";
 import { useTranslation } from "react-i18next";
@@ -6,10 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { routes } from "../../router/routes.config";
 import MainButton from "../../components/Buttons/MainButton/MainButton.component";
 import { Separator } from "../../components/Separator/Separator.component";
+import { UnverifiedVideosListContext } from "../../contexts/unverifiedVideosList/UnverifiedVideosListContext";
 
 const AdminHomePage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { unverifiedVideosCount } = useContext(UnverifiedVideosListContext);
 
   return (
     <PageLayout noHeader>
@@ -28,12 +30,17 @@ const AdminHomePage: React.FC = () => {
             {t("Admin.manageChannels")}
           </MainButton>
           <Separator direction="vertical" bulletSize="sm" />
-          <MainButton
-            onClick={() => navigate(routes.admin.videos.goTo())}
-            className="w-90"
-          >
-            {t("Admin.reviewVideos")}
-          </MainButton>
+          <div className="flex flex-col items-center gap-8">
+            <span className="font-title text-xl">
+              {t("Admin.reviewVideosLabel", { count: unverifiedVideosCount })}
+            </span>
+            <MainButton
+              onClick={() => navigate(routes.admin.videos.goTo())}
+              className="w-90"
+            >
+              {t("Admin.reviewVideos")}
+            </MainButton>
+          </div>
         </div>
       </div>
     </PageLayout>

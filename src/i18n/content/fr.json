@@ -26,7 +26,8 @@
     "reset": "Réinitialiser",
     "gameMasterMode": "Game Master Mode: ON",
     "manageChannels": "Gérer les chaînes Youtube",
-    "reviewVideos": "Vérifier les nouvelles vidéos"
+    "reviewVideos": "Vérifier les nouvelles vidéos",
+    "reviewVideosLabel": "Tu as {{count}} vidéo(s) en attente de vérification"
   },
   "ChannelForm": {
     "errors": {

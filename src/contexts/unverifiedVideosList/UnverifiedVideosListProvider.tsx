@@ -11,7 +11,7 @@ export const UnverifiedVideosListProvider: React.FC<{
     goToPreviousUnverifiedVideo,
     isFirstVideo,
     isLastVideo,
-    noUnverifiedVideos,
+    unverifiedVideosCount,
     currentVideo,
   } = useUnverifiedVideosListContext();
 
@@ -23,7 +23,7 @@ export const UnverifiedVideosListProvider: React.FC<{
         goToPreviousUnverifiedVideo,
         isFirstVideo,
         isLastVideo,
-        noUnverifiedVideos,
+        unverifiedVideosCount,
         currentVideo,
       }}
     >

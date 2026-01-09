@@ -11,5 +11,5 @@ export const UnverifiedVideosListContext =
     goToPreviousUnverifiedVideo: () => {},
     isFirstVideo: false,
     isLastVideo: false,
-    noUnverifiedVideos: false,
+    unverifiedVideosCount: 0,
   });

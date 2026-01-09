@@ -10,7 +10,7 @@ export type UseUnverifiedVideosListContext = {
   currentVideo?: Video;
   isFirstVideo: boolean;
   isLastVideo: boolean;
-  noUnverifiedVideos: boolean;
+  unverifiedVideosCount?: number;
 };
 
 const useUnverifiedVideosListContext = (): UseUnverifiedVideosListContext => {
@@ -50,7 +50,7 @@ const useUnverifiedVideosListContext = (): UseUnverifiedVideosListContext => {
     goToPreviousUnverifiedVideo,
     isFirstVideo: currentVideoIdx === 0,
     isLastVideo: currentVideoIdx === unverifiedVideos.length - 1,
-    noUnverifiedVideos: unverifiedVideos.length === 0,
+    unverifiedVideosCount: unverifiedVideos.length,
   };
 };
 
