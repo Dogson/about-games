@@ -16,8 +16,6 @@ const meta: Meta<typeof Modal> = {
     onClose: {},
     onConfirm: {},
     onDeny: {},
-    denyImage: {},
-    confirmImage: {},
     children: {},
   },
 };

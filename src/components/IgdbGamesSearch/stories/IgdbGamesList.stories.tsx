@@ -1,12 +1,12 @@
 import type { Meta, StoryFn } from "@storybook/react-vite";
-import IgdbGamesList, {
-  type IgdbGamesListProps,
+import IgdbGameSearch, {
+  type IgdbGameSearchProps,
 } from "../IgdbGamesSearch.component.tsx";
 
 export default {
   title: "Game/IgdbGamesList",
-  component: IgdbGamesList,
-} as Meta<typeof IgdbGamesList>;
+  component: IgdbGameSearch,
+} as Meta<typeof IgdbGameSearch>;
 
 const mockGames = [
   {
@@ -54,11 +54,11 @@ const mockGames = [
     screenshots: [],
     total_rating_count: 50,
   },
-] satisfies IgdbGamesListProps["games"];
+] satisfies IgdbGameSearchProps["games"];
 
-const Template: StoryFn<typeof IgdbGamesList> = (args) => (
+const Template: StoryFn<typeof IgdbGameSearch> = (args) => (
   <div className="w-96">
-    <IgdbGamesList {...args} />
+    <IgdbGameSearch {...args} />
   </div>
 );
 

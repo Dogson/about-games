@@ -55,7 +55,8 @@
   "ApiErrors": {
     "forbidden": "Vous n'avez pas les droits pour cette route.",
     "sessionExpired": "La session a expiré, veuillez vous reconnecter.",
-    "unknown": "Une erreur inconnue est survenue"
+    "unknown": "Une erreur inconnue est survenue",
+    "userNotFound": "Utilisateur non trouvé"
   },
   "Video": {
     "notFound": "La vidéo recherchée n'existe pas"
