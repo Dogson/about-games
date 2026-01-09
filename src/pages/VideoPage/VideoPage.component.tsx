@@ -12,6 +12,7 @@ import GameListForVideo from "../../components/GameListForVideo/GameListForVideo
 import { formatDateLocalized } from "../../helpers/utils/datetime.utils.ts";
 import useIgdbSearch from "../../hooks/useIgdbSearch.hook.ts";
 import IgdbGameSearch from "../../components/IgdbGamesSearch/IgdbGamesSearch.component.tsx";
+import type { GamesListItem } from "../../models/Game.model.ts";
 
 const VideoPage: React.FC = () => {
   const { currentGameId, currentVideoId, goToGame, isAdminRoute } =
@@ -20,11 +21,22 @@ const VideoPage: React.FC = () => {
   const [seekTo, setSeekTo] = React.useState<number>(0);
 
   const { game } = useCurrentGame(currentGameId || -1);
-  const { video, addGame } = useCurrentVideo(currentVideoId || -1);
+  const { video, addGame, removeGame } = useCurrentVideo(currentVideoId || -1);
 
   const { i18n } = useTranslation();
 
   const { searchValue, onChangeSearchValue, igdbGames } = useIgdbSearch();
+
+  const handleClickGame = (game: GamesListItem) => {
+    goToGame({
+      id: game.id,
+      title: game.title,
+    });
+  };
+
+  const handleDeleteGame = (game: GamesListItem) => {
+    removeGame(game.id);
+  };
 
   return (
     <PageLayout>
@@ -72,12 +84,8 @@ const VideoPage: React.FC = () => {
               <div className="mt-2 shrink-0">
                 <GameListForVideo
                   games={video.games}
-                  onGameClick={(game) =>
-                    goToGame({
-                      id: game.id,
-                      title: game.title,
-                    })
-                  }
+                  onGameClick={handleClickGame}
+                  onDeleteGame={isAdminRoute ? handleDeleteGame : undefined}
                 />
               </div>
               {isAdminRoute && (

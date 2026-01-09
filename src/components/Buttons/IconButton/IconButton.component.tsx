@@ -19,6 +19,7 @@ const IconButton: React.FC<IconButtonProps> = ({
     <button
       onClick={(e) => {
         e.preventDefault();
+        e.stopPropagation();
         onClick();
       }}
       className={`flex items-center justify-center rounded-full p-1
