@@ -13,6 +13,7 @@ import { formatDateLocalized } from "../../helpers/utils/datetime.utils.ts";
 import useIgdbSearch from "../../hooks/useIgdbSearch.hook.ts";
 import IgdbGameSearch from "../../components/IgdbGamesSearch/IgdbGamesSearch.component.tsx";
 import type { GamesListItem } from "../../models/Game.model.ts";
+import MainButton from "../../components/Buttons/MainButton/MainButton.component.tsx";
 
 const VideoPage: React.FC = () => {
   const { currentGameId, currentVideoId, goToGame, isAdminRoute } =
@@ -21,9 +22,11 @@ const VideoPage: React.FC = () => {
   const [seekTo, setSeekTo] = React.useState<number>(0);
 
   const { game } = useCurrentGame(currentGameId || -1);
-  const { video, addGame, removeGame } = useCurrentVideo(currentVideoId || -1);
+  const { video, addGame, removeGame, validateVideo } = useCurrentVideo(
+    currentVideoId || -1,
+  );
 
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
 
   const { searchValue, onChangeSearchValue, igdbGames } = useIgdbSearch();
 
@@ -81,12 +84,17 @@ const VideoPage: React.FC = () => {
                   onTimestampClick={setSeekTo}
                 />
               </div>
-              <div className="mt-2 shrink-0">
+              <div className="mt-2 flex shrink-0 flex-col gap-3">
                 <GameListForVideo
                   games={video.games}
                   onGameClick={handleClickGame}
                   onDeleteGame={isAdminRoute ? handleDeleteGame : undefined}
                 />
+                {isAdminRoute && !video.validated && (
+                  <MainButton onClick={() => validateVideo()}>
+                    {t("GameListForVideo.iChecked")}
+                  </MainButton>
+                )}
               </div>
               {isAdminRoute && (
                 <div className="mt-2 w-[300px] shrink-0">

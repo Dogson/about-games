@@ -13,6 +13,7 @@ export type UseCurrentVideo = {
   loading: boolean;
   addGame: (game: CreateGameDTO) => Promise<void>;
   removeGame: (gameId: number) => Promise<void>;
+  validateVideo: () => Promise<void>;
 };
 
 const useCurrentVideo = (videoId: number): UseCurrentVideo => {
@@ -75,11 +76,28 @@ const useCurrentVideo = (videoId: number): UseCurrentVideo => {
     }
   };
 
+  const validateVideo = async () => {
+    if (!video) return;
+    try {
+      await updateOneVideo(videoId, {
+        validated: true,
+      });
+      setVideo(await getOneVideo(videoId));
+    } catch (e) {
+      if (e instanceof SpecificError) {
+        launchErrorToast(t(`${e.apiErrorKey}`));
+      } else {
+        console.error(e);
+      }
+    }
+  };
+
   return {
     video,
     loading,
     addGame,
     removeGame,
+    validateVideo,
   };
 };
 

@@ -6,9 +6,10 @@ import type { CreateGameDTO } from "../games/model/games.model.ts";
 
 const updateOneVideo = async (
   id: number,
-  params: {
+  params: Partial<{
     games: CreateGameDTO[];
-  },
+    validated: boolean;
+  }>,
 ): Promise<void> => {
   try {
     return (await api.patch<void>(`${ApiConfig.routes.videos}/${id}`, params))
