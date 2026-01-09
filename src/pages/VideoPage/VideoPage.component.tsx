@@ -10,20 +10,21 @@ import { Separator } from "../../components/Separator/Separator.component.tsx";
 import { useTranslation } from "react-i18next";
 import GameListForVideo from "../../components/GameListForVideo/GameListForVideo.component.tsx";
 import { formatDateLocalized } from "../../helpers/utils/datetime.utils.ts";
+import useIgdbSearch from "../../hooks/useIgdbSearch.hook.ts";
+import IgdbGameSearch from "../../components/IgdbGamesSearch/IgdbGamesSearch.component.tsx";
 
 const VideoPage: React.FC = () => {
-  const { currentGameId, currentVideoId, goToGame } = useAppRoutes();
-
-  if (!currentGameId || !currentVideoId) {
-    // todo navigate back
-  }
+  const { currentGameId, currentVideoId, goToGame, isAdminRoute } =
+    useAppRoutes();
 
   const [seekTo, setSeekTo] = React.useState<number>(0);
 
   const { game } = useCurrentGame(currentGameId || -1);
-  const { video } = useCurrentVideo(currentVideoId || -1);
+  const { video, addGame } = useCurrentVideo(currentVideoId || -1);
 
   const { i18n } = useTranslation();
+
+  const { searchValue, onChangeSearchValue, igdbGames } = useIgdbSearch();
 
   return (
     <PageLayout>
@@ -43,6 +44,7 @@ const VideoPage: React.FC = () => {
               youtubeId={video.youtubeId}
               seekTo={seekTo}
               title={video.title}
+              smallContainer={isAdminRoute}
             />
             <Separator direction="horizontal" bulletSize="sm" />
             <div className="flex w-full items-start gap-4">
@@ -78,6 +80,17 @@ const VideoPage: React.FC = () => {
                   }
                 />
               </div>
+              {isAdminRoute && (
+                <div className="mt-2 w-[300px] shrink-0">
+                  <IgdbGameSearch
+                    games={igdbGames}
+                    gamesSelected={video.games}
+                    onSelectGame={addGame}
+                    searchValue={searchValue}
+                    onChangeSearchValue={onChangeSearchValue}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>

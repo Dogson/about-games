@@ -73,13 +73,16 @@ const YoutubeVideo: React.FC<YoutubeVideoProps> = ({
   }, [seekTo, playerReady]);
 
   return (
-    <div className={"flex w-full flex-col gap-3"}>
+    <div className={"flex flex-col gap-3"}>
       <span className="font-title text-2xl">{title}</span>
       <div
-        className={`flex aspect-video w-full
-          ${smallContainer ? "max-h-[300px]" : "max-h-[680px]"}`}
+        className={`flex aspect-video self-center
+          ${smallContainer ? "max-h-[300px]" : "max-h-[680px] w-full"}`}
       >
-        <div ref={containerRef} className="h-full w-full rounded-lg" />
+        <div
+          ref={containerRef}
+          className={`h-full rounded-lg ${smallContainer ? "" : "w-full"}`}
+        />
       </div>
     </div>
   );

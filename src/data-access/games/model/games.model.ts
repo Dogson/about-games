@@ -3,7 +3,7 @@ import type { GamesListItem } from "../../../models/Game.model.ts";
 export type CreateGameDTO = {
   igdbId: number;
   title: string;
-  releaseDate: Date | null;
+  releaseDate: string | null;
   ignoreDuringSearch?: boolean;
   companies: string[];
   coverImg: string | null;

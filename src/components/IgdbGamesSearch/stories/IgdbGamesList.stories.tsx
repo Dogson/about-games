@@ -1,7 +1,7 @@
 import type { Meta, StoryFn } from "@storybook/react-vite";
 import IgdbGamesList, {
   type IgdbGamesListProps,
-} from "../IgdbGamesList.component.tsx";
+} from "../IgdbGamesSearch.component.tsx";
 
 export default {
   title: "Game/IgdbGamesList",
