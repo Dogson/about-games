@@ -23,7 +23,11 @@
   },
   "Admin": {
     "accuracy": "Précision",
-    "reset": "Réinitialiser"
+    "reset": "Réinitialiser",
+    "gameMasterMode": "Game Master Mode: ON",
+    "manageChannels": "Gérer les chaînes Youtube",
+    "reviewVideos": "Vérifier les nouvelles vidéos",
+    "reviewVideosLabel": "Tu as {{count}} vidéo(s) en attente de vérification"
   },
   "ChannelForm": {
     "errors": {
@@ -51,7 +55,8 @@
   "ApiErrors": {
     "forbidden": "Vous n'avez pas les droits pour cette route.",
     "sessionExpired": "La session a expiré, veuillez vous reconnecter.",
-    "unknown": "Une erreur inconnue est survenue"
+    "unknown": "Une erreur inconnue est survenue",
+    "userNotFound": "Utilisateur non trouvé"
   },
   "Video": {
     "notFound": "La vidéo recherchée n'existe pas"
@@ -60,5 +65,8 @@
     "tba": "À venir",
     "notFound": "Le jeu recherché n'existe pas",
     "ignoreDuringSearch": "Ignorer ce jeu de la détection automatique de jeux"
+  },
+  "IgdbGameSearch": {
+    "noResults": "Aucun jeu trouvé"
   }
 }

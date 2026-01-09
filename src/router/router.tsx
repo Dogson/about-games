@@ -9,7 +9,7 @@ import AuthRoute from "./AuthRoute.tsx";
 import AdminHomePage from "../pages/AdminHomePage/AdminHomePage.component.tsx";
 import AdminChannelsListPage from "../pages/AdminChannelsListPage/AdminChannelsListPage.component.tsx";
 import AdminChannelPage from "../pages/AdminChannelPage/AdminChannelPage.component.tsx";
-import AdminVideosListPage from "../pages/AdminVideosListPage/AdminVideosListPage.component.tsx";
+import AdminVideoCarouselPage from "../pages/AdminVideoCarouselPage/AdminVideoCarouselPage.component.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -48,7 +48,7 @@ export const router = createBrowserRouter([
       {
         path: routes.admin.videos.path,
         element: <AuthRoute />,
-        children: [{ path: "", element: <AdminVideosListPage /> }],
+        children: [{ path: "", element: <AdminVideoCarouselPage /> }],
       },
       {
         path: routes.game.video.admin.path,

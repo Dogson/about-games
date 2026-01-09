@@ -18,7 +18,9 @@ export const mapIgdbGamesToCreateGamesDTO = (
     coverImg: igdbGame.screenshots?.[0]?.url
       ? `https:${igdbGame.screenshots?.[0]?.url.replace("t_thumb", "t_1080p")}`
       : null,
-    releaseDate: firstReleaseDate ? new Date(firstReleaseDate * 1000) : null,
+    releaseDate: firstReleaseDate
+      ? new Date(firstReleaseDate * 1000).toISOString()
+      : null,
     companies: (igdbGame.involved_companies || []).map(
       (company) => company.company.name,
     ),

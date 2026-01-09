@@ -41,16 +41,14 @@ const useCurrentVideo = (videoId: number): UseCurrentVideo => {
   );
 
   useEffect(() => {
-    if (videoId) {
-      fetchVideo(videoId);
-    }
+    fetchVideo(videoId);
   }, [fetchVideo, videoId]);
 
   const addGame = async (game: CreateGameDTO) => {
     if (!video) return;
     try {
-      await updateOneVideo(videoId, { games: [...video.games, game] });
-      setVideo(await getOneVideo(videoId));
+      await updateOneVideo(video.id, { games: [...video.games, game] });
+      setVideo(await getOneVideo(video.id));
     } catch (e) {
       if (e instanceof SpecificError) {
         launchErrorToast(t(`${e.apiErrorKey}`));
@@ -63,10 +61,10 @@ const useCurrentVideo = (videoId: number): UseCurrentVideo => {
   const removeGame = async (gameId: number) => {
     if (!video) return;
     try {
-      await updateOneVideo(videoId, {
+      await updateOneVideo(video.id, {
         games: video.games.filter((g) => g.id !== gameId),
       });
-      setVideo(await getOneVideo(videoId));
+      setVideo(await getOneVideo(video.id));
     } catch (e) {
       if (e instanceof SpecificError) {
         launchErrorToast(t(`${e.apiErrorKey}`));
@@ -79,10 +77,10 @@ const useCurrentVideo = (videoId: number): UseCurrentVideo => {
   const validateVideo = async () => {
     if (!video) return;
     try {
-      await updateOneVideo(videoId, {
+      await updateOneVideo(video.id, {
         validated: true,
       });
-      setVideo(await getOneVideo(videoId));
+      setVideo(await getOneVideo(video.id));
     } catch (e) {
       if (e instanceof SpecificError) {
         launchErrorToast(t(`${e.apiErrorKey}`));

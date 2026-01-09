@@ -9,12 +9,16 @@ type UseIgdbSearch = {
   searchValue: string;
   onChangeSearchValue: (value: string) => void;
   igdbGames: IGDBGame[];
+  isSearching: boolean;
+  noGamesFound: boolean;
 };
 
 const useIgdbSearch = (): UseIgdbSearch => {
   const { t } = useTranslation();
   const [searchValue, setSearchValue] = useState<string>("");
   const [igdbGames, setGames] = useState<IGDBGame[]>([]);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [noGamesFound, setNoGamesFound] = useState<boolean>(false);
 
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const latestRequestId = useRef<number>(0);
@@ -22,13 +26,15 @@ const useIgdbSearch = (): UseIgdbSearch => {
   const searchForIgdbGames = useCallback(
     async (search: string) => {
       const requestId = ++latestRequestId.current;
-
+      setNoGamesFound(false);
       try {
+        setIsSearching(true);
         const result = await searchIgdbGames({ search });
 
         // Ignore old requests
         if (requestId === latestRequestId.current) {
           setGames(result);
+          setNoGamesFound(result.length === 0);
         }
       } catch (e) {
         if (requestId !== latestRequestId.current) return; // ignore stale errors too
@@ -38,6 +44,8 @@ const useIgdbSearch = (): UseIgdbSearch => {
         } else {
           console.error(e);
         }
+      } finally {
+        setIsSearching(false);
       }
     },
     [t],
@@ -69,6 +77,8 @@ const useIgdbSearch = (): UseIgdbSearch => {
     searchValue,
     onChangeSearchValue: setSearchValue,
     igdbGames,
+    isSearching,
+    noGamesFound,
   };
 };
 

@@ -6,12 +6,39 @@ import { timestampStrToSeconds } from "../../helpers/utils/datetime.utils.ts";
 const timestampRegex = /\b(?:\d{1,2}:)?\d{1,2}:\d{2}\b/g;
 const splitRegex = /(\b(?:\d{1,2}:)?\d{1,2}:\d{2}\b)/g;
 
+const MAX_URL_LENGTH = 50;
+
 const linkifyOptions = {
   formatHref: (href: string, type: string) => {
     if (type === "hashtag") {
       return `https://youtube.com/hashtag/${href.replace("#", "")}`;
     }
     return href;
+  },
+  render: {
+    url: ({
+      attributes,
+      content,
+    }: {
+      attributes: React.AnchorHTMLAttributes<HTMLAnchorElement>;
+      content: string;
+    }) => {
+      const { href, ...rest } = attributes;
+
+      return (
+        <a
+          {...rest}
+          href={href}
+          title={content}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {content.length > MAX_URL_LENGTH
+            ? content.slice(0, MAX_URL_LENGTH - 1) + "…"
+            : content}
+        </a>
+      );
+    },
   },
 };
 
