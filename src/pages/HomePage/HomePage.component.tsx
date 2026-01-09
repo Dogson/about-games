@@ -8,10 +8,15 @@ import SearchInput from "../../components/Inputs/SearchInput/SearchInput.compone
 import PageLayout from "../../layouts/PageLayout/PageLayout.component.tsx";
 import useElementInViewport from "../../hooks/useElementInViewport.hook.ts";
 import useAppRoutes from "../../hooks/useAppRoutes.hook.ts";
-import { useNavigationType } from "react-router-dom";
+import { useNavigate, useNavigationType } from "react-router-dom";
+import IconButton from "../../components/Buttons/IconButton/IconButton.component.tsx";
+import { AuthContext } from "../../contexts/auth/AuthContext.ts";
+import { LuSettings } from "react-icons/lu";
+import { routes } from "../../router/routes.config.ts";
 
 const HomePage: React.FC = () => {
   const { t } = useTranslation();
+  const { isAdmin } = useContext(AuthContext);
 
   const { games, nextPage, onChangeSearchFilter, searchFilter } =
     useContext(GamesListContext);
@@ -20,6 +25,7 @@ const HomePage: React.FC = () => {
   const [isLogoInView, setIsLogoInView] = useState(true);
   const { goToGame } = useAppRoutes();
   const navigationType = useNavigationType();
+  const navigate = useNavigate();
 
   useElementInViewport(logoRef, (inView) => {
     setIsLogoInView(inView);
@@ -37,6 +43,13 @@ const HomePage: React.FC = () => {
         className="flex min-h-full w-full flex-1 flex-col items-center gap-8
           pt-20"
       >
+        {isAdmin && (
+          <IconButton
+            className="absolute top-4 right-4"
+            Icon={LuSettings}
+            onClick={() => navigate(routes.admin.goTo())}
+          />
+        )}
         <section className="flex w-150 max-w-screen flex-col items-center gap-8">
           <div ref={logoRef} className="cursor-default">
             <Logo />
