@@ -1,7 +1,8 @@
 import {
+  ChannelLanguages,
+  type ChannelLanguage,
   type ChannelParsingAttribute,
   ChannelParsingAttributes,
-  type ChannelParsingOptions,
 } from "../../../models/Channel.model.ts";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,47 +10,58 @@ import { isStringRegexp } from "../../../helpers/utils/string.ts";
 import Input from "../../Inputs/Input/Input.component.tsx";
 import MultiInput from "../../Inputs/MultiInput/MultiInput.component.tsx";
 import MainButton from "../../Buttons/MainButton/MainButton.component.tsx";
+import type { CreateChannelDTO } from "../../../data-access/channels/model/channels.model.ts";
 
 export type ChannelParsingFormProps = {
-  initialValues?: Partial<ChannelParsingOptions & { channelId: string }>;
-  onSubmit: (values: ChannelParsingOptions) => void;
+  value?: Partial<CreateChannelDTO>;
+  onChange: (channel: Partial<CreateChannelDTO>) => void;
+  onSubmit: () => void;
+  loading: boolean;
+  onDelete?: () => void;
 };
 
 type ChannelParsingErrors = {
-  channelId: string | null;
+  youtubeHandle: string | null;
+  language: string | null;
   parsingAttribute: string | null;
   ignoreEpisodesContaining: (string | null)[];
   ignoreSearchIn: (string | null)[];
   endParsingAfter: (string | null)[];
+  ignoreEpisodesMissing: (string | null)[];
 };
 
 const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
-  initialValues,
+  value,
+  onChange,
   onSubmit,
+  loading,
+  onDelete,
 }) => {
   const { t } = useTranslation();
 
-  const [channelId, setChannelId] = React.useState(initialValues?.channelId);
-
-  const [parsingAttribute, setParsingAttribute] = React.useState(
-    initialValues?.parsingAttribute,
-  );
-  const [ignoreEpisodesContaining, setIgnoreEpisodesContaining] =
-    React.useState(initialValues?.ignoreEpisodesContaining || []);
-  const [ignoreSearchIn, setIgnoreSearchIn] = React.useState(
-    initialValues?.ignoreSearchIn || [],
-  );
-  const [endParsingAfter, setEndParsingAfter] = React.useState(
-    initialValues?.endParsingAfter || [],
-  );
-
   const [errors, setErrors] = useState<ChannelParsingErrors>({
-    channelId: null,
-    endParsingAfter: [],
+    youtubeHandle: null,
+    language: null,
+    parsingAttribute: null,
     ignoreEpisodesContaining: [],
     ignoreSearchIn: [],
-    parsingAttribute: null,
+    endParsingAfter: [],
+    ignoreEpisodesMissing: [],
   });
+
+  const getParsingOptions = () => {
+    return {
+      parsingAttribute:
+        (value?.parsingOptions?.parsingAttribute as
+          | ChannelParsingAttribute
+          | undefined) || ("title" as ChannelParsingAttribute),
+      ignoreEpisodesContaining:
+        value?.parsingOptions?.ignoreEpisodesContaining || [],
+      ignoreSearchIn: value?.parsingOptions?.ignoreSearchIn || [],
+      endParsingAfter: value?.parsingOptions?.endParsingAfter || [],
+      ignoreEpisodesMissing: value?.parsingOptions?.ignoreEpisodesMissing || [],
+    };
+  };
 
   const validateRegexList = (values: string[]): (string | null)[] => {
     return values.map((value) => {
@@ -65,7 +77,33 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
   const validateForm = () => {
     let isFormValid = true;
 
-    if (!parsingAttribute) {
+    if (!value?.youtubeHandle) {
+      setErrors((prev) => ({
+        ...prev,
+        youtubeHandle: t("ChannelForm.errors.required"),
+      }));
+      isFormValid = false;
+    }
+
+    if (!value?.language) {
+      setErrors((prev) => ({
+        ...prev,
+        language: t("ChannelForm.errors.required"),
+      }));
+      isFormValid = false;
+    } else if (
+      !Object.values(ChannelLanguages).includes(
+        value?.language as ChannelLanguage,
+      )
+    ) {
+      setErrors((prev) => ({
+        ...prev,
+        language: t("ChannelForm.errors.invalidLanguage"),
+      }));
+      isFormValid = false;
+    }
+
+    if (!value?.parsingOptions?.parsingAttribute) {
       setErrors((prev) => ({
         ...prev,
         parsingAttribute: t("ChannelForm.errors.required"),
@@ -73,7 +111,7 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
       isFormValid = false;
     } else if (
       !ChannelParsingAttributes.includes(
-        parsingAttribute as ChannelParsingAttribute,
+        value?.parsingOptions?.parsingAttribute as ChannelParsingAttribute,
       )
     ) {
       setErrors((prev) => ({
@@ -83,92 +121,261 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
       isFormValid = false;
     }
 
-    const endParsingAfterErrors = validateRegexList(endParsingAfter);
-    const ignoreEpisodesContainingErrors = validateRegexList(
-      ignoreEpisodesContaining,
-    );
-    const ignoreSearchInErrors = validateRegexList(ignoreSearchIn);
-
     setErrors((prev) => ({
       ...prev,
-      endParsingAfter: endParsingAfterErrors,
-      ignoreEpisodesContaining: ignoreEpisodesContainingErrors,
-      ignoreSearchIn: ignoreSearchInErrors,
+      endParsingAfter: validateRegexList(
+        value?.parsingOptions?.endParsingAfter || [],
+      ),
+      ignoreEpisodesContaining: validateRegexList(
+        value?.parsingOptions?.ignoreEpisodesContaining || [],
+      ),
+      ignoreSearchIn: validateRegexList(
+        value?.parsingOptions?.ignoreSearchIn || [],
+      ),
+      ignoreEpisodesMissing: validateRegexList(
+        value?.parsingOptions?.ignoreEpisodesMissing || [],
+      ),
     }));
 
     if (
-      endParsingAfterErrors.some(Boolean) ||
-      ignoreEpisodesContainingErrors.some(Boolean) ||
-      ignoreSearchInErrors.some(Boolean)
+      validateRegexList(value?.parsingOptions?.endParsingAfter || []).some(
+        Boolean,
+      ) ||
+      validateRegexList(
+        value?.parsingOptions?.ignoreEpisodesContaining || [],
+      ).some(Boolean) ||
+      validateRegexList(value?.parsingOptions?.ignoreSearchIn || []).some(
+        Boolean,
+      ) ||
+      validateRegexList(
+        value?.parsingOptions?.ignoreEpisodesMissing || [],
+      ).some(Boolean)
     ) {
       isFormValid = false;
     }
 
+    onChange?.({
+      ...value,
+      parsingOptions: {
+        parsingAttribute: value?.parsingOptions
+          ?.parsingAttribute as ChannelParsingAttribute,
+        endParsingAfter: value?.parsingOptions?.endParsingAfter || [],
+        ignoreEpisodesContaining:
+          value?.parsingOptions?.ignoreEpisodesContaining || [],
+        ignoreSearchIn: value?.parsingOptions?.ignoreSearchIn || [],
+        ignoreEpisodesMissing:
+          value?.parsingOptions?.ignoreEpisodesMissing || [],
+      },
+    });
+
     if (isFormValid) {
-      onSubmit({
-        parsingAttribute: parsingAttribute as ChannelParsingAttribute,
-        endParsingAfter,
-        ignoreEpisodesContaining,
-        ignoreSearchIn,
-      });
+      onSubmit?.();
     }
   };
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    validateForm();
+  };
+
   return (
-    <form onSubmit={validateForm} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="grid grid-cols-2 gap-x-10 gap-y-6">
         <Input
-          label={t("ChannelForm.parsingAttribute")}
-          value={channelId || ""}
-          onChange={(value) => setChannelId(value)}
-          error={errors.channelId}
+          label={t("ChannelForm.youtubeHandle")}
+          value={value?.youtubeHandle || ""}
+          onChange={(newValue) =>
+            onChange?.({ ...value, youtubeHandle: newValue })
+          }
+          error={errors.youtubeHandle}
         />
         <Input
+          label={t("ChannelForm.language")}
+          value={value?.language || ""}
+          onChange={(newValue) =>
+            onChange?.({ ...value, language: newValue as "en" | "fr" })
+          }
+          error={errors.language}
+        />
+
+        <Input
           label={t("ChannelForm.parsingAttribute")}
-          value={parsingAttribute || ""}
-          onChange={(value) =>
-            setParsingAttribute(value as ChannelParsingAttribute)
+          value={value?.parsingOptions?.parsingAttribute || ""}
+          onChange={(newValue) =>
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ...getParsingOptions(),
+                parsingAttribute: newValue as ChannelParsingAttribute,
+              },
+            })
           }
           error={errors.parsingAttribute}
         />
         <MultiInput
           label={t("ChannelForm.ignoreEpisodesContaining")}
-          value={ignoreEpisodesContaining}
-          onChange={(values) => setIgnoreEpisodesContaining(values)}
+          value={value?.parsingOptions?.ignoreEpisodesContaining || []}
+          onChange={(values) =>
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ...getParsingOptions(),
+                ignoreEpisodesContaining: values,
+              },
+            })
+          }
           errors={errors.ignoreEpisodesContaining}
           onAddInput={() =>
-            setIgnoreEpisodesContaining((values) => [...values, ""])
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ...getParsingOptions(),
+                ignoreEpisodesContaining: [
+                  ...(value?.parsingOptions?.ignoreEpisodesContaining || []),
+                  "",
+                ],
+              },
+            })
           }
           onRemoveInput={(index) =>
-            setIgnoreEpisodesContaining((values) =>
-              values.filter((_, i) => i !== index),
-            )
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ...getParsingOptions(),
+                ignoreEpisodesContaining: (
+                  value?.parsingOptions?.ignoreEpisodesContaining || []
+                ).filter((_: string, i: number) => i !== index),
+              },
+            })
           }
         />
         <MultiInput
           label={t("ChannelForm.ignoreSearchIn")}
-          value={ignoreSearchIn}
-          onChange={(values) => setIgnoreSearchIn(values)}
+          value={value?.parsingOptions?.ignoreSearchIn || []}
+          onChange={(values) =>
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ...getParsingOptions(),
+                ignoreSearchIn: values,
+              },
+            })
+          }
           errors={errors.ignoreSearchIn}
-          onAddInput={() => setIgnoreSearchIn((values) => [...values, ""])}
+          onAddInput={() =>
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ...getParsingOptions(),
+                ignoreSearchIn: [
+                  ...(value?.parsingOptions?.ignoreSearchIn || []),
+                  "",
+                ],
+              },
+            })
+          }
           onRemoveInput={(index) =>
-            setIgnoreSearchIn((values) => values.filter((_, i) => i !== index))
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ...getParsingOptions(),
+                ignoreSearchIn: (
+                  value?.parsingOptions?.ignoreSearchIn || []
+                ).filter((_: string, i: number) => i !== index),
+              },
+            })
           }
         />
         <MultiInput
           label={t("ChannelForm.endParsingAfter")}
-          value={endParsingAfter}
-          onChange={(values) => setEndParsingAfter(values)}
+          value={value?.parsingOptions?.endParsingAfter || []}
+          onChange={(values) =>
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ...getParsingOptions(),
+                endParsingAfter: values,
+              },
+            })
+          }
           errors={errors.endParsingAfter}
-          onAddInput={() => setEndParsingAfter((values) => [...values, ""])}
+          onAddInput={() =>
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ...getParsingOptions(),
+                endParsingAfter: [
+                  ...(value?.parsingOptions?.endParsingAfter || []),
+                  "",
+                ],
+              },
+            })
+          }
           onRemoveInput={(index) =>
-            setEndParsingAfter((values) => values.filter((_, i) => i !== index))
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ...getParsingOptions(),
+                endParsingAfter: (
+                  value?.parsingOptions?.endParsingAfter || []
+                ).filter((_: string, i: number) => i !== index),
+              },
+            })
+          }
+        />
+        <MultiInput
+          label={t("ChannelForm.ignoreEpisodesMissing")}
+          value={value?.parsingOptions?.ignoreEpisodesMissing || []}
+          onChange={(values) =>
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ...getParsingOptions(),
+                ignoreEpisodesMissing: values,
+              },
+            })
+          }
+          errors={errors.ignoreEpisodesMissing}
+          onAddInput={() =>
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ...getParsingOptions(),
+                ignoreEpisodesMissing: [
+                  ...(value?.parsingOptions?.ignoreEpisodesMissing || []),
+                  "",
+                ],
+              },
+            })
+          }
+          onRemoveInput={(index) =>
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ...getParsingOptions(),
+                ignoreEpisodesMissing: (
+                  value?.parsingOptions?.ignoreEpisodesMissing || []
+                ).filter((_: string, i: number) => i !== index),
+              },
+            })
           }
         />
       </div>
-      <MainButton className="self-end" onClick={validateForm}>
-        {t("GameSearchsave")}
-      </MainButton>
+      <div className="flex flex-row-reverse justify-between">
+        <MainButton type="submit" className="self-end" loading={loading}>
+          {t("common.save")}
+        </MainButton>
+        {onDelete && (
+          <MainButton
+            danger
+            type="button"
+            className="self-end"
+            onClick={onDelete}
+          >
+            {t("common.delete")}
+          </MainButton>
+        )}
+      </div>
     </form>
   );
 };

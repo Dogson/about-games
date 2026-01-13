@@ -10,6 +10,7 @@ import AdminHomePage from "../pages/AdminHomePage/AdminHomePage.component.tsx";
 import AdminChannelsListPage from "../pages/AdminChannelsListPage/AdminChannelsListPage.component.tsx";
 import AdminChannelPage from "../pages/AdminChannelPage/AdminChannelPage.component.tsx";
 import AdminVideoCarouselPage from "../pages/AdminVideoCarouselPage/AdminVideoCarouselPage.component.tsx";
+import AdminCreateChannelPage from "../pages/AdminCreateChannelPage/AdminCreateChannelPage.component.tsx";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +45,11 @@ export const router = createBrowserRouter([
         path: routes.admin.channel.path,
         element: <AuthRoute />,
         children: [{ path: "", element: <AdminChannelPage /> }],
+      },
+      {
+        path: routes.admin.channelCreate.path,
+        element: <AuthRoute />,
+        children: [{ path: "", element: <AdminCreateChannelPage /> }],
       },
       {
         path: routes.admin.videos.path,

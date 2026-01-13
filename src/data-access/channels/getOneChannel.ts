@@ -2,11 +2,12 @@ import { api } from "../../helpers/axios/axios.ts";
 import ApiConfig from "../../config/api.config.ts";
 import { AxiosError } from "axios";
 import { ApiErrorType, SpecificError } from "../../types/error/error.types.ts";
-import type { Video } from "../../models/Video.model.ts";
+import type { Channel } from "../../models/Channel.model.ts";
 
-const getOneVideo = async (videoId: number): Promise<Video> => {
+const getOneChannel = async (channelId: number): Promise<Channel> => {
   try {
-    return (await api.get<Video>(`${ApiConfig.routes.videos}/${videoId}`)).data;
+    return (await api.get<Channel>(`${ApiConfig.routes.channels}/${channelId}`))
+      .data;
   } catch (e: unknown) {
     if (e instanceof AxiosError) {
       if (e.response?.status === 403) {
@@ -17,4 +18,4 @@ const getOneVideo = async (videoId: number): Promise<Video> => {
   }
 };
 
-export default getOneVideo;
+export default getOneChannel;

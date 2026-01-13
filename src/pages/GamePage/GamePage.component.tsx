@@ -10,13 +10,13 @@ import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../contexts/auth/AuthContext.ts";
 
 const GamePage: React.FC = () => {
-  const { currentGameId, goToVideo } = useAppRoutes();
+  const { currentGameId, goToVideo, goToParentRoute } = useAppRoutes();
   const { isAdmin } = useContext(AuthContext);
   const [modalOpened, setModalOpened] = useState(false);
   const { t } = useTranslation();
 
   if (!currentGameId) {
-    // todo navigate back
+    goToParentRoute();
   }
 
   const { game, changeGameOptions } = useCurrentGame(currentGameId || -1);

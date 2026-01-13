@@ -8,6 +8,7 @@ export type Video = {
   description: string;
   releaseDate: string;
   validated?: boolean;
+  ignored?: boolean;
   gamesFoundCount: number;
   gamesCount: number;
   thumbnailUrl: string;

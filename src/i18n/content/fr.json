@@ -6,7 +6,8 @@
     },
     "games": "Jeux",
     "videos": "Vidéos",
-    "save": "Enregistrer"
+    "save": "Enregistrer",
+    "delete": "Supprimer"
   },
   "GameSearch": {
     "noResults": "Aucun jeu trouvé",
@@ -19,6 +20,7 @@
   "GameListForVideo": {
     "gamesItsAbout": "Jeux abordés",
     "iChecked": "J'ai verifié chef ✅",
+    "ignoreVideo": "Ignorer la vidéo",
     "searchForGames": "Rechercher des jeux à ajouter"
   },
   "Admin": {
@@ -27,17 +29,29 @@
     "gameMasterMode": "Game Master Mode: ON",
     "manageChannels": "Gérer les chaînes Youtube",
     "reviewVideos": "Vérifier les nouvelles vidéos",
-    "reviewVideosLabel": "Tu as {{count}} vidéo(s) en attente de vérification"
+    "reviewVideosLabel": "Tu as {{count}} vidéo(s) en attente de vérification",
+    "createChannel": "Ajouter une chaîne"
   },
   "ChannelForm": {
     "errors": {
       "required": "Ce champ est requis",
-      "invalidRegexp": "Expression régulière invalide"
+      "invalidRegexp": "Expression régulière invalide",
+      "invalidLanguage": "Langue invalide",
+      "invalidAttribute": "Attribut invalide"
     },
+    "youtubeHandle": "Handle de la chaîne Youtube",
+    "language": "Langue",
     "parsingAttribute": "Attribut à analyser",
     "ignoreEpisodesContaining": "Ignorer les épisodes contenant ces regexp",
     "ignoreSearchIn": "Ignorer la recherche de jeu dans ces regexp",
-    "endParsingAfter": "Arrêter l'analyse après ces regexp"
+    "endParsingAfter": "Arrêter l'analyse après ces regexp",
+    "ignoreEpisodesMissing": "Ignorer les épisodes manquants ces regexp",
+    "deleteChannel": {
+      "title": "Supprimer la chaîne",
+      "message": "Êtes-vous sûr de vouloir supprimer cette chaîne ? Cette action est irréversible.",
+      "confirm": "Supprimer",
+      "cancel": "Annuler"
+    }
   },
   "Homepage": {
     "tagline": "Là où les vidéastes et essayistes parlent jeux."

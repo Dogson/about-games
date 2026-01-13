@@ -13,7 +13,8 @@ export type UseCurrentVideo = {
   loading: boolean;
   addGame: (game: CreateGameDTO) => Promise<void>;
   removeGame: (gameId: number) => Promise<void>;
-  validateVideo: () => Promise<void>;
+  validateVideo: (onSuccess?: () => void) => Promise<void>;
+  ignoreVideo: (onSuccess?: () => void) => Promise<void>;
 };
 
 const useCurrentVideo = (videoId: number): UseCurrentVideo => {
@@ -74,13 +75,33 @@ const useCurrentVideo = (videoId: number): UseCurrentVideo => {
     }
   };
 
-  const validateVideo = async () => {
+  const validateVideo = async (onSuccess?: () => void) => {
     if (!video) return;
     try {
       await updateOneVideo(video.id, {
         validated: true,
       });
       setVideo(await getOneVideo(video.id));
+      onSuccess?.();
+    } catch (e) {
+      if (e instanceof SpecificError) {
+        launchErrorToast(t(`${e.apiErrorKey}`));
+      } else {
+        console.error(e);
+      }
+    }
+  };
+
+  const ignoreVideo = async (onSuccess?: () => void) => {
+    if (!video) return;
+    try {
+      await updateOneVideo(video.id, {
+        ignored: true,
+        validated: true,
+        games: [],
+      });
+      setVideo(await getOneVideo(video.id));
+      onSuccess?.();
     } catch (e) {
       if (e instanceof SpecificError) {
         launchErrorToast(t(`${e.apiErrorKey}`));
@@ -96,6 +117,7 @@ const useCurrentVideo = (videoId: number): UseCurrentVideo => {
     addGame,
     removeGame,
     validateVideo,
+    ignoreVideo,
   };
 };
 

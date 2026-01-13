@@ -36,7 +36,7 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
 }) => {
   const { i18n, t } = useTranslation();
   const { goToGame, isAdminRoute } = useAppRoutes();
-  const { video, addGame, removeGame, validateVideo } =
+  const { video, addGame, removeGame, validateVideo, ignoreVideo } =
     useCurrentVideo(currentVideoId);
   const {
     searchValue,
@@ -57,6 +57,22 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
 
   const handleDeleteGame = (game: GamesListItem) => {
     removeGame(game.id);
+  };
+
+  const handleValidateVideo = () => {
+    validateVideo(() => {
+      if (goToNextVideo && !isLastVideo) {
+        goToNextVideo();
+      }
+    });
+  };
+
+  const handleIgnoreVideo = () => {
+    ignoreVideo(() => {
+      if (goToNextVideo && !isLastVideo) {
+        goToNextVideo();
+      }
+    });
   };
 
   return (
@@ -129,8 +145,13 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                   onDeleteGame={isAdminRoute ? handleDeleteGame : undefined}
                 />
                 {isAdminRoute && !video.validated && (
-                  <MainButton onClick={() => validateVideo()}>
+                  <MainButton onClick={handleValidateVideo}>
                     {t("GameListForVideo.iChecked")}
+                  </MainButton>
+                )}
+                {isAdminRoute && !video.ignored && (
+                  <MainButton onClick={handleIgnoreVideo} danger>
+                    {t("GameListForVideo.ignoreVideo")}
                   </MainButton>
                 )}
               </div>

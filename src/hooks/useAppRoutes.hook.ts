@@ -10,8 +10,10 @@ type UseAppRoutes = {
     title: string;
     game: { title: string; id: number };
   }) => void;
+  goToChannel: (channel: { id: number; title: string }) => void;
   currentGameId: number | null;
   currentVideoId: number | null;
+  currentChannelId: number | null;
   isAdminRoute: boolean;
   goToParentRoute: () => void;
 };
@@ -21,9 +23,10 @@ const useAppRoutes = (): UseAppRoutes => {
 
   const location = useLocation();
 
-  const { gameIdTitle, videoIdTitle } = useParams<{
+  const { gameIdTitle, videoIdTitle, channelIdTitle } = useParams<{
     gameIdTitle: string;
     videoIdTitle: string;
+    channelIdTitle: string;
   }>();
 
   const goToGame = (game: { title: string; id: number }) => {
@@ -60,17 +63,40 @@ const useAppRoutes = (): UseAppRoutes => {
     return null;
   }, [videoIdTitle]);
 
+  const currentChannelId = useMemo(() => {
+    if (channelIdTitle) return getIdFromSlug(channelIdTitle);
+    return null;
+  }, [channelIdTitle]);
+
   const goToParentRoute = useCallback(() => {
     const parentPath =
       location.pathname.split("/").slice(0, -1).join("/") || "/";
     navigate(parentPath);
-  }, []);
+  }, [location.pathname, navigate]);
+
+  const goToChannel = (channel: { id: number; title: string }) => {
+    console.log(
+      routes.admin.channel.goTo({
+        id: channel.id,
+        title: channel.title,
+      }),
+    );
+
+    navigate(
+      routes.admin.channel.goTo({
+        id: channel.id,
+        title: channel.title,
+      }),
+    );
+  };
 
   return {
     goToGame,
     goToVideo,
+    goToChannel,
     currentGameId,
     currentVideoId,
+    currentChannelId,
     goToParentRoute,
     isAdminRoute:
       location.pathname.endsWith("/admin") ||

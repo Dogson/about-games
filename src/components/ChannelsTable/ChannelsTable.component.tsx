@@ -8,6 +8,7 @@ import ChannelNameAndThumbnail from "../ChannelNameAndThumbnail/ChannelNameAndTh
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import Tooltip from "../Tooltip/Tooltip.component.tsx";
 import SearchInput from "../Inputs/SearchInput/SearchInput.component.tsx";
+import useAppRoutes from "../../hooks/useAppRoutes.hook.ts";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -52,6 +53,7 @@ const LastParsingErrorCell = ({
 
 const ChannelsTable = ({ channels }: ChannelsTableProps) => {
   const [searchText, setSearchText] = useState("");
+  const { goToChannel } = useAppRoutes();
 
   const columnDefs: ColDef<Channel>[] = useMemo(
     () => [
@@ -125,6 +127,11 @@ const ChannelsTable = ({ channels }: ChannelsTableProps) => {
         defaultColDef={{ flex: 1, resizable: true, sortable: true }}
         suppressCellFocus={true}
         domLayout="autoHeight"
+        onRowClicked={(params) => {
+          if (!params.data) return;
+          console.log(params.data);
+          goToChannel({ id: params.data.id, title: params.data.name });
+        }}
       />
     </div>
   );

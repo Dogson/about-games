@@ -6,7 +6,11 @@ export type ChannelParsingOptions = {
   ignoreEpisodesContaining: string[];
   ignoreSearchIn: string[];
   endParsingAfter: string[];
+  ignoreEpisodesMissing: string[];
 };
+
+export const ChannelLanguages = ["en", "fr"] as const;
+export type ChannelLanguage = (typeof ChannelLanguages)[number];
 
 export type Channel = {
   id: number;
@@ -16,7 +20,7 @@ export type Channel = {
   youtubeId: string;
   description: string;
   thumbnailUrl: string;
-  language: string;
+  language: ChannelLanguage;
   parsingOptions: ChannelParsingOptions;
   videosCount: number;
   lastParsingError: {
