@@ -8,7 +8,7 @@ import { Separator } from "../Separator/Separator.component";
 import VideoDescription from "../VideoDescription/VideoDescription.component";
 import YoutubeVideo from "../YoutubeVideo/YoutubeVideo.component";
 import type { Game, GamesListItem } from "../../models/Game.model";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import useAppRoutes from "../../hooks/useAppRoutes.hook";
 import { useTranslation } from "react-i18next";
 import useCurrentVideo from "../../hooks/useCurrentVideo.hook";
@@ -17,6 +17,8 @@ import IconButton from "../Buttons/IconButton/IconButton.component";
 import { FiChevronRight } from "react-icons/fi";
 import { FiChevronLeft } from "react-icons/fi";
 import Modal from "../Modal/Modal.component";
+import { LuSettings } from "react-icons/lu";
+import { AuthContext } from "../../contexts/auth/AuthContext";
 
 type VideoPageContentProps = {
   game?: Game;
@@ -35,8 +37,9 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
   isFirstVideo,
   isLastVideo,
 }) => {
+  const { isAdmin } = useContext(AuthContext);
   const { i18n, t } = useTranslation();
-  const { goToGame, isAdminRoute } = useAppRoutes();
+  const { goToGame, isAdminRoute, goToAdminChildRoute } = useAppRoutes();
   const { video, addGame, removeGame, validateVideo, ignoreVideo } =
     useCurrentVideo(currentVideoId);
   const {
@@ -155,11 +158,22 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                   onTimestampClick={setSeekTo}
                 />
               </div>
-              <div className="mt-2 flex shrink-0 flex-col gap-3">
+              <div className="relative mt-2 flex shrink-0 flex-col gap-3">
+                {isAdmin && !isAdminRoute && (
+                  <div className="absolute top-[-5px] right-0 z-10 self-start">
+                    <IconButton
+                      noCircle
+                      Icon={LuSettings}
+                      onClick={goToAdminChildRoute}
+                      isSmall
+                    />
+                  </div>
+                )}
                 <GameListForVideo
                   games={video.games}
                   onGameClick={handleClickGame}
                   onDeleteGame={isAdminRoute ? handleDeleteGame : undefined}
+                  isAdminRoute={isAdminRoute}
                 />
                 {isAdminRoute && !video.validated && (
                   <MainButton onClick={handleValidateVideo}>

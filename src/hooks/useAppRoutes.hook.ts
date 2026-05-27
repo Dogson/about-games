@@ -16,6 +16,7 @@ type UseAppRoutes = {
   currentChannelId: number | null;
   isAdminRoute: boolean;
   goToParentRoute: () => void;
+  goToAdminChildRoute: () => void;
 };
 
 const useAppRoutes = (): UseAppRoutes => {
@@ -51,6 +52,12 @@ const useAppRoutes = (): UseAppRoutes => {
         videoTitle: video.title,
       }),
     );
+  };
+
+  const goToAdminChildRoute = () => {
+    if (isAdminRoute) return;
+
+    return navigate(`${location.pathname}/admin`);
   };
 
   const currentGameId = useMemo(() => {
@@ -90,6 +97,13 @@ const useAppRoutes = (): UseAppRoutes => {
     );
   };
 
+  const isAdminRoute = useMemo(() => {
+    return (
+      location.pathname.endsWith("/admin") ||
+      location.pathname.includes("/admin/")
+    );
+  }, [location.pathname]);
+
   return {
     goToGame,
     goToVideo,
@@ -98,9 +112,8 @@ const useAppRoutes = (): UseAppRoutes => {
     currentVideoId,
     currentChannelId,
     goToParentRoute,
-    isAdminRoute:
-      location.pathname.endsWith("/admin") ||
-      location.pathname.includes("/admin/"),
+    goToAdminChildRoute,
+    isAdminRoute,
   };
 };
 

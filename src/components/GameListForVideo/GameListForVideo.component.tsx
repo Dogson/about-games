@@ -4,12 +4,14 @@ import { useTranslation } from "react-i18next";
 import GameCard from "../GameCard/GameCard.component.tsx";
 
 export type GameListForVideoProps = {
+  isAdminRoute: boolean;
   games: GamesListItem[];
   onGameClick: (game: GamesListItem) => void;
   onDeleteGame?: (game: GamesListItem) => void;
 };
 
 const GameListForVideo: React.FC<GameListForVideoProps> = ({
+  isAdminRoute,
   games,
   onGameClick,
   onDeleteGame,
@@ -31,6 +33,7 @@ const GameListForVideo: React.FC<GameListForVideoProps> = ({
             isSmall
             onClick={() => onGameClick(game)}
             onDelete={onDeleteGame && (() => onDeleteGame(game))}
+            ignored={isAdminRoute && game.ignoreDuringSearch}
           />
         ))}
       </div>
