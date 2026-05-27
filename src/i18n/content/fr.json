@@ -73,7 +73,13 @@
     "userNotFound": "Utilisateur non trouvé"
   },
   "Video": {
-    "notFound": "La vidéo recherchée n'existe pas"
+    "notFound": "La vidéo recherchée n'existe pas",
+    "ignoreModal": {
+      "title": "Souhaitez-vous ignorer cette vidéo",
+      "body": "Cette vidéo ne sera plus referencée, et aucun jeu ne lui sera associé.",
+      "confirm": "Ignorer la vidéo",
+      "cancel": "Annuler"
+    }
   },
   "Game": {
     "tba": "À venir",

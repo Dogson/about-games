@@ -16,6 +16,7 @@ import useIgdbSearch from "../../hooks/useIgdbSearch.hook";
 import IconButton from "../Buttons/IconButton/IconButton.component";
 import { FiChevronRight } from "react-icons/fi";
 import { FiChevronLeft } from "react-icons/fi";
+import Modal from "../Modal/Modal.component";
 
 type VideoPageContentProps = {
   game?: Game;
@@ -47,6 +48,7 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
   } = useIgdbSearch();
 
   const [seekTo, setSeekTo] = useState<number>(0);
+  const [showIgnoreVideoModal, setShowIgnoreVideoModal] = useState(false);
 
   const handleClickGame = (game: GamesListItem) => {
     goToGame({
@@ -68,6 +70,7 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
   };
 
   const handleIgnoreVideo = () => {
+    setShowIgnoreVideoModal(false);
     ignoreVideo(() => {
       if (goToNextVideo && !isLastVideo) {
         goToNextVideo();
@@ -77,6 +80,20 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
 
   return (
     <>
+      {showIgnoreVideoModal && (
+        <Modal
+          title={t("Video.ignoreModal.title")}
+          onClose={() => setShowIgnoreVideoModal(false)}
+          onConfirm={handleIgnoreVideo}
+          onDeny={() => setShowIgnoreVideoModal(false)}
+          confirmText={t("Video.ignoreModal.confirm")}
+          denyText={t("Video.ignoreModal.cancel")}
+          dangerousAction={true}
+          disableCloseByClickOutside={false}
+        >
+          {t("Video.ignoreModal.body")}
+        </Modal>
+      )}
       {video && (
         <div className="relative px-30 pt-20">
           {game && (
@@ -150,7 +167,10 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                   </MainButton>
                 )}
                 {isAdminRoute && !video.ignored && (
-                  <MainButton onClick={handleIgnoreVideo} danger>
+                  <MainButton
+                    onClick={() => setShowIgnoreVideoModal(true)}
+                    danger
+                  >
                     {t("GameListForVideo.ignoreVideo")}
                   </MainButton>
                 )}
