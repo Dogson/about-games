@@ -16,6 +16,7 @@ export type GameCardProps = {
   onClick?: () => void;
   onDelete?: () => void;
   isFlat?: boolean;
+  onMarkAsIgnored?: () => void;
   ignored?: boolean;
 };
 
@@ -28,6 +29,7 @@ const GameCard: React.FC<GameCardProps> = ({
   isFlat = true,
   onClick,
   onDelete,
+  onMarkAsIgnored,
   ignored = false,
 }) => {
   const [hovered, setHovered] = React.useState(false);
@@ -57,6 +59,14 @@ const GameCard: React.FC<GameCardProps> = ({
           onClick={onDelete}
           isSmall={isSmall}
           className="absolute top-[-10px] right-[-10px]"
+        />
+      )}
+      {onMarkAsIgnored && !ignored && (
+        <IconButton
+          Icon={HiBan}
+          onClick={onMarkAsIgnored}
+          isSmall={isSmall}
+          className="bg-salmon absolute top-[-10px] left-1/2 -translate-x-1/2"
         />
       )}
       {ignored && (

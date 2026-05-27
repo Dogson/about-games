@@ -8,6 +8,7 @@ export type GameListForVideoProps = {
   games: GamesListItem[];
   onGameClick: (game: GamesListItem) => void;
   onDeleteGame?: (game: GamesListItem) => void;
+  onMarkGameAsIgnored: (game: GamesListItem) => void;
 };
 
 const GameListForVideo: React.FC<GameListForVideoProps> = ({
@@ -15,6 +16,7 @@ const GameListForVideo: React.FC<GameListForVideoProps> = ({
   games,
   onGameClick,
   onDeleteGame,
+  onMarkGameAsIgnored,
 }) => {
   const { t } = useTranslation();
 
@@ -33,6 +35,11 @@ const GameListForVideo: React.FC<GameListForVideoProps> = ({
             isSmall
             onClick={() => onGameClick(game)}
             onDelete={onDeleteGame && (() => onDeleteGame(game))}
+            onMarkAsIgnored={
+              isAdminRoute && onMarkGameAsIgnored
+                ? () => onMarkGameAsIgnored(game)
+                : undefined
+            }
             ignored={isAdminRoute && game.ignoreDuringSearch}
           />
         ))}
