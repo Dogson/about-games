@@ -196,6 +196,7 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
             onChange?.({ ...value, language: newValue as "en" | "fr" })
           }
           error={errors.language}
+          placeholder="fr, en"
         />
 
         <Input
@@ -210,10 +211,12 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
               },
             })
           }
+          placeholder="title, description"
           error={errors.parsingAttribute}
         />
         <MultiInput
           label={t("ChannelForm.ignoreEpisodesContaining")}
+          placeholder="/Exemple/i"
           value={value?.parsingOptions?.ignoreEpisodesContaining || []}
           onChange={(values) =>
             onChange?.({

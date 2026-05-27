@@ -7,7 +7,8 @@
     "games": "Jeux",
     "videos": "Vidéos",
     "save": "Enregistrer",
-    "delete": "Supprimer"
+    "delete": "Supprimer",
+    "close": "Fermer"
   },
   "GameSearch": {
     "noResults": "Aucun jeu trouvé",
@@ -30,7 +31,8 @@
     "manageChannels": "Gérer les chaînes Youtube",
     "reviewVideos": "Vérifier les nouvelles vidéos",
     "reviewVideosLabel": "Tu as {{count}} vidéo(s) en attente de vérification",
-    "createChannel": "Ajouter une chaîne"
+    "createChannel": "Ajouter une chaîne",
+    "logs": "Logs de l'API"
   },
   "ChannelForm": {
     "errors": {
