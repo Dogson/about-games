@@ -17,6 +17,10 @@ const AdminCreateChannelPage: React.FC = () => {
     language: AppConfig.channelForm.defaultValues.language,
     parsingOptions: {
       parsingAttribute: AppConfig.channelForm.defaultValues.parsingAttribute,
+      endParsingAfter: [],
+      ignoreEpisodesContaining: [],
+      ignoreEpisodesMissing: [],
+      ignoreSearchIn: [],
     },
   });
   const [loading, setLoading] = useState(false);

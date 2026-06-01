@@ -67,6 +67,7 @@ const GameCard: React.FC<GameCardProps> = ({
           onClick={onMarkAsIgnored}
           isSmall={isSmall}
           className="bg-salmon absolute top-[-10px] left-1/2 -translate-x-1/2"
+          hoverText={t("Game.ignoreDuringSearch")}
         />
       )}
       {ignored && (
