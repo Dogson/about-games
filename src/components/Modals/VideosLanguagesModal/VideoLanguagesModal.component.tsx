@@ -3,7 +3,7 @@ import Modal from "../Modal/Modal.component";
 import { useTranslation } from "react-i18next";
 import CheckboxGroup from "../../Inputs/CheckboxGroup/CheckboxGroup.component";
 import AppConfig from "../../../config/app.config";
-import LanguageFlag from "../../LanguageFlag/LanguageFlag.component";
+import LanguageCode from "../../LanguageCode/LanguageCode.component";
 
 type VideoLanguagesModalProps = {
   onClose: () => void;
@@ -29,7 +29,7 @@ const VideoLanguagesModal: React.FC<VideoLanguagesModalProps> = ({
       <CheckboxGroup
         options={AppConfig.availableLanguages.map((lng) => ({
           value: lng,
-          label: <LanguageFlag language={lng} withLabel />,
+          label: <LanguageCode language={lng} withLabel />,
         }))}
         label={t("VideoLanguagesModal.description")}
         value={newLanguages}

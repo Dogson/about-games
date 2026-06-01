@@ -20,6 +20,7 @@ import { LuSettings } from "react-icons/lu";
 import { AuthContext } from "../../contexts/auth/AuthContext";
 import { getYoutubeChannelUrlFromHandle } from "../../helpers/utils/youtube.utils";
 import Modal from "../Modals/Modal/Modal.component";
+import LanguageCode from "../LanguageCode/LanguageCode.component";
 
 type VideoPageContentProps = {
   game?: Game;
@@ -149,28 +150,33 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
             <Separator direction="horizontal" bulletSize="sm" />
             <div className="flex w-full items-start gap-4">
               <div className="flex flex-col items-start gap-2">
-                <a
-                  href={getYoutubeChannelUrlFromHandle(
-                    video.ytChannel.youtubeHandle,
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-ghost flex gap-2"
+                <div
+                  className="flex w-full flex-row items-center justify-between"
                 >
-                  <img
-                    src={video.ytChannel.thumbnailUrl}
-                    alt={video.ytChannel.name}
-                    className="h-8 w-8 rounded-full"
-                  />
-                  <div className="flex flex-col items-start">
-                    <span className="text-sm font-bold">
-                      {video.ytChannel.name}
-                    </span>
-                    <span className="text-xs italic">
-                      {formatDateLocalized(video.releaseDate, i18n.language)}
-                    </span>
-                  </div>
-                </a>
+                  <a
+                    href={getYoutubeChannelUrlFromHandle(
+                      video.ytChannel.youtubeHandle,
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-ghost flex gap-2"
+                  >
+                    <img
+                      src={video.ytChannel.thumbnailUrl}
+                      alt={video.ytChannel.name}
+                      className="h-8 w-8 rounded-full"
+                    />
+                    <div className="flex flex-col items-start">
+                      <span className="text-sm font-bold">
+                        {video.ytChannel.name}
+                      </span>
+                      <span className="text-xs italic">
+                        {formatDateLocalized(video.releaseDate, i18n.language)}
+                      </span>
+                    </div>
+                  </a>
+                  <LanguageCode language={video.ytChannel.language} />
+                </div>
                 <VideoDescription
                   description={video.description}
                   onTimestampClick={setSeekTo}

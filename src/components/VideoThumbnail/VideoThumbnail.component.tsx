@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { formatDateLocalized } from "../../helpers/utils/datetime.utils.ts";
 import { useTranslation } from "react-i18next";
 import ChannelNameAndThumbnail from "../ChannelNameAndThumbnail/ChannelNameAndThumbnail.component.tsx";
+import LanguageCode from "../LanguageCode/LanguageCode.component.tsx";
 
 export type VideoThumbnailProps = {
   channelName: string;
@@ -53,11 +54,8 @@ export const VideoThumbnail: React.FC<VideoThumbnailProps> = ({
             name={channelName}
           />
         </div>
-        <div
-          className="bg-opacity-50 text-ghost absolute right-2 bottom-2
-            rounded-md bg-black px-2 py-1 text-sm font-bold opacity-80"
-        >
-          {channelLanguage.toUpperCase()}
+        <div className="absolute right-2 bottom-2 opacity-70">
+          <LanguageCode language={channelLanguage} />
         </div>
       </div>
 

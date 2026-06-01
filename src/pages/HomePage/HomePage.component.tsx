@@ -14,7 +14,7 @@ import { AuthContext } from "../../contexts/auth/AuthContext.ts";
 import { LuSettings } from "react-icons/lu";
 import { routes } from "../../router/routes.config.ts";
 import { ChannelsSettingsContext } from "../../contexts/channelsSettings/ChannelsSettingsContext.ts";
-import LanguageFlag from "../../components/LanguageFlag/LanguageFlag.component.tsx";
+import LanguageCode from "../../components/LanguageCode/LanguageCode.component.tsx";
 import SecondaryButton from "../../components/Buttons/SecondaryButton/SecondaryButton.component.tsx";
 import VideoLanguagesModal from "../../components/Modals/VideosLanguagesModal/VideoLanguagesModal.component.tsx";
 
@@ -57,7 +57,7 @@ const HomePage: React.FC = () => {
       >
         {isAdmin && (
           <IconButton
-            className="absolute right-5 bottom-5"
+            className="fixed right-5 bottom-5"
             Icon={LuSettings}
             onClick={() => navigate(routes.admin.goTo())}
           />
@@ -81,14 +81,14 @@ const HomePage: React.FC = () => {
               <div className="flex w-full flex-col items-center gap-1">
                 <div
                   className="flex w-full flex-row items-center justify-center
-                    gap-3"
+                    gap-2"
                 >
                   <span className="text-sm font-bold">
                     {t("Homepage.languages")}
                   </span>
-                  <div className="flex flex-row gap-2">
+                  <div className="flex flex-row gap-1">
                     {languages.map((lng) => (
-                      <LanguageFlag language={lng} withLabel />
+                      <LanguageCode language={lng} />
                     ))}
                   </div>
                   {showLanguageModal && (

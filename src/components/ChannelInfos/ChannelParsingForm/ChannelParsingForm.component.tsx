@@ -13,7 +13,7 @@ import MainButton from "../../Buttons/MainButton/MainButton.component.tsx";
 import type { CreateChannelDTO } from "../../../data-access/channels/model/channels.model.ts";
 import SelectInput from "../../Inputs/SelectInput/SelectInput.component.tsx";
 import AppConfig from "../../../config/app.config.ts";
-import LanguageFlag from "../../LanguageFlag/LanguageFlag.component.tsx";
+import LanguageCode from "../../LanguageCode/LanguageCode.component.tsx";
 
 export type ChannelParsingFormProps = {
   value?: Partial<CreateChannelDTO>;
@@ -201,7 +201,7 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
           }
           options={AppConfig.availableLanguages.map((lng) => ({
             value: lng,
-            label: <LanguageFlag language={lng} withLabel />,
+            label: <LanguageCode language={lng} withLabel />,
           }))}
           error={errors.language}
           required
