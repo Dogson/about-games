@@ -42,7 +42,7 @@ export const VideoThumbnail: React.FC<VideoThumbnailProps> = ({
             group-hover:shadow-lg"
         />
         <div
-          className="pointer-events-none absolute top-0 right-0 left-0 h-20
+          className="pointer-events-none absolute top-0 right-0 left-0 h-10
             bg-gradient-to-b from-black/80 via-black/60 to-transparent"
         />
         <div className="absolute top-2 right-2 left-2">

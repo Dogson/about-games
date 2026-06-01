@@ -8,7 +8,7 @@ export type GameListForVideoProps = {
   games: GamesListItem[];
   onGameClick: (game: GamesListItem) => void;
   onDeleteGame?: (game: GamesListItem) => void;
-  onMarkGameAsIgnored: (game: GamesListItem) => void;
+  onMarkGameAsIgnored?: (game: GamesListItem) => void;
 };
 
 const GameListForVideo: React.FC<GameListForVideoProps> = ({

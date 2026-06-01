@@ -19,6 +19,7 @@ import { FiChevronLeft } from "react-icons/fi";
 import Modal from "../Modal/Modal.component";
 import { LuSettings } from "react-icons/lu";
 import { AuthContext } from "../../contexts/auth/AuthContext";
+import { getYoutubeChannelUrlFromHandle } from "../../helpers/utils/youtube.utils";
 
 type VideoPageContentProps = {
   game?: Game;
@@ -148,7 +149,14 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
             <Separator direction="horizontal" bulletSize="sm" />
             <div className="flex w-full items-start gap-4">
               <div className="flex flex-col items-start gap-2">
-                <div className="flex gap-2">
+                <a
+                  href={getYoutubeChannelUrlFromHandle(
+                    video.ytChannel.youtubeHandle,
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-ghost flex gap-2"
+                >
                   <img
                     src={video.ytChannel.thumbnailUrl}
                     alt={video.ytChannel.name}
@@ -162,7 +170,7 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                       {formatDateLocalized(video.releaseDate, i18n.language)}
                     </span>
                   </div>
-                </div>
+                </a>
                 <VideoDescription
                   description={video.description}
                   onTimestampClick={setSeekTo}

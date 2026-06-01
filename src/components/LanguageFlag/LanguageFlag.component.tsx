@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import CountryFlag from "../CountryFlag/CountryFlag.component";
-import { getCountryCodeForLanguage } from "../../helpers/utils/countryAndLanguages";
+import { getCountryCodeForLanguage } from "../../helpers/utils/countryAndLanguages.utils";
 
 type LanguageFlagComponentProps = {
   language: string;
