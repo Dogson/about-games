@@ -21,6 +21,7 @@ import { AuthContext } from "../../contexts/auth/AuthContext";
 import { getYoutubeChannelUrlFromHandle } from "../../helpers/utils/youtube.utils";
 import Modal from "../Modals/Modal/Modal.component";
 import LanguageCode from "../LanguageCode/LanguageCode.component";
+import { Helmet } from "react-helmet";
 
 type VideoPageContentProps = {
   game?: Game;
@@ -110,134 +111,143 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
         </Modal>
       )}
       {video && (
-        <div className="relative px-30 pt-20">
-          {game && (
-            <div className="absolute top-18 left-5 self-start">
-              <GameBackButton
-                onClick={() =>
-                  goToGame && goToGame({ title: game.title, id: game.id })
-                }
-                gameCoverImgUrl={game.boxartImg}
-              />
-            </div>
-          )}
-          <div
-            className="max-w-container relative flex w-full flex-1 flex-col
-              items-center gap-4"
-          >
-            <div className="flex w-full items-center justify-evenly">
-              {goToPreviousVideo && (
-                <IconButton
-                  Icon={FiChevronLeft}
-                  onClick={goToPreviousVideo}
-                  disabled={isFirstVideo}
-                />
-              )}
-              <YoutubeVideo
-                youtubeId={video.youtubeId}
-                seekTo={seekTo}
-                title={video.title}
-                smallContainer={isAdminRoute}
-              />
-              {goToNextVideo && (
-                <IconButton
-                  Icon={FiChevronRight}
-                  onClick={goToNextVideo}
-                  disabled={isLastVideo}
-                />
-              )}
-            </div>
-            <Separator direction="horizontal" bulletSize="sm" />
-            <div className="flex w-full items-start gap-4">
-              <div className="flex flex-col items-start gap-2">
-                <div
-                  className="flex w-full flex-row items-center justify-between"
-                >
-                  <a
-                    href={getYoutubeChannelUrlFromHandle(
-                      video.ytChannel.youtubeHandle,
-                    )}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-ghost flex gap-2"
-                  >
-                    <img
-                      src={video.ytChannel.thumbnailUrl}
-                      alt={video.ytChannel.name}
-                      className="h-8 w-8 rounded-full"
-                    />
-                    <div className="flex flex-col items-start">
-                      <span className="text-sm font-bold">
-                        {video.ytChannel.name}
-                      </span>
-                      <span className="text-xs italic">
-                        {formatDateLocalized(video.releaseDate, i18n.language)}
-                      </span>
-                    </div>
-                  </a>
-                  <LanguageCode language={video.ytChannel.language} />
-                </div>
-                <VideoDescription
-                  description={video.description}
-                  onTimestampClick={setSeekTo}
+        <>
+          <Helmet>
+            <title>{`${video.title} - about games`}</title>
+          </Helmet>
+          <div className="relative px-30 pt-20">
+            {game && (
+              <div className="absolute top-18 left-5 self-start">
+                <GameBackButton
+                  onClick={() =>
+                    goToGame && goToGame({ title: game.title, id: game.id })
+                  }
+                  gameCoverImgUrl={game.boxartImg}
                 />
               </div>
-              <div className="relative mt-2 flex shrink-0 flex-col gap-3">
-                {isAdmin && !isAdminRoute && (
-                  <div className="absolute top-[-5px] right-0 z-10 self-start">
-                    <IconButton
-                      noCircle
-                      Icon={LuSettings}
-                      onClick={goToAdminChildRoute}
-                      isSmall
+            )}
+            <div
+              className="max-w-container relative flex w-full flex-1 flex-col
+                items-center gap-4"
+            >
+              <div className="flex w-full items-center justify-evenly">
+                {goToPreviousVideo && (
+                  <IconButton
+                    Icon={FiChevronLeft}
+                    onClick={goToPreviousVideo}
+                    disabled={isFirstVideo}
+                  />
+                )}
+                <YoutubeVideo
+                  youtubeId={video.youtubeId}
+                  seekTo={seekTo}
+                  title={video.title}
+                  smallContainer={isAdminRoute}
+                />
+                {goToNextVideo && (
+                  <IconButton
+                    Icon={FiChevronRight}
+                    onClick={goToNextVideo}
+                    disabled={isLastVideo}
+                  />
+                )}
+              </div>
+              <Separator direction="horizontal" bulletSize="sm" />
+              <div className="flex w-full items-start gap-4">
+                <div className="flex flex-col items-start gap-2">
+                  <div
+                    className="flex w-full flex-row items-center
+                      justify-between"
+                  >
+                    <a
+                      href={getYoutubeChannelUrlFromHandle(
+                        video.ytChannel.youtubeHandle,
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-ghost flex gap-2"
+                    >
+                      <img
+                        src={video.ytChannel.thumbnailUrl}
+                        alt={video.ytChannel.name}
+                        className="h-8 w-8 rounded-full"
+                      />
+                      <div className="flex flex-col items-start">
+                        <span className="text-sm font-bold">
+                          {video.ytChannel.name}
+                        </span>
+                        <span className="text-xs italic">
+                          {formatDateLocalized(
+                            video.releaseDate,
+                            i18n.language,
+                          )}
+                        </span>
+                      </div>
+                    </a>
+                    <LanguageCode language={video.ytChannel.language} />
+                  </div>
+                  <VideoDescription
+                    description={video.description}
+                    onTimestampClick={setSeekTo}
+                  />
+                </div>
+                <div className="relative mt-2 flex shrink-0 flex-col gap-3">
+                  {isAdmin && !isAdminRoute && (
+                    <div className="absolute top-[-5px] right-0 z-10 self-start">
+                      <IconButton
+                        noCircle
+                        Icon={LuSettings}
+                        onClick={goToAdminChildRoute}
+                        isSmall
+                      />
+                    </div>
+                  )}
+                  <GameListForVideo
+                    games={video.games}
+                    onGameClick={handleClickGame}
+                    onDeleteGame={isAdminRoute ? handleDeleteGame : undefined}
+                    isAdminRoute={isAdminRoute}
+                    onMarkGameAsIgnored={
+                      isAdminRoute ? handleMarkGameAsIgnored : undefined
+                    }
+                  />
+                  {isAdminRoute && !video.validated && (
+                    <MainButton onClick={handleValidateVideo}>
+                      {t("GameListForVideo.iChecked")}
+                    </MainButton>
+                  )}
+                  {isAdminRoute && !video.ignored && (
+                    <MainButton
+                      onClick={() => setShowIgnoreVideoModal(true)}
+                      danger
+                    >
+                      {t("GameListForVideo.ignoreVideo")}
+                    </MainButton>
+                  )}
+                </div>
+                {isAdminRoute && (
+                  <div className="mt-2 flex w-[300px] shrink-0 flex-col gap-1">
+                    <span
+                      className="font-title text-ghost px-2 pb-1 font-bold
+                        opacity-75"
+                    >
+                      {t("GameListForVideo.searchForGames")}
+                    </span>
+                    <IgdbGameSearch
+                      games={igdbGames}
+                      gamesSelected={video.games}
+                      onSelectGame={addGame}
+                      searchValue={searchValue}
+                      onChangeSearchValue={onChangeSearchValue}
+                      searching={isSearching}
+                      noGamesFound={noGamesFound}
                     />
                   </div>
                 )}
-                <GameListForVideo
-                  games={video.games}
-                  onGameClick={handleClickGame}
-                  onDeleteGame={isAdminRoute ? handleDeleteGame : undefined}
-                  isAdminRoute={isAdminRoute}
-                  onMarkGameAsIgnored={
-                    isAdminRoute ? handleMarkGameAsIgnored : undefined
-                  }
-                />
-                {isAdminRoute && !video.validated && (
-                  <MainButton onClick={handleValidateVideo}>
-                    {t("GameListForVideo.iChecked")}
-                  </MainButton>
-                )}
-                {isAdminRoute && !video.ignored && (
-                  <MainButton
-                    onClick={() => setShowIgnoreVideoModal(true)}
-                    danger
-                  >
-                    {t("GameListForVideo.ignoreVideo")}
-                  </MainButton>
-                )}
               </div>
-              {isAdminRoute && (
-                <div className="mt-2 flex w-[300px] shrink-0 flex-col gap-1">
-                  <span
-                    className="font-title text-ghost px-2 pb-1 font-bold
-                      opacity-75"
-                  >
-                    {t("GameListForVideo.searchForGames")}
-                  </span>
-                  <IgdbGameSearch
-                    games={igdbGames}
-                    gamesSelected={video.games}
-                    onSelectGame={addGame}
-                    searchValue={searchValue}
-                    onChangeSearchValue={onChangeSearchValue}
-                    searching={isSearching}
-                    noGamesFound={noGamesFound}
-                  />
-                </div>
-              )}
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );

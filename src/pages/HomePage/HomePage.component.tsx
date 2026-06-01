@@ -17,6 +17,7 @@ import { ChannelsSettingsContext } from "../../contexts/channelsSettings/Channel
 import LanguageCode from "../../components/LanguageCode/LanguageCode.component.tsx";
 import SecondaryButton from "../../components/Buttons/SecondaryButton/SecondaryButton.component.tsx";
 import VideoLanguagesModal from "../../components/Modals/VideosLanguagesModal/VideoLanguagesModal.component.tsx";
+import { Helmet } from "react-helmet";
 
 const HomePage: React.FC = () => {
   const { t } = useTranslation();
@@ -51,6 +52,9 @@ const HomePage: React.FC = () => {
 
   return (
     <PageLayout noHeader={isLogoInView}>
+      <Helmet>
+        <title>about games</title>
+      </Helmet>
       <div
         className="flex min-h-full w-full flex-1 flex-col items-center gap-8
           pt-20"

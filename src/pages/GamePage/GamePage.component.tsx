@@ -8,6 +8,7 @@ import Switch from "../../components/Switch/Switch.component.tsx";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../contexts/auth/AuthContext.ts";
 import Modal from "../../components/Modals/Modal/Modal.component.tsx";
+import { Helmet } from "react-helmet";
 
 const GamePage: React.FC = () => {
   const { currentGameId, goToVideo, goToParentRoute } = useAppRoutes();
@@ -21,8 +22,15 @@ const GamePage: React.FC = () => {
 
   const { game, changeGameOptions } = useCurrentGame(currentGameId || -1);
 
+  console.log(game?.title);
+
   return (
     <PageLayout>
+      {game && (
+        <Helmet>
+          <title>{`${game.title} - about games`}</title>
+        </Helmet>
+      )}
       {modalOpened && game && (
         <Modal onClose={() => setModalOpened(false)}>
           <div className="flex min-w-0 grow-0 justify-center">
