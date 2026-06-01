@@ -40,7 +40,7 @@ const CountryFlag: React.FC<CountryFlagProps> = ({
       src={flagUrl}
       alt={`${countryCode} flag`}
       className={classNames(
-        "inline-block w-5 rounded-xs object-cover align-middle",
+        "inline-block w-5 rounded-sm object-cover align-middle",
         className,
       )}
       style={inlineStyle}

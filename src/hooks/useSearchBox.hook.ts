@@ -1,6 +1,7 @@
 import type { GamesListItem } from "../models/Game.model.ts";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import getAllGames from "../data-access/games/getAllGames.ts";
+import { ChannelsSettingsContext } from "../contexts/channelsSettings/ChannelsSettingsContext.ts";
 
 type UseSearchBox = {
   searchText: string;
@@ -10,6 +11,7 @@ type UseSearchBox = {
 };
 
 const useSearchBox = (): UseSearchBox => {
+  const { languages } = useContext(ChannelsSettingsContext);
   const [searchText, setSearchText] = useState<string>("");
   const [games, setGames] = useState<GamesListItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -21,34 +23,38 @@ const useSearchBox = (): UseSearchBox => {
     setSearchText(text);
   };
 
-  const fetchGames = useCallback(async (text: string) => {
-    if (!text) {
-      setGames([]);
-      return;
-    }
-
-    setLoading(true);
-    const requestId = ++latestRequestId.current;
-
-    try {
-      const response = await getAllGames({
-        search: text,
-        limit: 5,
-        onlyValidated: true,
-      });
-
-      // Ignore results from older requests
-      if (requestId === latestRequestId.current) {
-        setGames(response.data);
+  const fetchGames = useCallback(
+    async (text: string) => {
+      if (!text) {
+        setGames([]);
+        return;
       }
-    } catch (e) {
-      console.error("Error fetching games:", e);
-    } finally {
-      if (requestId === latestRequestId.current) {
-        setLoading(false);
+
+      setLoading(true);
+      const requestId = ++latestRequestId.current;
+
+      try {
+        const response = await getAllGames({
+          search: text,
+          limit: 5,
+          onlyValidated: true,
+          languages,
+        });
+
+        // Ignore results from older requests
+        if (requestId === latestRequestId.current) {
+          setGames(response.data);
+        }
+      } catch (e) {
+        console.error("Error fetching games:", e);
+      } finally {
+        if (requestId === latestRequestId.current) {
+          setLoading(false);
+        }
       }
-    }
-  }, []);
+    },
+    [languages],
+  );
 
   // Debounce effect
   useEffect(() => {

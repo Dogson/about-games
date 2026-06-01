@@ -23,16 +23,12 @@ const ModalPortal: React.FC<ModalPortalProps> = ({
 
   useEffect(() => {
     const el = elRef.current!;
-    const themeContainer = document.querySelector(
-      ".global-theme",
-    ) as HTMLDivElement;
+    const themeContainer = document.querySelector("#root") as HTMLDivElement;
     if (themeContainer) {
       themeContainer.appendChild(el);
     }
     return () => {
-      const themeContainer = document.querySelector(
-        ".global-theme",
-      ) as HTMLDivElement;
+      const themeContainer = document.querySelector("#root") as HTMLDivElement;
       if (themeContainer) {
         themeContainer.removeChild(el);
       }

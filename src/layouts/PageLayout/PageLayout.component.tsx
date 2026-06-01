@@ -4,9 +4,9 @@ import useAppRoutes from "../../hooks/useAppRoutes.hook.ts";
 import { LuBug } from "react-icons/lu";
 import IconButton from "../../components/Buttons/IconButton/IconButton.component.tsx";
 import LoggingConsole from "../../components/LoggingConsole/LoggingConsole.component.tsx";
-import Modal from "../../components/Modal/Modal.component.tsx";
 import { useTranslation } from "react-i18next";
 import useLogsEventSource from "../../hooks/useLogsEventSource.hook.ts";
+import Modal from "../../components/Modals/Modal/Modal.component.tsx";
 
 const PageLayout: React.FC<{
   noHeader?: boolean;

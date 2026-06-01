@@ -4,10 +4,10 @@ import useAppRoutes from "../../hooks/useAppRoutes.hook.ts";
 import GamePageHeader from "../../components/GamePageHeader/GamePageHeader.component.tsx";
 import VideosGrid from "../../components/VideosGrid/VideosGrid.component.tsx";
 import useCurrentGame from "../../hooks/useCurrentGame.hook.ts";
-import Modal from "../../components/Modal/Modal.component.tsx";
 import Switch from "../../components/Switch/Switch.component.tsx";
 import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../contexts/auth/AuthContext.ts";
+import Modal from "../../components/Modals/Modal/Modal.component.tsx";
 
 const GamePage: React.FC = () => {
   const { currentGameId, goToVideo, goToParentRoute } = useAppRoutes();
@@ -55,6 +55,7 @@ const GamePage: React.FC = () => {
                   id: video.id,
                   channelName: video.ytChannel.name,
                   channelAvatarUrl: video.ytChannel.thumbnailUrl,
+                  channelLanguage: video.ytChannel.language,
                   videoTitle: video.title,
                   videoThumbnailUrl: video.thumbnailUrl,
                   publicationDate: video.releaseDate,

@@ -11,7 +11,7 @@ A React + TypeScript + Vite application for managing and browsing video game con
 Three main context providers wrap the application:
 
 - `AuthProvider`: Authentication state, admin roles, localStorage persistence via `persistAuth` helper
-- `AppSettingsProvider`: Application-wide settings (theme, language)
+- `ChannelsSettingsProvider`: Application-wide settings (theme, language)
 - `GamesListProvider`: Manages games catalog with pagination, search filtering
 
 ### Routing Structure

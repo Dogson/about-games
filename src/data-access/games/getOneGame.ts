@@ -4,9 +4,27 @@ import { AxiosError } from "axios";
 import { ApiErrorType, SpecificError } from "../../types/error/error.types.ts";
 import type { Game } from "../../models/Game.model.ts";
 
-const getOneGame = async (gameId: number): Promise<Game> => {
+const getOneGame = async (
+  gameId: number,
+  params?: {
+    languages?: string[];
+    onlyValidatedVideos?: boolean;
+  },
+): Promise<Game> => {
+  const newParams: Record<string, string | number> = {};
+
+  if (params?.onlyValidatedVideos !== undefined) {
+    newParams.onlyValidatedVideos = params.onlyValidatedVideos ? 1 : 0;
+  }
+  if (params?.languages) {
+    newParams.languages = params.languages.join(",");
+  }
   try {
-    return (await api.get<Game>(`${ApiConfig.routes.games}/${gameId}`)).data;
+    return (
+      await api.get<Game>(`${ApiConfig.routes.games}/${gameId}`, {
+        params: newParams,
+      })
+    ).data;
   } catch (e: unknown) {
     if (e instanceof AxiosError) {
       if (e.response?.status === 403) {

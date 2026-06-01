@@ -6,6 +6,7 @@ import ChannelNameAndThumbnail from "../ChannelNameAndThumbnail/ChannelNameAndTh
 export type VideoThumbnailProps = {
   channelName: string;
   channelAvatarUrl: string;
+  channelLanguage: string;
   videoTitle: string;
   videoThumbnailUrl: string;
   publicationDate: string;
@@ -15,6 +16,7 @@ export type VideoThumbnailProps = {
 export const VideoThumbnail: React.FC<VideoThumbnailProps> = ({
   channelName,
   channelAvatarUrl,
+  channelLanguage,
   videoTitle,
   videoThumbnailUrl,
   publicationDate,
@@ -50,6 +52,12 @@ export const VideoThumbnail: React.FC<VideoThumbnailProps> = ({
             thumbnailUrl={channelAvatarUrl}
             name={channelName}
           />
+        </div>
+        <div
+          className="bg-opacity-50 text-ghost absolute right-2 bottom-2
+            rounded-md bg-black px-2 py-1 text-sm font-bold opacity-80"
+        >
+          {channelLanguage.toUpperCase()}
         </div>
       </div>
 

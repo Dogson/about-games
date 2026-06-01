@@ -13,6 +13,10 @@ import IconButton from "../../components/Buttons/IconButton/IconButton.component
 import { AuthContext } from "../../contexts/auth/AuthContext.ts";
 import { LuSettings } from "react-icons/lu";
 import { routes } from "../../router/routes.config.ts";
+import { ChannelsSettingsContext } from "../../contexts/channelsSettings/ChannelsSettingsContext.ts";
+import LanguageFlag from "../../components/LanguageFlag/LanguageFlag.component.tsx";
+import SecondaryButton from "../../components/Buttons/SecondaryButton/SecondaryButton.component.tsx";
+import VideoLanguagesModal from "../../components/Modals/VideosLanguagesModal/VideoLanguagesModal.component.tsx";
 
 const HomePage: React.FC = () => {
   const { t } = useTranslation();
@@ -20,9 +24,11 @@ const HomePage: React.FC = () => {
 
   const { games, nextPage, onChangeSearchFilter, searchFilter, reloadGames } =
     useContext(GamesListContext);
+  const { languages, changeLanguages } = useContext(ChannelsSettingsContext);
   useState(false);
   const logoRef = useRef<HTMLDivElement | null>(null);
   const [isLogoInView, setIsLogoInView] = useState(true);
+  const [showLanguageModal, setShowLanguageModal] = useState(false);
   const { goToGame } = useAppRoutes();
   const navigationType = useNavigationType();
   const navigate = useNavigate();
@@ -30,6 +36,11 @@ const HomePage: React.FC = () => {
   useElementInViewport(logoRef, (inView) => {
     setIsLogoInView(inView);
   });
+
+  const handleChangeVideoLanguages = (newLanguages: string[]) => {
+    changeLanguages(newLanguages);
+    setShowLanguageModal(false);
+  };
 
   useEffect(() => {
     if (navigationType !== "POP") {
@@ -46,7 +57,7 @@ const HomePage: React.FC = () => {
       >
         {isAdmin && (
           <IconButton
-            className="absolute top-4 right-4"
+            className="absolute right-5 bottom-5"
             Icon={LuSettings}
             onClick={() => navigate(routes.admin.goTo())}
           />
@@ -59,13 +70,40 @@ const HomePage: React.FC = () => {
           <Separator direction="horizontal" bulletSize="md" />
         </section>
         <section className="flex w-full flex-1 flex-col items-center gap-4">
-          <div className="flex w-full flex-col items-center">
+          <div className="flex w-full flex-col items-center gap-4">
             <SearchInput
               searchText={searchFilter}
               onSearch={onChangeSearchFilter}
               onClear={() => onChangeSearchFilter("")}
               placeholder={t("GameSearch.searchPlaceholder")}
             />
+            {languages && (
+              <div className="flex w-full flex-col items-center gap-1">
+                <div
+                  className="flex w-full flex-row items-center justify-center
+                    gap-3"
+                >
+                  <span className="text-sm font-bold">
+                    {t("Homepage.languages")}
+                  </span>
+                  <div className="flex flex-row gap-2">
+                    {languages.map((lng) => (
+                      <LanguageFlag language={lng} withLabel />
+                    ))}
+                  </div>
+                  {showLanguageModal && (
+                    <VideoLanguagesModal
+                      languages={languages}
+                      onChangeLanguages={handleChangeVideoLanguages}
+                      onClose={() => setShowLanguageModal(false)}
+                    />
+                  )}
+                </div>
+                <SecondaryButton onClick={() => setShowLanguageModal(true)}>
+                  {t("Homepage.customizeLanguages")}
+                </SecondaryButton>
+              </div>
+            )}
           </div>
           <GameGrid
             games={games}

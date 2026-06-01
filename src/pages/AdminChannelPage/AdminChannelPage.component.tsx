@@ -7,9 +7,9 @@ import type { CreateChannelDTO } from "../../data-access/channels/model/channels
 import type { ChannelLanguage } from "../../models/Channel.model.ts";
 import ChannelParsingForm from "../../components/ChannelInfos/ChannelParsingForm/ChannelParsingForm.component.tsx";
 import { Separator } from "../../components/Separator/Separator.component.tsx";
-import Modal from "../../components/Modal/Modal.component.tsx";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence } from "framer-motion";
+import Modal from "../../components/Modals/Modal/Modal.component.tsx";
 
 const AdminChannelPage: React.FC = () => {
   const { currentChannelId, goToParentRoute } = useAppRoutes();

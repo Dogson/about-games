@@ -23,7 +23,6 @@
     "noResults": "Aucun jeu trouvé",
     "searchPlaceholder": "Rechercher un jeu"
   },
-
   "GamePageHeader": {
     "about": "à propos de..."
   },
@@ -67,7 +66,13 @@
     }
   },
   "Homepage": {
-    "tagline": "Là où les vidéastes et essayistes parlent jeux."
+    "tagline": "Là où les vidéastes et essayistes parlent jeux.",
+    "languages": "Langue(s) des vidéos : ",
+    "customizeLanguages": "Personnaliser les langues"
+  },
+  "VideoLanguagesModal": {
+    "title": "Langues des vidéos",
+    "description": "Sélectionnez les langues des vidéos à inclure dans les résultats."
   },
   "LoginPage": {
     "areYouGameMaster": "Êtes-vous le maître du jeu ?",

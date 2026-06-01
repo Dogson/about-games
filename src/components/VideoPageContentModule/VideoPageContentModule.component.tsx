@@ -16,10 +16,10 @@ import useIgdbSearch from "../../hooks/useIgdbSearch.hook";
 import IconButton from "../Buttons/IconButton/IconButton.component";
 import { FiChevronRight } from "react-icons/fi";
 import { FiChevronLeft } from "react-icons/fi";
-import Modal from "../Modal/Modal.component";
 import { LuSettings } from "react-icons/lu";
 import { AuthContext } from "../../contexts/auth/AuthContext";
 import { getYoutubeChannelUrlFromHandle } from "../../helpers/utils/youtube.utils";
+import Modal from "../Modals/Modal/Modal.component";
 
 type VideoPageContentProps = {
   game?: Game;

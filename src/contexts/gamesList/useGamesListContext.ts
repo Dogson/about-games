@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import type { GamesListItem } from "../../models/Game.model.ts";
 import getAllGames from "../../data-access/games/getAllGames.ts";
+import { ChannelsSettingsContext } from "../channelsSettings/ChannelsSettingsContext.ts";
 
 export type UseGamesListContext = {
   games: GamesListItem[];
@@ -14,6 +15,7 @@ export type UseGamesListContext = {
 };
 
 const useGameListContext = (): UseGamesListContext => {
+  const { languages } = useContext(ChannelsSettingsContext);
   const [games, setGames] = useState<GamesListItem[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
@@ -28,35 +30,39 @@ const useGameListContext = (): UseGamesListContext => {
     setSearchFilter(newFilter);
   }, []);
 
-  const reloadGames = useCallback(async (searchText?: string) => {
-    setPage(1);
-    setGames([]);
-    setLoading(true);
+  const reloadGames = useCallback(
+    async (searchText?: string) => {
+      setPage(1);
+      setGames([]);
+      setLoading(true);
 
-    const requestId = ++latestRequestId.current;
+      const requestId = ++latestRequestId.current;
 
-    try {
-      const result = await getAllGames({
-        page: 1,
-        search: searchText,
-        onlyValidated: true,
-      });
+      try {
+        const result = await getAllGames({
+          page: 1,
+          search: searchText,
+          onlyValidated: true,
+          languages,
+        });
 
-      // 🧠 Ignore results from older requests
-      if (requestId === latestRequestId.current) {
-        setGames(result.data);
-        setTotalGames(result.total);
-        setTotalPages(result.totalPages);
+        // 🧠 Ignore results from older requests
+        if (requestId === latestRequestId.current) {
+          setGames(result.data);
+          setTotalGames(result.total);
+          setTotalPages(result.totalPages);
+        }
+      } catch (err) {
+        console.error("Error loading games:", err);
+      } finally {
+        // Only stop loading if still the latest request
+        if (requestId === latestRequestId.current) {
+          setLoading(false);
+        }
       }
-    } catch (err) {
-      console.error("Error loading games:", err);
-    } finally {
-      // Only stop loading if still the latest request
-      if (requestId === latestRequestId.current) {
-        setLoading(false);
-      }
-    }
-  }, []);
+    },
+    [languages],
+  );
 
   const nextPage = useCallback(async () => {
     if (loading) return;
@@ -70,6 +76,7 @@ const useGameListContext = (): UseGamesListContext => {
         page: newPage,
         search: searchFilter,
         onlyValidated: true,
+        languages,
       });
 
       if (requestId === latestRequestId.current) {
@@ -83,7 +90,7 @@ const useGameListContext = (): UseGamesListContext => {
         setLoading(false);
       }
     }
-  }, [loading, page, searchFilter]);
+  }, [languages, loading, page, searchFilter]);
 
   // === Debounce search ===
   useEffect(() => {

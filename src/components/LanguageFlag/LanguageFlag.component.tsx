@@ -14,7 +14,7 @@ const LanguageFlag: React.FC<LanguageFlagComponentProps> = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <div className="flex w-full items-center gap-1">
+    <div className="flex items-center gap-1">
       <CountryFlag countryCode={getCountryCodeForLanguage(language)} />
       {withLabel && (
         <span>{t(`common.languagesItems.${language.split("-")[0]}`)}</span>

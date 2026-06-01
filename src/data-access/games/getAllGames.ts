@@ -10,6 +10,7 @@ const getAllGames = async (params: {
   limit?: number;
   page?: number;
   onlyValidated?: boolean;
+  languages?: string[];
 }): Promise<GetGamesDTO> => {
   const newParams: Record<string, string | number> = {
     page: params.page || 1,
@@ -20,6 +21,9 @@ const getAllGames = async (params: {
   }
   if (params.onlyValidated !== undefined) {
     newParams.onlyValidated = params.onlyValidated ? 1 : 0;
+  }
+  if (params.languages) {
+    newParams.languages = params.languages.join(",");
   }
   try {
     return (
