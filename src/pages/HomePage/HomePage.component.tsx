@@ -18,7 +18,7 @@ const HomePage: React.FC = () => {
   const { t } = useTranslation();
   const { isAdmin } = useContext(AuthContext);
 
-  const { games, nextPage, onChangeSearchFilter, searchFilter } =
+  const { games, nextPage, onChangeSearchFilter, searchFilter, reloadGames } =
     useContext(GamesListContext);
   useState(false);
   const logoRef = useRef<HTMLDivElement | null>(null);
@@ -34,8 +34,9 @@ const HomePage: React.FC = () => {
   useEffect(() => {
     if (navigationType !== "POP") {
       onChangeSearchFilter("");
+      reloadGames();
     }
-  }, [navigationType, onChangeSearchFilter]);
+  }, [navigationType, onChangeSearchFilter, reloadGames]);
 
   return (
     <PageLayout noHeader={isLogoInView}>
