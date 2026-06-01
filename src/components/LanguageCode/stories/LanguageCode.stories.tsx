@@ -1,19 +1,19 @@
-import LanguageFlag from "../LanguageFlag.component";
+import LanguageCode from "../LanguageCode.component";
 import type { Meta, StoryFn } from "@storybook/react-vite";
 
-type LanguageFlagProps = React.ComponentProps<typeof LanguageFlag>;
+type LanguageFlagProps = React.ComponentProps<typeof LanguageCode>;
 
 export default {
   title: "Common/LanguageFlag",
-  component: LanguageFlag,
+  component: LanguageCode,
   argTypes: {
     language: { control: "text" },
     withLabel: { control: "boolean" },
   },
-} as Meta<typeof LanguageFlag>;
+} as Meta<typeof LanguageCode>;
 
 const Template: StoryFn<LanguageFlagProps> = (args) => (
-  <LanguageFlag {...args} />
+  <LanguageCode {...args} />
 );
 
 export const Default = Template.bind({});

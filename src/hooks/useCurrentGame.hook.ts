@@ -1,22 +1,24 @@
-import type { Game, GameOptions } from "../models/Game.model.ts";
+import type { Game } from "../models/Game.model.ts";
 import getOneGame from "../data-access/games/getOneGame.ts";
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import { launchErrorToast } from "../helpers/toasts/toasts.ts";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../router/routes.config.ts";
 import { useTranslation } from "react-i18next";
 import updateOneGame from "../data-access/games/updateOneGame.ts";
 import { SpecificError } from "../types/error/error.types.ts";
+import { ChannelsSettingsContext } from "../contexts/channelsSettings/ChannelsSettingsContext.ts";
 
 export type UseCurrentGame = {
   game?: Game;
   loading: boolean;
-  changeGameOptions: (options: Partial<GameOptions>) => void;
+  changeGameOptions: (options: Partial<Game>) => void;
 };
 
 const useCurrentGame = (gameId: number): UseCurrentGame => {
   const [game, setGame] = React.useState<Game>();
   const [loading, setLoading] = React.useState<boolean>(false);
+  const { languages } = useContext(ChannelsSettingsContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -24,7 +26,9 @@ const useCurrentGame = (gameId: number): UseCurrentGame => {
     async (gameId: number) => {
       try {
         setLoading(true);
-        setGame(await getOneGame(gameId));
+        setGame(
+          await getOneGame(gameId, { onlyValidatedVideos: true, languages }),
+        );
       } catch (e) {
         console.error(e);
         launchErrorToast(t("Game.notFound"));
@@ -35,10 +39,10 @@ const useCurrentGame = (gameId: number): UseCurrentGame => {
     },
     // t render two times on app mount :'(
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [navigate],
+    [navigate, languages],
   );
 
-  const changeGameOptions = async (options: Partial<GameOptions>) => {
+  const changeGameOptions = async (options: Partial<Game>) => {
     if (!options || !game) return;
     const currGame = { ...game };
     try {
@@ -55,10 +59,10 @@ const useCurrentGame = (gameId: number): UseCurrentGame => {
   };
 
   useEffect(() => {
-    if (gameId) {
+    if (gameId && languages) {
       fetchGame(gameId);
     }
-  }, [fetchGame, gameId]);
+  }, [fetchGame, gameId, languages]);
 
   return {
     game,

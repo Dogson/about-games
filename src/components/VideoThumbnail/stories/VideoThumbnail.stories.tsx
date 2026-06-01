@@ -9,6 +9,7 @@ export default {
   argTypes: {
     channelName: { control: "text" },
     channelAvatarUrl: { control: "text" },
+    channelLanguage: { control: "text" },
     videoTitle: { control: "text" },
     videoThumbnailUrl: { control: "text" },
     publicationDate: { control: "text" },
@@ -22,6 +23,7 @@ const Template: StoryFn<VideoThumbnailProps> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   channelName: "Jacob Geller",
+  channelLanguage: "en",
   channelAvatarUrl:
     "https://yt3.ggpht.com/oEvJp21jyoK8viSJQZsoIB4TpDmXsRBjOfMybj8azcfgCQ6dkQ8uP6Fg4nyYUCosnYhYzTlc=s68-c-k-c0x00ffffff-no-rj",
   videoTitle: "Clair Obscur is an Endless Canvas of Grief",

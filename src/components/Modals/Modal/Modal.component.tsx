@@ -2,9 +2,9 @@ import React from "react";
 import { motion, type Variants } from "framer-motion";
 import { LuX } from "react-icons/lu";
 import classNames from "classnames";
-import MainButton from "../../components/Buttons/MainButton/MainButton.component.tsx";
-import ModalPortal from "../../components/Modal/ModalPortal/ModalPortal.component.tsx";
-import IconButton from "../../components/Buttons/IconButton/IconButton.component.tsx";
+import MainButton from "../../Buttons/MainButton/MainButton.component.tsx";
+import ModalPortal from "../ModalPortal/ModalPortal.component.tsx";
+import IconButton from "../../Buttons/IconButton/IconButton.component.tsx";
 
 export type ModalProps = {
   className?: {
@@ -22,6 +22,7 @@ export type ModalProps = {
   onDeny?: () => void;
   dangerousAction?: boolean;
   disableCloseByClickOutside?: boolean;
+  confirmDisabled?: boolean;
   children: React.ReactNode;
 };
 
@@ -57,6 +58,7 @@ const Modal: React.FC<ModalProps> = ({
   onDeny,
   dangerousAction = false,
   disableCloseByClickOutside = false,
+  confirmDisabled,
   children,
 }) => {
   return (
@@ -159,6 +161,7 @@ const Modal: React.FC<ModalProps> = ({
                       ? "bg-salmon hover:bg-salmon/80"
                       : "bg-turquoise hover:bg-turquoise/80",
                   )}
+                  disabled={confirmDisabled}
                 >
                   {confirmText}
                 </MainButton>

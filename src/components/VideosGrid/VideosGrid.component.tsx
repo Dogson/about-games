@@ -5,6 +5,7 @@ type VideoGridItem = {
   id: number;
   channelName: string;
   channelAvatarUrl: string;
+  channelLanguage: string;
   videoTitle: string;
   videoThumbnailUrl: string;
   publicationDate: string;
@@ -30,6 +31,7 @@ export const VideosGrid: React.FC<VideosGridProps> = ({
           videoTitle={video.videoTitle}
           channelName={video.channelName}
           channelAvatarUrl={video.channelAvatarUrl}
+          channelLanguage={video.channelLanguage}
           videoThumbnailUrl={video.videoThumbnailUrl}
           publicationDate={video.publicationDate}
           key={video.id}

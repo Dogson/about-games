@@ -34,7 +34,7 @@ const MainButton: React.FC<MainButtonProps> = ({
       className={`font-title bg-maize relative flex justify-center gap-3
         rounded-md px-10 py-3 leading-none duration-200 ${
           disabled || loading
-            ? "cursor-default opacity-50"
+            ? "pointer-events-none cursor-default opacity-50"
             : `cursor-pointer hover:translate-y-[-4px] hover:shadow-md
               active:translate-y-[-4px] active:shadow-md`
         } ${loading ? "translate-y-[-4px] shadow-md" : ""}
