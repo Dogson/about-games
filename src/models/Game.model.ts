@@ -8,13 +8,9 @@ export type GamesListItem = {
   coverImg: string | null;
   boxartImg: string | null;
   companies: string[];
-};
-
-export type GameOptions = {
   ignoreDuringSearch: boolean;
 };
 
-export type Game = GamesListItem &
-  GameOptions & {
-    videos: Video[];
-  };
+export type Game = GamesListItem & {
+  videos: Video[];
+};

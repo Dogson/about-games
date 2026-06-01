@@ -11,6 +11,7 @@ export type MultiInputProps = {
   label?: string;
   onAddInput: () => void;
   onRemoveInput: (index: number) => void;
+  placeholder?: string;
 };
 
 const MultiInput: React.FC<MultiInputProps> = ({
@@ -20,6 +21,7 @@ const MultiInput: React.FC<MultiInputProps> = ({
   label,
   onAddInput,
   onRemoveInput,
+  placeholder,
 }) => {
   const handleInputChange = (index: number, newValue: string) => {
     const newValues = [...value];
@@ -51,6 +53,7 @@ const MultiInput: React.FC<MultiInputProps> = ({
                 value={val}
                 onChange={(val) => handleInputChange(index, val)}
                 error={errors?.[index]}
+                placeholder={placeholder}
               />
               <IconButton
                 isSmall

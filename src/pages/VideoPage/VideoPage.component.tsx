@@ -11,9 +11,11 @@ const VideoPage: React.FC<{ carousel?: true }> = () => {
 
   return (
     <PageLayout>
-      {currentVideoId && (
-        <VideoPageContentModule currentVideoId={currentVideoId} game={game} />
-      )}
+      <>
+        {currentVideoId && (
+          <VideoPageContentModule currentVideoId={currentVideoId} game={game} />
+        )}
+      </>
     </PageLayout>
   );
 };

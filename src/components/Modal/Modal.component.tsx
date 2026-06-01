@@ -80,14 +80,16 @@ const Modal: React.FC<ModalProps> = ({
         exit="exit"
         className={classNames(
           "fixed inset-0 z-50 flex items-center justify-center px-4",
-          className?.Modal,
         )}
       >
         <div
           onClick={(e) => e.stopPropagation()}
-          className="bg-mauve text-ghost border-turquoise/30 relative flex
-            min-h-[200px] w-full max-w-lg flex-1 flex-col overflow-hidden
-            rounded-2xl border shadow-lg shadow-black/60"
+          className={classNames(
+            className?.Modal,
+            `bg-mauve text-ghost border-turquoise/30 relative flex min-h-[200px]
+            w-full max-w-lg flex-1 flex-col overflow-hidden rounded-2xl border
+            shadow-lg shadow-black/60`,
+          )}
         >
           {/* Close Button */}
           {onClose && (

@@ -6,6 +6,10 @@ const ApiConfig = {
     igdbSearch: "/igdbSearch",
     channels: "/channels",
     videos: "/videos",
+    logs: {
+      last: "/logs/last",
+      stream: "/logs/stream",
+    },
   },
 };
 

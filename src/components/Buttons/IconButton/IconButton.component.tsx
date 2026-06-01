@@ -7,6 +7,7 @@ export type IconButtonProps = {
   noCircle?: boolean;
   isSmall?: boolean;
   disabled?: boolean;
+  hoverText?: string;
 };
 
 const IconButton: React.FC<IconButtonProps> = ({
@@ -16,6 +17,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   noCircle = false,
   className = "",
   disabled,
+  hoverText,
 }) => {
   return (
     <button
@@ -24,6 +26,7 @@ const IconButton: React.FC<IconButtonProps> = ({
         e.stopPropagation();
         onClick();
       }}
+      title={hoverText}
       className={`flex items-center justify-center rounded-full p-1
         transition-all duration-200 hover:scale-110
         ${isSmall ? "h-6 w-6" : "h-8 w-8"}

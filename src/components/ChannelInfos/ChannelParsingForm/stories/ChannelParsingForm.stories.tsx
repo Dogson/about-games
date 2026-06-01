@@ -38,7 +38,7 @@ const Template: StoryFn<ChannelParsingFormProps> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-  initialValues: {
+  value: {
     parsingAttribute: "title" as ChannelParsingAttribute,
     ignoreEpisodesContaining: [""],
     ignoreSearchIn: [""],

@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { ApiErrorType, SpecificError } from "../../types/error/error.types.ts";
 import type { Video } from "../../models/Video.model.ts";
 
-const getOneGame = async (videoId: number): Promise<Video> => {
+const getOneVideo = async (videoId: number): Promise<Video> => {
   try {
     return (await api.get<Video>(`${ApiConfig.routes.videos}/${videoId}`)).data;
   } catch (e: unknown) {
@@ -17,4 +17,4 @@ const getOneGame = async (videoId: number): Promise<Video> => {
   }
 };
 
-export default getOneGame;
+export default getOneVideo;

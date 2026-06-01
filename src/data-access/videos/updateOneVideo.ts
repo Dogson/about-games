@@ -9,6 +9,7 @@ const updateOneVideo = async (
   params: Partial<{
     games: CreateGameDTO[];
     validated: boolean;
+    ignored: boolean;
   }>,
 ): Promise<void> => {
   try {

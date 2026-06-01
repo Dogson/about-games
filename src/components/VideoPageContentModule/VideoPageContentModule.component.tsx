@@ -8,7 +8,7 @@ import { Separator } from "../Separator/Separator.component";
 import VideoDescription from "../VideoDescription/VideoDescription.component";
 import YoutubeVideo from "../YoutubeVideo/YoutubeVideo.component";
 import type { Game, GamesListItem } from "../../models/Game.model";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import useAppRoutes from "../../hooks/useAppRoutes.hook";
 import { useTranslation } from "react-i18next";
 import useCurrentVideo from "../../hooks/useCurrentVideo.hook";
@@ -16,6 +16,10 @@ import useIgdbSearch from "../../hooks/useIgdbSearch.hook";
 import IconButton from "../Buttons/IconButton/IconButton.component";
 import { FiChevronRight } from "react-icons/fi";
 import { FiChevronLeft } from "react-icons/fi";
+import Modal from "../Modal/Modal.component";
+import { LuSettings } from "react-icons/lu";
+import { AuthContext } from "../../contexts/auth/AuthContext";
+import { getYoutubeChannelUrlFromHandle } from "../../helpers/utils/youtube.utils";
 
 type VideoPageContentProps = {
   game?: Game;
@@ -34,10 +38,17 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
   isFirstVideo,
   isLastVideo,
 }) => {
+  const { isAdmin } = useContext(AuthContext);
   const { i18n, t } = useTranslation();
-  const { goToGame, isAdminRoute } = useAppRoutes();
-  const { video, addGame, removeGame, validateVideo } =
-    useCurrentVideo(currentVideoId);
+  const { goToGame, isAdminRoute, goToAdminChildRoute } = useAppRoutes();
+  const {
+    video,
+    addGame,
+    removeGame,
+    validateVideo,
+    ignoreVideo,
+    markGameAsIgnored,
+  } = useCurrentVideo(currentVideoId);
   const {
     searchValue,
     onChangeSearchValue,
@@ -47,6 +58,7 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
   } = useIgdbSearch();
 
   const [seekTo, setSeekTo] = useState<number>(0);
+  const [showIgnoreVideoModal, setShowIgnoreVideoModal] = useState(false);
 
   const handleClickGame = (game: GamesListItem) => {
     goToGame({
@@ -59,8 +71,43 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
     removeGame(game.id);
   };
 
+  const handleMarkGameAsIgnored = (game: GamesListItem) => {
+    markGameAsIgnored(game);
+  };
+
+  const handleValidateVideo = () => {
+    validateVideo(() => {
+      if (goToNextVideo && !isLastVideo) {
+        goToNextVideo();
+      }
+    });
+  };
+
+  const handleIgnoreVideo = () => {
+    setShowIgnoreVideoModal(false);
+    ignoreVideo(() => {
+      if (goToNextVideo && !isLastVideo) {
+        goToNextVideo();
+      }
+    });
+  };
+
   return (
     <>
+      {showIgnoreVideoModal && (
+        <Modal
+          title={t("Video.ignoreModal.title")}
+          onClose={() => setShowIgnoreVideoModal(false)}
+          onConfirm={handleIgnoreVideo}
+          onDeny={() => setShowIgnoreVideoModal(false)}
+          confirmText={t("Video.ignoreModal.confirm")}
+          denyText={t("Video.ignoreModal.cancel")}
+          dangerousAction={true}
+          disableCloseByClickOutside={false}
+        >
+          {t("Video.ignoreModal.body")}
+        </Modal>
+      )}
       {video && (
         <div className="relative px-30 pt-20">
           {game && (
@@ -102,7 +149,14 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
             <Separator direction="horizontal" bulletSize="sm" />
             <div className="flex w-full items-start gap-4">
               <div className="flex flex-col items-start gap-2">
-                <div className="flex gap-2">
+                <a
+                  href={getYoutubeChannelUrlFromHandle(
+                    video.ytChannel.youtubeHandle,
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-ghost flex gap-2"
+                >
                   <img
                     src={video.ytChannel.thumbnailUrl}
                     alt={video.ytChannel.name}
@@ -116,21 +170,43 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                       {formatDateLocalized(video.releaseDate, i18n.language)}
                     </span>
                   </div>
-                </div>
+                </a>
                 <VideoDescription
                   description={video.description}
                   onTimestampClick={setSeekTo}
                 />
               </div>
-              <div className="mt-2 flex shrink-0 flex-col gap-3">
+              <div className="relative mt-2 flex shrink-0 flex-col gap-3">
+                {isAdmin && !isAdminRoute && (
+                  <div className="absolute top-[-5px] right-0 z-10 self-start">
+                    <IconButton
+                      noCircle
+                      Icon={LuSettings}
+                      onClick={goToAdminChildRoute}
+                      isSmall
+                    />
+                  </div>
+                )}
                 <GameListForVideo
                   games={video.games}
                   onGameClick={handleClickGame}
                   onDeleteGame={isAdminRoute ? handleDeleteGame : undefined}
+                  isAdminRoute={isAdminRoute}
+                  onMarkGameAsIgnored={
+                    isAdminRoute ? handleMarkGameAsIgnored : undefined
+                  }
                 />
                 {isAdminRoute && !video.validated && (
-                  <MainButton onClick={() => validateVideo()}>
+                  <MainButton onClick={handleValidateVideo}>
                     {t("GameListForVideo.iChecked")}
+                  </MainButton>
+                )}
+                {isAdminRoute && !video.ignored && (
+                  <MainButton
+                    onClick={() => setShowIgnoreVideoModal(true)}
+                    danger
+                  >
+                    {t("GameListForVideo.ignoreVideo")}
                   </MainButton>
                 )}
               </div>

@@ -4,7 +4,7 @@ import getAllGames from "../../data-access/games/getAllGames.ts";
 
 export type UseGamesListContext = {
   games: GamesListItem[];
-  reloadGames: () => Promise<void>;
+  reloadGames: (searchText?: string) => Promise<void>;
   nextPage: () => Promise<void>;
   isLoadingGames: boolean;
   searchFilter: string;
@@ -28,38 +28,35 @@ const useGameListContext = (): UseGamesListContext => {
     setSearchFilter(newFilter);
   }, []);
 
-  const reloadGames = useCallback(
-    async (currentSearch = searchFilter) => {
-      setPage(1);
-      setGames([]);
-      setLoading(true);
+  const reloadGames = useCallback(async (searchText?: string) => {
+    setPage(1);
+    setGames([]);
+    setLoading(true);
 
-      const requestId = ++latestRequestId.current;
+    const requestId = ++latestRequestId.current;
 
-      try {
-        const result = await getAllGames({
-          page: 1,
-          search: currentSearch,
-          onlyValidated: true,
-        });
+    try {
+      const result = await getAllGames({
+        page: 1,
+        search: searchText,
+        onlyValidated: true,
+      });
 
-        // 🧠 Ignore results from older requests
-        if (requestId === latestRequestId.current) {
-          setGames(result.data);
-          setTotalGames(result.total);
-          setTotalPages(result.totalPages);
-        }
-      } catch (err) {
-        console.error("Error loading games:", err);
-      } finally {
-        // Only stop loading if still the latest request
-        if (requestId === latestRequestId.current) {
-          setLoading(false);
-        }
+      // 🧠 Ignore results from older requests
+      if (requestId === latestRequestId.current) {
+        setGames(result.data);
+        setTotalGames(result.total);
+        setTotalPages(result.totalPages);
       }
-    },
-    [searchFilter],
-  );
+    } catch (err) {
+      console.error("Error loading games:", err);
+    } finally {
+      // Only stop loading if still the latest request
+      if (requestId === latestRequestId.current) {
+        setLoading(false);
+      }
+    }
+  }, []);
 
   const nextPage = useCallback(async () => {
     if (loading) return;

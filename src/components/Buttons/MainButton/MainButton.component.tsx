@@ -7,7 +7,9 @@ export type MainButtonProps = {
   className?: string;
   loading?: boolean;
   children: React.ReactNode;
+  Icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   type?: "button" | "submit";
+  danger?: boolean;
 };
 
 const MainButton: React.FC<MainButtonProps> = ({
@@ -17,6 +19,8 @@ const MainButton: React.FC<MainButtonProps> = ({
   loading = false,
   children,
   type = "button",
+  Icon,
+  danger = false,
 }) => {
   const handleClick = () => {
     if (disabled || loading) return;
@@ -28,13 +32,15 @@ const MainButton: React.FC<MainButtonProps> = ({
       type={type}
       onClick={handleClick}
       className={`font-title bg-maize relative flex justify-center gap-3
-        rounded-md px-10 py-3 leading-none duration-50 duration-200 ${
+        rounded-md px-10 py-3 leading-none duration-200 ${
           disabled || loading
             ? "cursor-default opacity-50"
             : `cursor-pointer hover:translate-y-[-4px] hover:shadow-md
               active:translate-y-[-4px] active:shadow-md`
-        } ${loading ? "translate-y-[-4px] shadow-md" : ""} ${className}`}
+        } ${loading ? "translate-y-[-4px] shadow-md" : ""}
+        ${danger ? "bg-salmon text-ghost" : ""} ${className}`}
     >
+      {Icon && <Icon className="text-turquoise" />}
       {children}
       {loading && (
         <div className="absolute right-5">

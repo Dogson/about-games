@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Transition } from "@headlessui/react";
 import IconButton from "../Buttons/IconButton/IconButton.component.tsx";
 import { FiTrash2 } from "react-icons/fi";
+import { HiBan } from "react-icons/hi";
 
 export type GameCardProps = {
   title: string;
@@ -15,6 +16,8 @@ export type GameCardProps = {
   onClick?: () => void;
   onDelete?: () => void;
   isFlat?: boolean;
+  onMarkAsIgnored?: () => void;
+  ignored?: boolean;
 };
 
 const GameCard: React.FC<GameCardProps> = ({
@@ -26,6 +29,8 @@ const GameCard: React.FC<GameCardProps> = ({
   isFlat = true,
   onClick,
   onDelete,
+  onMarkAsIgnored,
+  ignored = false,
 }) => {
   const [hovered, setHovered] = React.useState(false);
   const { t } = useTranslation();
@@ -54,6 +59,21 @@ const GameCard: React.FC<GameCardProps> = ({
           onClick={onDelete}
           isSmall={isSmall}
           className="absolute top-[-10px] right-[-10px]"
+        />
+      )}
+      {onMarkAsIgnored && !ignored && (
+        <IconButton
+          Icon={HiBan}
+          onClick={onMarkAsIgnored}
+          isSmall={isSmall}
+          className="bg-salmon absolute top-[-10px] left-1/2 -translate-x-1/2"
+          hoverText={t("Game.ignoreDuringSearch")}
+        />
+      )}
+      {ignored && (
+        <HiBan
+          className="text-ghost absolute top-[5px] left-[5px] rounded-full
+            bg-black opacity-80 drop-shadow-xl"
         />
       )}
       <Transition

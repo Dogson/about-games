@@ -20,9 +20,14 @@ export const routes = {
       path: "/admin/channels",
       goTo: () => "/admin/channels",
     },
+    channelCreate: {
+      path: "/admin/channels/create",
+      goTo: () => "/admin/channels/create",
+    },
     channel: {
-      path: "/admin/channels/:idChannel",
-      goTo: (idChannel: string) => `/admin/channel/${idChannel}`,
+      path: "/admin/channels/:channelIdTitle",
+      goTo: (params: { id: number; title: string }) =>
+        `/admin/channels/${createSlug(params.id, params.title)}`,
     },
   },
   game: {

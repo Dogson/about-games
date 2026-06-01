@@ -4,9 +4,20 @@
       "coverAlt": "Couverture",
       "boxartImgAlt": "Jaquette"
     },
+    "languagesItems": {
+      "fr": "Français",
+      "en": "Anglais",
+      "es": "Espagnol",
+      "de": "Allemand",
+      "it": "Italien",
+      "pt": "Portugais",
+      "nl": "Néerlandais"
+    },
     "games": "Jeux",
     "videos": "Vidéos",
-    "save": "Enregistrer"
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "close": "Fermer"
   },
   "GameSearch": {
     "noResults": "Aucun jeu trouvé",
@@ -19,6 +30,7 @@
   "GameListForVideo": {
     "gamesItsAbout": "Jeux abordés",
     "iChecked": "J'ai verifié chef ✅",
+    "ignoreVideo": "Ignorer la vidéo",
     "searchForGames": "Rechercher des jeux à ajouter"
   },
   "Admin": {
@@ -27,17 +39,32 @@
     "gameMasterMode": "Game Master Mode: ON",
     "manageChannels": "Gérer les chaînes Youtube",
     "reviewVideos": "Vérifier les nouvelles vidéos",
-    "reviewVideosLabel": "Tu as {{count}} vidéo(s) en attente de vérification"
+    "reviewVideosLabel": "Tu as {{count}} vidéo(s) en attente de vérification",
+    "createChannel": "Ajouter une chaîne",
+    "logs": "Logs de l'API"
   },
   "ChannelForm": {
     "errors": {
       "required": "Ce champ est requis",
-      "invalidRegexp": "Expression régulière invalide"
+      "invalidRegexp": "Expression régulière invalide",
+      "invalidLanguage": "Langue invalide",
+      "invalidAttribute": "Attribut invalide"
     },
+    "youtubeHandle": "Handle de la chaîne Youtube",
+    "language": "Langue",
     "parsingAttribute": "Attribut à analyser",
+    "title": "Titre de la vidéo",
+    "description": "Description de la vidéo",
     "ignoreEpisodesContaining": "Ignorer les épisodes contenant ces regexp",
     "ignoreSearchIn": "Ignorer la recherche de jeu dans ces regexp",
-    "endParsingAfter": "Arrêter l'analyse après ces regexp"
+    "endParsingAfter": "Arrêter l'analyse après ces regexp",
+    "ignoreEpisodesMissing": "Ignorer les épisodes manquants ces regexp",
+    "deleteChannel": {
+      "title": "Supprimer la chaîne",
+      "message": "Êtes-vous sûr de vouloir supprimer cette chaîne ? Cette action est irréversible.",
+      "confirm": "Supprimer",
+      "cancel": "Annuler"
+    }
   },
   "Homepage": {
     "tagline": "Là où les vidéastes et essayistes parlent jeux."
@@ -59,12 +86,18 @@
     "userNotFound": "Utilisateur non trouvé"
   },
   "Video": {
-    "notFound": "La vidéo recherchée n'existe pas"
+    "notFound": "La vidéo recherchée n'existe pas",
+    "ignoreModal": {
+      "title": "Souhaitez-vous ignorer cette vidéo",
+      "body": "Cette vidéo ne sera plus referencée, et aucun jeu ne lui sera associé.",
+      "confirm": "Ignorer la vidéo",
+      "cancel": "Annuler"
+    }
   },
   "Game": {
     "tba": "À venir",
     "notFound": "Le jeu recherché n'existe pas",
-    "ignoreDuringSearch": "Ignorer ce jeu de la détection automatique de jeux"
+    "ignoreDuringSearch": "Ignorer ce jeu lors de la détection automatique de jeux"
   },
   "IgdbGameSearch": {
     "noResults": "Aucun jeu trouvé"
