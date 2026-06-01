@@ -6,11 +6,14 @@ import {
 } from "../../../models/Channel.model.ts";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { isStringRegexp } from "../../../helpers/utils/string.ts";
+import { isStringRegexp } from "../../../helpers/utils/string.utils.ts";
 import Input from "../../Inputs/Input/Input.component.tsx";
 import MultiInput from "../../Inputs/MultiInput/MultiInput.component.tsx";
 import MainButton from "../../Buttons/MainButton/MainButton.component.tsx";
 import type { CreateChannelDTO } from "../../../data-access/channels/model/channels.model.ts";
+import SelectInput from "../../Inputs/SelectInput/SelectInput.component.tsx";
+import AppConfig from "../../../config/app.config.ts";
+import LanguageFlag from "../../LanguageFlag/LanguageFlag.component.tsx";
 
 export type ChannelParsingFormProps = {
   value?: Partial<CreateChannelDTO>;
@@ -188,18 +191,33 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
             onChange?.({ ...value, youtubeHandle: newValue })
           }
           error={errors.youtubeHandle}
+          required
         />
-        <Input
+        <SelectInput
           label={t("ChannelForm.language")}
           value={value?.language || ""}
           onChange={(newValue) =>
             onChange?.({ ...value, language: newValue as "en" | "fr" })
           }
+          options={AppConfig.availableLanguages.map((lng) => ({
+            value: lng,
+            label: <LanguageFlag language={lng} withLabel />,
+          }))}
           error={errors.language}
-          placeholder="fr, en"
+          required
         />
 
-        <Input
+        <SelectInput
+          options={[
+            {
+              value: "title",
+              label: t("ChannelForm.title"),
+            },
+            {
+              value: "description",
+              label: t("ChannelForm.description"),
+            },
+          ]}
           label={t("ChannelForm.parsingAttribute")}
           value={value?.parsingOptions?.parsingAttribute || ""}
           onChange={(newValue) =>
@@ -211,8 +229,8 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
               },
             })
           }
-          placeholder="title, description"
           error={errors.parsingAttribute}
+          required
         />
         <MultiInput
           label={t("ChannelForm.ignoreEpisodesContaining")}

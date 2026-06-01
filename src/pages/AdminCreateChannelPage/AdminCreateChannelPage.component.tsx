@@ -8,13 +8,17 @@ import type { CreateChannelDTO } from "../../data-access/channels/model/channels
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../router/routes.config.ts";
+import AppConfig from "../../config/app.config.ts";
 
 const AdminCreateChannelPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [channel, setChannel] = useState<Partial<CreateChannelDTO> | undefined>(
-    undefined,
-  );
+  const [channel, setChannel] = useState<Partial<CreateChannelDTO>>({
+    language: AppConfig.channelForm.defaultValues.language,
+    parsingOptions: {
+      parsingAttribute: AppConfig.channelForm.defaultValues.parsingAttribute,
+    },
+  });
   const [loading, setLoading] = useState(false);
 
   const createChannel = async () => {

@@ -4,6 +4,15 @@
       "coverAlt": "Couverture",
       "boxartImgAlt": "Jaquette"
     },
+    "languagesItems": {
+      "fr": "Français",
+      "en": "Anglais",
+      "es": "Espagnol",
+      "de": "Allemand",
+      "it": "Italien",
+      "pt": "Portugais",
+      "nl": "Néerlandais"
+    },
     "games": "Jeux",
     "videos": "Vidéos",
     "save": "Enregistrer",
@@ -44,6 +53,8 @@
     "youtubeHandle": "Handle de la chaîne Youtube",
     "language": "Langue",
     "parsingAttribute": "Attribut à analyser",
+    "title": "Titre de la vidéo",
+    "description": "Description de la vidéo",
     "ignoreEpisodesContaining": "Ignorer les épisodes contenant ces regexp",
     "ignoreSearchIn": "Ignorer la recherche de jeu dans ces regexp",
     "endParsingAfter": "Arrêter l'analyse après ces regexp",
