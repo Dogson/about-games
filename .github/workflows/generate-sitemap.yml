@@ -1,0 +1,51 @@
+name: Generate Sitemap
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/generate-sitemap.yml"
+
+jobs:
+  generate-sitemap:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate sitemap
+        env:
+          VITE_API_URL: ${{ secrets.API_URL }}
+          SITEMAP_BASE_URL: ${{ secrets.SITEMAP_BASE_URL || 'https://aboutgames.gwen.cool' }}
+          SITEMAP_OUTPUT_PATH: ./public/sitemap.xml
+        run: node scripts/generate-sitemap.mjs
+
+      - name: Commit and push sitemap
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          if git diff --quiet public/sitemap.xml; then
+            echo "No changes to sitemap"
+          else
+            echo "Sitemap updated, committing changes..."
+            git add public/sitemap.xml
+            git commit -m "chore: regenerate sitemap"
+            git push
+          fi
