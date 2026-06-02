@@ -30,7 +30,11 @@ export const mapIgdbGamesToCreateGamesDTO = (
 
 export const getFirstReleaseDate = (igdbGame: IGDBGame): number | null => {
   return igdbGame.release_dates && igdbGame.release_dates.length > 0
-    ? Math.min(...(igdbGame.release_dates || []).map((date) => date.date))
+    ? Math.min(
+        ...(igdbGame.release_dates || [])
+          .filter((date) => date.date)
+          .map((date) => date.date),
+      )
     : null;
 };
 
@@ -45,4 +49,15 @@ export const createSlug = (id: number, title: string): string => {
 export const getIdFromSlug = (slug: string): number | null => {
   const match = slug.match(/^(\d+)-/);
   return match ? parseInt(match[1], 10) : null;
+};
+
+export const sortSameTitleGamesByReleaseDate = (
+  igdbGames: IGDBGame[],
+): IGDBGame[] => {
+  return igdbGames.sort((gameA, gameB) => {
+    if (gameA.name !== gameB.name) return 1;
+    return (getFirstReleaseDate(gameA) || 0) > (getFirstReleaseDate(gameB) || 0)
+      ? 1
+      : -1;
+  });
 };

@@ -4,6 +4,7 @@ import { getYearFromDate } from "../../helpers/utils/datetime.utils.ts";
 import {
   getFirstReleaseDate,
   mapIgdbGamesToCreateGamesDTO,
+  sortSameTitleGamesByReleaseDate,
 } from "../../helpers/games/games.helpers.ts";
 import type { IGDBGame } from "../../models/IgdbGame.model.ts";
 import type { CreateGameDTO } from "../../data-access/games/model/games.model.ts";
@@ -82,7 +83,7 @@ const IgdbGameSearch: React.FC<IgdbGameSearchProps> = ({
               {t("IgdbGameSearch.noResults")}
             </div>
           ) : (
-            games.map((game) => {
+            sortSameTitleGamesByReleaseDate(games).map((game) => {
               const selected = isSelected(game.id);
 
               return (

@@ -146,18 +146,17 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                   smallContainer={isAdminRoute}
                 />
                 {goToPreviousVideo && goToNextVideo && (
-                  <div className="flex gap-5">
+                  <div className="flex items-center gap-5">
                     <IconButton
                       Icon={FiChevronLeft}
                       onClick={goToPreviousVideo}
                       disabled={isFirstVideo}
                     />
-                    <div className="flex items-end gap-1">
-                      <span className="font-title text-lg font-bold">
-                        N° {currentVideoRank}
+                    <div className="flex gap-1">
+                      <span className="font-title text-xl font-bold">
+                        {currentVideoRank}
                       </span>
-                      <span className="opacity-60">/</span>
-                      <span>{totalVideoCount}</span>
+                      <span className="pt-2">/ {totalVideoCount}</span>
                     </div>
                     <IconButton
                       Icon={FiChevronRight}

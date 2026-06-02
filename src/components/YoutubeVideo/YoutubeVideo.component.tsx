@@ -74,7 +74,7 @@ const YoutubeVideo: React.FC<YoutubeVideoProps> = ({
     <div className="flex w-full justify-center">
       <div
         className={`flex w-full flex-col gap-3 ${
-          smallContainer ? "max-w-[360px]" : "max-w-[960px]"
+          smallContainer ? "max-w-[460px]" : "max-w-[960px]"
         }`}
       >
         {/* Title matches exact video width */}
