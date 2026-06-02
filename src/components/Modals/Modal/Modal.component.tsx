@@ -159,7 +159,7 @@ const Modal: React.FC<ModalProps> = ({
                     "text-ghost transition-all",
                     dangerousAction
                       ? "bg-salmon hover:bg-salmon/80"
-                      : "bg-turquoise hover:bg-turquoise/80",
+                      : "bg-maize hover:bg-maize/80",
                   )}
                   disabled={confirmDisabled}
                 >

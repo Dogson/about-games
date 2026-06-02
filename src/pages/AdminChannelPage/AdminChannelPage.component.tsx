@@ -63,7 +63,10 @@ const AdminChannelPage: React.FC = () => {
 
   return (
     <PageLayout>
-      <div className="flex flex-1 flex-col items-center justify-center gap-10">
+      <div
+        className="mt-15 flex w-full flex-1 flex-col items-center gap-10 p-5
+          md:mt-0 md:w-auto md:justify-center"
+      >
         <ChannelInfos
           avatarUrl={channel?.thumbnailUrl || ""}
           name={channel?.name || ""}

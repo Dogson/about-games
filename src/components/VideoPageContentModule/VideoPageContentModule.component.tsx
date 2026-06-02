@@ -26,6 +26,8 @@ import { Helmet } from "react-helmet";
 type VideoPageContentProps = {
   game?: Game;
   currentVideoId: number;
+  currentVideoRank?: number;
+  totalVideoCount?: number;
   goToPreviousVideo?: () => void;
   goToNextVideo?: () => void;
   isFirstVideo?: boolean;
@@ -34,6 +36,8 @@ type VideoPageContentProps = {
 
 const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
   game,
+  currentVideoRank,
+  totalVideoCount,
   currentVideoId,
   goToNextVideo,
   goToPreviousVideo,
@@ -115,9 +119,13 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
           <Helmet>
             <title>{`${video.title} - about games`}</title>
           </Helmet>
-          <div className="relative px-30 pt-20">
+          <div
+            className={
+              "relative flex flex-col gap-5 px-5 pt-15 md:px-30 md:pt-20"
+            }
+          >
             {game && (
-              <div className="absolute top-18 left-5 self-start">
+              <div className="self-start md:absolute md:top-18 md:left-5">
                 <GameBackButton
                   onClick={() =>
                     goToGame && goToGame({ title: game.title, id: game.id })
@@ -127,33 +135,42 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
               </div>
             )}
             <div
-              className="max-w-container relative flex w-full flex-1 flex-col
-                items-center gap-4"
+              className="max-w-container relative flex w-full min-w-0 flex-1
+                flex-col items-center gap-4"
             >
-              <div className="flex w-full items-center justify-evenly">
-                {goToPreviousVideo && (
-                  <IconButton
-                    Icon={FiChevronLeft}
-                    onClick={goToPreviousVideo}
-                    disabled={isFirstVideo}
-                  />
-                )}
+              <div className="flex w-full flex-col items-center gap-5">
                 <YoutubeVideo
                   youtubeId={video.youtubeId}
                   seekTo={seekTo}
                   title={video.title}
                   smallContainer={isAdminRoute}
                 />
-                {goToNextVideo && (
-                  <IconButton
-                    Icon={FiChevronRight}
-                    onClick={goToNextVideo}
-                    disabled={isLastVideo}
-                  />
+                {goToPreviousVideo && goToNextVideo && (
+                  <div className="flex gap-5">
+                    <IconButton
+                      Icon={FiChevronLeft}
+                      onClick={goToPreviousVideo}
+                      disabled={isFirstVideo}
+                    />
+                    <div className="flex items-end gap-1">
+                      <span className="font-title text-lg font-bold">
+                        N° {currentVideoRank}
+                      </span>
+                      <span className="opacity-60">/</span>
+                      <span>{totalVideoCount}</span>
+                    </div>
+                    <IconButton
+                      Icon={FiChevronRight}
+                      onClick={goToNextVideo}
+                      disabled={isLastVideo}
+                    />
+                  </div>
                 )}
               </div>
               <Separator direction="horizontal" bulletSize="sm" />
-              <div className="flex w-full items-start gap-4">
+              <div
+                className="flex w-full flex-col items-start gap-4 md:flex-row"
+              >
                 <div className="flex flex-col items-start gap-2">
                   <div
                     className="flex w-full flex-row items-center

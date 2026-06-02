@@ -182,8 +182,8 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <div className="grid grid-cols-2 gap-x-10 gap-y-6">
+    <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
+      <div className="grid grid-cols-1 gap-x-5 gap-y-6 md:grid-cols-2">
         <Input
           label={t("ChannelForm.youtubeHandle")}
           value={value?.youtubeHandle || ""}
@@ -382,7 +382,7 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
           }
         />
       </div>
-      <div className="flex flex-row-reverse justify-between">
+      <div className="mt-5 flex flex-row-reverse justify-between">
         <MainButton type="submit" className="self-end" loading={loading}>
           {t("common.save")}
         </MainButton>

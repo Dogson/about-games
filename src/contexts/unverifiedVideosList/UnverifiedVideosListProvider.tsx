@@ -13,6 +13,7 @@ export const UnverifiedVideosListProvider: React.FC<{
     isLastVideo,
     unverifiedVideosCount,
     currentVideo,
+    currentVideoIdx,
   } = useUnverifiedVideosListContext();
 
   return (
@@ -25,6 +26,7 @@ export const UnverifiedVideosListProvider: React.FC<{
         isLastVideo,
         unverifiedVideosCount,
         currentVideo,
+        currentVideoIdx,
       }}
     >
       {children}

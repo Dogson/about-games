@@ -24,9 +24,10 @@ const PageLayout: React.FC<{
         <IconButton
           Icon={LuBug}
           onClick={() => setShowLogsModal(true)}
-          className="absolute right-5 bottom-5 z-10 p-1.5"
+          className="fixed right-5 bottom-5 z-10 p-1.5 shadow-md"
         />
       )}
+
       {!noHeader && <HeaderModule noSearch={noSearchInHeader} />}
       <div
         className="box-border flex min-h-screen flex-col items-center gap-2

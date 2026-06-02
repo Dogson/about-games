@@ -24,7 +24,7 @@
     "searchPlaceholder": "Search for a game"
   },
   "GamePageHeader": {
-    "about": "about"
+    "about": "about..."
   },
   "GameListForVideo": {
     "gamesItsAbout": "Games covered",
@@ -38,7 +38,7 @@
     "gameMasterMode": "Game Master Mode: ON",
     "manageChannels": "Manage YouTube channels",
     "reviewVideos": "Review videos",
-    "reviewVideosLabel": "You have {{count}} video(s) pending review",
+    "reviewVideosLabel": "{{count}} video(s) pending review",
     "createChannel": "Add a channel",
     "logs": "API logs"
   },

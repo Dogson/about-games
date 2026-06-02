@@ -11,6 +11,7 @@ export type UseUnverifiedVideosListContext = {
   isFirstVideo: boolean;
   isLastVideo: boolean;
   unverifiedVideosCount?: number;
+  currentVideoIdx?: number;
 };
 
 const useUnverifiedVideosListContext = (): UseUnverifiedVideosListContext => {
@@ -43,6 +44,8 @@ const useUnverifiedVideosListContext = (): UseUnverifiedVideosListContext => {
     if (isAdmin) fetchUnverifiedVideos();
   }, [fetchUnverifiedVideos, isAdmin]);
 
+  console.log(currentVideoIdx);
+
   return {
     isLoadingVideos: loading,
     currentVideo: unverifiedVideos[currentVideoIdx],
@@ -51,6 +54,7 @@ const useUnverifiedVideosListContext = (): UseUnverifiedVideosListContext => {
     isFirstVideo: currentVideoIdx === 0,
     isLastVideo: currentVideoIdx === unverifiedVideos.length - 1,
     unverifiedVideosCount: unverifiedVideos.length,
+    currentVideoIdx,
   };
 };
 

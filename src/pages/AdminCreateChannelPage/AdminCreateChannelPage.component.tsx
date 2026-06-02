@@ -59,8 +59,8 @@ const AdminCreateChannelPage: React.FC = () => {
   return (
     <PageLayout>
       <div
-        className="flex h-full w-full flex-1 flex-col justify-center gap-10
-          p-30"
+        className="flex h-full w-full flex-1 flex-col justify-center gap-10 px-5
+          py-20 md:px-30 md:py-30"
       >
         <h1 className="text-2xl font-bold">{t("Admin.createChannel")}</h1>
         <ChannelParsingForm

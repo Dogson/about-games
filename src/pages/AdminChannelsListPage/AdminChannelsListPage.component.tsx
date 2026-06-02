@@ -23,8 +23,8 @@ const AdminChannelsListPage: React.FC = () => {
   return (
     <PageLayout>
       <div
-        className="flex h-full w-full flex-1 flex-col justify-center gap-10
-          p-30"
+        className="flex h-full w-full flex-1 flex-col justify-center gap-10 px-5
+          py-20 md:px-30 md:py-30"
       >
         <span className="font-title self-start text-3xl">Channels</span>
         <div className="flex w-full flex-1 flex-col gap-4">
