@@ -66,6 +66,7 @@ const useGameListContext = (): UseGamesListContext => {
 
   const nextPage = useCallback(async () => {
     if (loading) return;
+    if (page === totalPages) return;
     setLoading(true);
     const newPage = page + 1;
 
@@ -90,7 +91,7 @@ const useGameListContext = (): UseGamesListContext => {
         setLoading(false);
       }
     }
-  }, [languages, loading, page, searchFilter]);
+  }, [languages, loading, page, searchFilter, totalPages]);
 
   // === Debounce search ===
   useEffect(() => {
