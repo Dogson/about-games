@@ -4,7 +4,7 @@ import getAllGames from "../../data-access/games/getAllGames.ts";
 import { ChannelsSettingsContext } from "../channelsSettings/ChannelsSettingsContext.ts";
 
 export type UseGamesListContext = {
-  games: GamesListItem[];
+  games?: GamesListItem[];
   reloadGames: (searchText?: string) => Promise<void>;
   nextPage: () => Promise<void>;
   isLoadingGames: boolean;
@@ -16,7 +16,7 @@ export type UseGamesListContext = {
 
 const useGameListContext = (): UseGamesListContext => {
   const { languages } = useContext(ChannelsSettingsContext);
-  const [games, setGames] = useState<GamesListItem[]>([]);
+  const [games, setGames] = useState<GamesListItem[]>();
   const [loading, setLoading] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
@@ -66,6 +66,7 @@ const useGameListContext = (): UseGamesListContext => {
 
   const nextPage = useCallback(async () => {
     if (loading) return;
+    if (page === totalPages) return;
     setLoading(true);
     const newPage = page + 1;
 
@@ -80,7 +81,7 @@ const useGameListContext = (): UseGamesListContext => {
       });
 
       if (requestId === latestRequestId.current) {
-        setGames((prev) => [...prev, ...newGames.data]);
+        setGames((prev) => [...(prev || []), ...newGames.data]);
         setPage(newPage);
       }
     } catch (err) {
@@ -90,7 +91,7 @@ const useGameListContext = (): UseGamesListContext => {
         setLoading(false);
       }
     }
-  }, [languages, loading, page, searchFilter]);
+  }, [languages, loading, page, searchFilter, totalPages]);
 
   // === Debounce search ===
   useEffect(() => {

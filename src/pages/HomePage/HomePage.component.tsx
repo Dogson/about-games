@@ -18,6 +18,7 @@ import LanguageCode from "../../components/LanguageCode/LanguageCode.component.t
 import SecondaryButton from "../../components/Buttons/SecondaryButton/SecondaryButton.component.tsx";
 import VideoLanguagesModal from "../../components/Modals/VideosLanguagesModal/VideoLanguagesModal.component.tsx";
 import { Helmet } from "react-helmet";
+import Card from "../../components/Card/Card.component.tsx";
 
 const HomePage: React.FC = () => {
   const { t } = useTranslation();
@@ -26,7 +27,6 @@ const HomePage: React.FC = () => {
   const { games, nextPage, onChangeSearchFilter, searchFilter, reloadGames } =
     useContext(GamesListContext);
   const { languages, changeLanguages } = useContext(ChannelsSettingsContext);
-  useState(false);
   const logoRef = useRef<HTMLDivElement | null>(null);
   const [isLogoInView, setIsLogoInView] = useState(true);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
@@ -110,10 +110,20 @@ const HomePage: React.FC = () => {
             )}
           </div>
           <GameGrid
-            games={games}
+            games={games || []}
             onGameClick={goToGame}
             onScrollEnd={nextPage}
           />
+          {games && games.length === 0 && (
+            <Card className="flex gap-1">
+              <span className="font-title text-lg">
+                {t("Homepage.noGamesTitle")}
+              </span>
+              <span className="text-sm">
+                {t("Homepage.noGamesDescription")}
+              </span>
+            </Card>
+          )}
         </section>
       </div>
     </PageLayout>

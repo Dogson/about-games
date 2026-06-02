@@ -68,7 +68,9 @@
   "Homepage": {
     "tagline": "Là où les vidéastes et essayistes parlent jeux.",
     "languages": "Langue(s) des vidéos : ",
-    "customizeLanguages": "Personnaliser les langues"
+    "customizeLanguages": "Personnaliser les langues",
+    "noGamesTitle": "Aucun jeu n'a été trouvé.",
+    "noGamesDescription": "Le jeu existe peut-être, mais aucune vidéo dans les langues choisies n'est repertoriée."
   },
   "VideoLanguagesModal": {
     "title": "Langues des vidéos",
@@ -102,7 +104,9 @@
   "Game": {
     "tba": "À venir",
     "notFound": "Le jeu recherché n'existe pas",
-    "ignoreDuringSearch": "Ignorer ce jeu lors de la détection automatique de jeux"
+    "ignoreDuringSearch": "Ignorer ce jeu lors de la détection automatique de jeux",
+    "noVideosTitle": "Aucune vidéo n'a été trouvée.",
+    "noVideosDescription": "Vous pouvez élargir vos préferences de langues afin d'inclure plus de vidéos."
   },
   "IgdbGameSearch": {
     "noResults": "Aucun jeu trouvé"

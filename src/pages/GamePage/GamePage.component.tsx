@@ -9,20 +9,29 @@ import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../contexts/auth/AuthContext.ts";
 import Modal from "../../components/Modals/Modal/Modal.component.tsx";
 import { Helmet } from "react-helmet";
+import Card from "../../components/Card/Card.component.tsx";
+import SecondaryButton from "../../components/Buttons/SecondaryButton/SecondaryButton.component.tsx";
+import VideoLanguagesModal from "../../components/Modals/VideosLanguagesModal/VideoLanguagesModal.component.tsx";
+import { ChannelsSettingsContext } from "../../contexts/channelsSettings/ChannelsSettingsContext.ts";
 
 const GamePage: React.FC = () => {
   const { currentGameId, goToVideo, goToParentRoute } = useAppRoutes();
   const { isAdmin } = useContext(AuthContext);
   const [modalOpened, setModalOpened] = useState(false);
+  const [showLanguageModal, setShowLanguageModal] = useState(false);
+  const { languages, changeLanguages } = useContext(ChannelsSettingsContext);
   const { t } = useTranslation();
 
   if (!currentGameId) {
     goToParentRoute();
   }
 
-  const { game, changeGameOptions } = useCurrentGame(currentGameId || -1);
+  const handleChangeVideoLanguages = (newLanguages: string[]) => {
+    changeLanguages(newLanguages);
+    setShowLanguageModal(false);
+  };
 
-  console.log(game?.title);
+  const { game, changeGameOptions } = useCurrentGame(currentGameId || -1);
 
   return (
     <PageLayout>
@@ -76,6 +85,27 @@ const GamePage: React.FC = () => {
                   });
                 }}
               />
+              {game.videos && game.videos.length === 0 && (
+                <Card className="flex gap-1">
+                  <span className="font-title text-lg">
+                    {t("Game.noVideosTitle")}
+                  </span>
+                  <span className="flex flex-row items-center gap-1 text-sm">
+                    {t("Game.noVideosDescription")}
+                    <SecondaryButton onClick={() => setShowLanguageModal(true)}>
+                      {t("Homepage.customizeLanguages")}
+                    </SecondaryButton>
+                  </span>
+
+                  {showLanguageModal && languages && (
+                    <VideoLanguagesModal
+                      languages={languages}
+                      onChangeLanguages={handleChangeVideoLanguages}
+                      onClose={() => setShowLanguageModal(false)}
+                    />
+                  )}
+                </Card>
+              )}
             </div>
           </div>
         </div>

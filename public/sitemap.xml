@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>http://localhost:5173/</loc>
+    
+    <changefreq>daily</changefreq>
+    <priority>1</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/admin</loc>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/admin/channels</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/admin/channels/create</loc>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/618-kingdom-come-deliverance-ii</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/618-kingdom-come-deliverance-ii/359-i-figured-out-where-kingdom-come-2-s-fountain-gets-its-water</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/545-kingdom-come-deliverance</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/545-kingdom-come-deliverance/365-uninteresting-places-in-kingdom-come-deliverance</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/542-fallout-4</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/542-fallout-4/362-how-many-nukes-actually-hit-fallout-4-s-commonwealth</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/540-the-elder-scrolls-v-skyrim</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/540-the-elder-scrolls-v-skyrim/361-can-you-live-an-average-life-in-skyrim</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/540-the-elder-scrolls-v-skyrim/366-how-many-trees-are-there-in-skyrim</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/540-the-elder-scrolls-v-skyrim/371-what-s-on-the-edge-of-skyrim</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/540-the-elder-scrolls-v-skyrim/391-what-does-skyrim-literally-feel-like</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/540-the-elder-scrolls-v-skyrim/412-the-final-verdict-on-skyrim-s-restaurant-industry</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/540-the-elder-scrolls-v-skyrim/415-is-there-peace-and-quiet-to-be-found-in-skyrim</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/540-the-elder-scrolls-v-skyrim/428-more-skyrim-restaurant-critiques</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/540-the-elder-scrolls-v-skyrim/446-unremarkable-and-odd-places-in-skyrim</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/507-where-winds-meet</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/507-where-winds-meet/363-do-the-rivers-in-where-winds-meet-flow-anywhere</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/416-dragon-quest-ii-hd-2d-remake</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/416-dragon-quest-ii-hd-2d-remake/327-2025-finira-quand-on-lui-dira-de-finir-dragon-quest-remake-mafia-the-old-country-unbeatable</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/415-dragon-quest-i-hd-2d-remake</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/415-dragon-quest-i-hd-2d-remake/327-2025-finira-quand-on-lui-dira-de-finir-dragon-quest-remake-mafia-the-old-country-unbeatable</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/364-mafia-the-old-country</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/364-mafia-the-old-country/327-2025-finira-quand-on-lui-dira-de-finir-dragon-quest-remake-mafia-the-old-country-unbeatable</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/365-unbeatable</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/365-unbeatable/327-2025-finira-quand-on-lui-dira-de-finir-dragon-quest-remake-mafia-the-old-country-unbeatable</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/343-absolum</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/343-absolum/331-il-avait-la-vision-sur-absolum-interview-de-maxime-mary-directeur-artistique</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/148-grand-theft-auto-v</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/148-grand-theft-auto-v/364-what-s-the-oldest-building-in-gta-5</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/148-grand-theft-auto-v/385-can-a-747-actually-land-in-gta5</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/148-grand-theft-auto-v/393-the-most-boring-place-in-gta-5</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/148-grand-theft-auto-v/414-winterhold-has-a-5-unemployment-rate</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/148-grand-theft-auto-v/485-gta-iv-vs-donkey-kong-country-vs-giants-citizen-kabuto-ranking-5-random-games</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>http://localhost:5173/games/148-grand-theft-auto-v/489-shadow-of-the-colossus-vs-lego-indiana-jones-ranking-5-random-games</loc>
+    
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>
