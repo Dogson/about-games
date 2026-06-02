@@ -32,8 +32,8 @@ jobs:
       - name: Generate sitemap
         env:
           VITE_API_URL: ${{ secrets.API_URL }}
-          SITEMAP_BASE_URL: ${{ secrets.SITEMAP_BASE_URL || 'https://aboutgames.gwen.cool' }}
-          SITEMAP_OUTPUT_PATH: ./public/sitemap.xml
+          SITEMAP_BASE_URL: ${{ secrets.SITEMAP_BASE_URL }}
+          SITEMAP_OUTPUT_PATH: ${{ secrets.SITEMAP_OUTPUT_PATH }}
         run: node scripts/generate-sitemap.mjs
 
       - name: Commit and push sitemap
