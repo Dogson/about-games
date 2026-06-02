@@ -23,8 +23,9 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
       type="button"
       onClick={handleClick}
       disabled={disabled}
-      className={`text-corn hover:border-b-corn hover:text-corn/90 text-xs
-        underline underline-offset-2 transition duration-200 focus:outline-none
+      className={`text-corn hover:border-b-corn hover:text-corn/90 font-regular
+        text-sm underline underline-offset-2 transition duration-200
+        focus:outline-none
         ${disabled ? "cursor-default opacity-50" : "cursor-pointer"}
         ${className}`}
     >

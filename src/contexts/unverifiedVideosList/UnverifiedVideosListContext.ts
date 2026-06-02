@@ -12,4 +12,5 @@ export const UnverifiedVideosListContext =
     isFirstVideo: false,
     isLastVideo: false,
     unverifiedVideosCount: 0,
+    currentVideoIdx: 0,
   });

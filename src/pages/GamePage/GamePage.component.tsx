@@ -65,7 +65,7 @@ const GamePage: React.FC = () => {
             admin={!!isAdmin}
             onAdminSettingsClick={() => setModalOpened(true)}
           />
-          <div className="flex w-full flex-col items-center px-10">
+          <div className="flex w-full flex-col items-center px-5">
             <div className="max-w-container">
               <VideosGrid
                 videos={game.videos.map((video) => ({
@@ -90,7 +90,10 @@ const GamePage: React.FC = () => {
                   <span className="font-title text-lg">
                     {t("Game.noVideosTitle")}
                   </span>
-                  <span className="flex flex-row items-center gap-1 text-sm">
+                  <span
+                    className="flex flex-col items-start gap-1 text-sm
+                      md:flex-row md:items-center"
+                  >
                     {t("Game.noVideosDescription")}
                     <SecondaryButton onClick={() => setShowLanguageModal(true)}>
                       {t("Homepage.customizeLanguages")}

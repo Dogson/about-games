@@ -24,7 +24,7 @@
     "searchPlaceholder": "Rechercher un jeu"
   },
   "GamePageHeader": {
-    "about": "à propos de"
+    "about": "à propos de..."
   },
   "GameListForVideo": {
     "gamesItsAbout": "Jeux abordés",
@@ -38,7 +38,7 @@
     "gameMasterMode": "Game Master Mode: ON",
     "manageChannels": "Gérer les chaînes Youtube",
     "reviewVideos": "Vérifier les nouvelles vidéos",
-    "reviewVideosLabel": "Tu as {{count}} vidéo(s) en attente de vérification",
+    "reviewVideosLabel": "{{count}} vidéo(s) en attente de vérification",
     "createChannel": "Ajouter une chaîne",
     "logs": "Logs de l'API"
   },

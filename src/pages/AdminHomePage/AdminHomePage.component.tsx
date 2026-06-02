@@ -22,15 +22,23 @@ const AdminHomePage: React.FC = () => {
             {t("Admin.gameMasterMode")}
           </span>
         </div>
-        <div className="flex items-center justify-center gap-2">
+        <div
+          className="flex flex-col items-center justify-center gap-2
+            md:flex-row"
+        >
           <MainButton
             onClick={() => navigate(routes.admin.channels.goTo())}
             className="w-90"
           >
             {t("Admin.manageChannels")}
           </MainButton>
-          <Separator direction="vertical" bulletSize="sm" />
-          <div className="flex flex-col items-center gap-8">
+          <div className="hidden h-full md:block">
+            <Separator direction="vertical" bulletSize="sm" />
+          </div>
+          <div className="block w-full md:hidden">
+            <Separator direction="horizontal" bulletSize="sm" />
+          </div>
+          <div className="flex flex-col items-center gap-3 md:gap-8">
             <span className="font-title text-xl">
               {t("Admin.reviewVideosLabel", { count: unverifiedVideosCount })}
             </span>
