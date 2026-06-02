@@ -52,13 +52,11 @@ const Template: StoryFn<LoggingConsoleProps> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
   logs: baseLogs,
-  isLoading: false,
 };
 
 export const Streaming = Template.bind({});
 Streaming.args = {
   logs: baseLogs,
-  isLoading: true,
 };
 
 export const Empty = Template.bind({});
