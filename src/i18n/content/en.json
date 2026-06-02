@@ -4,31 +4,111 @@
       "coverAlt": "Cover",
       "boxartImgAlt": "Box art"
     },
+    "languagesItems": {
+      "fr": "French",
+      "en": "English",
+      "es": "Spanish",
+      "de": "German",
+      "it": "Italian",
+      "pt": "Portuguese",
+      "nl": "Dutch"
+    },
     "games": "Games",
     "videos": "Videos",
-    "save": "Enregistrer"
+    "save": "Save",
+    "delete": "Delete",
+    "close": "Close"
   },
-  "Game": {
-    "tba": "Coming soon"
+  "GameSearch": {
+    "noResults": "No games found",
+    "searchPlaceholder": "Search for a game"
   },
   "GamePageHeader": {
-    "about": "about..."
+    "about": "about"
   },
   "GameListForVideo": {
-    "gamesItsAbout": "Games it's about"
+    "gamesItsAbout": "Games covered",
+    "iChecked": "I checked, boss ✅",
+    "ignoreVideo": "Ignore video",
+    "searchForGames": "Search for games to add"
   },
   "Admin": {
     "accuracy": "Accuracy",
-    "reset": "Reset"
+    "reset": "Reset",
+    "gameMasterMode": "Game Master Mode: ON",
+    "manageChannels": "Manage YouTube channels",
+    "reviewVideos": "Review videos",
+    "reviewVideosLabel": "You have {{count}} video(s) pending review",
+    "createChannel": "Add a channel",
+    "logs": "API logs"
   },
   "ChannelForm": {
     "errors": {
       "required": "This field is required",
-      "invalidRegexp": "Invalid regular expression"
+      "invalidRegexp": "Invalid regular expression",
+      "invalidLanguage": "Invalid language",
+      "invalidAttribute": "Invalid attribute"
     },
-    "parsingAttribute": "Parsing attribute",
-    "ignoreEpisodesContaining": "Ignore episodes containing the following regexp",
-    "ignoreSearchIn": "Ignore game search in the following regexp",
-    "endParsingAfter": "End parsing after the following regexp"
+    "youtubeHandle": "YouTube channel handle",
+    "language": "Language",
+    "parsingAttribute": "Attribute to parse",
+    "title": "Video title",
+    "description": "Video description",
+    "ignoreEpisodesContaining": "Ignore episodes containing these regexps",
+    "ignoreSearchIn": "Ignore search for game in these regexps",
+    "endParsingAfter": "Stop parsing after these regexps",
+    "ignoreEpisodesMissing": "Ignore episodes missing these regexps",
+    "deleteChannel": {
+      "title": "Delete channel",
+      "message": "Are you sure you want to delete this channel? This action is irreversible.",
+      "confirm": "Delete",
+      "cancel": "Cancel"
+    }
+  },
+  "Homepage": {
+    "tagline": "Where video creators and essayists talk about games.",
+    "languages": "Video language(s): ",
+    "customizeLanguages": "Customize languages",
+    "noGamesTitle": "No games found.",
+    "noGamesDescription": "The game may exist, but no videos in the selected languages are listed."
+  },
+  "VideoLanguagesModal": {
+    "title": "Video languages",
+    "description": "Select video languages to include in results."
+  },
+  "LoginPage": {
+    "areYouGameMaster": "Are you the Game Master?",
+    "username": "Username",
+    "password": "Password",
+    "errors": {
+      "apiLoginError": "An error occurred during authentication.",
+      "badCredentials": "Incorrect username or password."
+    },
+    "login": "Log in"
+  },
+  "ApiErrors": {
+    "forbidden": "You don't have permission for this route.",
+    "sessionExpired": "Session expired, please log in again.",
+    "unknown": "An unknown error occurred",
+    "userNotFound": "User not found"
+  },
+  "Video": {
+    "notFound": "Video not found",
+    "ignoreModal": {
+      "title": "Do you want to ignore this video?",
+      "body": "This video will no longer be referenced, and no game will be associated with it.",
+      "confirm": "Ignore video",
+      "cancel": "Cancel"
+    }
+  },
+  "Game": {
+    "tba": "TBA",
+    "notFound": "Game not found",
+    "ignoreDuringSearch": "Ignore this game during automatic game detection",
+    "noVideosTitle": "No videos found.",
+    "noVideosDescription": "You can broaden your language preferences to include more videos."
+  },
+  "IgdbGameSearch": {
+    "noResults": "No games found"
   }
 }
