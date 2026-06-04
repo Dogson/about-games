@@ -54,10 +54,21 @@ export const getIdFromSlug = (slug: string): number | null => {
 export const sortSameTitleGamesByReleaseDate = (
   igdbGames: IGDBGame[],
 ): IGDBGame[] => {
-  return igdbGames.sort((gameA, gameB) => {
-    if (gameA.name !== gameB.name) return 1;
-    return (getFirstReleaseDate(gameA) || 0) > (getFirstReleaseDate(gameB) || 0)
-      ? 1
-      : -1;
+  const firstOccurrence = new Map<string, number>();
+
+  igdbGames.forEach((game, index) => {
+    if (!firstOccurrence.has(game.name)) {
+      firstOccurrence.set(game.name, index);
+    }
+  });
+
+  return [...igdbGames].sort((gameA, gameB) => {
+    if (gameA.name === gameB.name) {
+      return (
+        (getFirstReleaseDate(gameA) || 0) - (getFirstReleaseDate(gameB) || 0)
+      );
+    }
+
+    return firstOccurrence.get(gameA.name)! - firstOccurrence.get(gameB.name)!;
   });
 };
