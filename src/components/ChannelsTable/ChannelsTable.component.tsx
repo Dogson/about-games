@@ -9,6 +9,7 @@ import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
 import Tooltip from "../Tooltip/Tooltip.component.tsx";
 import SearchInput from "../Inputs/SearchInput/SearchInput.component.tsx";
 import useAppRoutes from "../../hooks/useAppRoutes.hook.ts";
+import LanguageCode from "../LanguageCode/LanguageCode.component.tsx";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -76,6 +77,16 @@ const ChannelsTable = ({ channels }: ChannelsTableProps) => {
         minWidth: 150,
       },
       {
+        headerName: "Language",
+        field: "language",
+        minWidth: 150,
+        cellRenderer: (params: ICellRendererParams<Channel>) => {
+          if (!params.data) return null;
+          const { language } = params.data;
+          return <LanguageCode language={language} />;
+        },
+      },
+      {
         headerName: "Last Parsing Error",
         field: "lastParsingError",
         minWidth: 200,
@@ -87,22 +98,6 @@ const ChannelsTable = ({ channels }: ChannelsTableProps) => {
               channelId={params.data?.id || 0}
             />
           ) : null,
-      },
-      {
-        headerName: "Game Finder Accuracy",
-        field: "accuracy",
-        minWidth: 150,
-        cellRenderer: (params: ICellRendererParams<Channel>) => {
-          if (!params.data) return null;
-          const { totalGamesFoundCount, totalGamesCount } = params.data;
-          if (totalGamesCount === 0) return "0%";
-          const ratio = Math.round(
-            (totalGamesFoundCount / totalGamesCount) * 100,
-          );
-          return (
-            <span className="font-semibold text-green-400">{`${ratio}%`}</span>
-          );
-        },
       },
     ],
     [],
