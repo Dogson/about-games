@@ -31,8 +31,8 @@ const MainButton: React.FC<MainButtonProps> = ({
     <button
       type={type}
       onClick={handleClick}
-      className={`font-title bg-maize relative flex items-center justify-center
-        gap-3 rounded-md px-10 py-3 leading-none duration-200 ${
+      className={`font-title bg-maize text-ghost relative flex items-center
+        justify-center gap-3 rounded-md px-10 py-3 leading-none duration-200 ${
           disabled || loading
             ? "pointer-events-none cursor-default opacity-50"
             : `cursor-pointer hover:translate-y-[-4px] hover:shadow-md

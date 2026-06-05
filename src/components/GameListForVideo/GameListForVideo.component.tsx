@@ -41,6 +41,7 @@ const GameListForVideo: React.FC<GameListForVideoProps> = ({
                 : undefined
             }
             ignored={isAdminRoute && game.ignoreDuringSearch}
+            alwaysShowTitle={isAdminRoute}
           />
         ))}
       </div>

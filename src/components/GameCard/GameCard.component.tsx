@@ -18,6 +18,7 @@ export type GameCardProps = {
   isFlat?: boolean;
   onMarkAsIgnored?: () => void;
   ignored?: boolean;
+  alwaysShowTitle?: boolean;
 };
 
 const GameCard: React.FC<GameCardProps> = ({
@@ -31,6 +32,7 @@ const GameCard: React.FC<GameCardProps> = ({
   onDelete,
   onMarkAsIgnored,
   ignored = false,
+  alwaysShowTitle = false,
 }) => {
   const [hovered, setHovered] = React.useState(false);
   const { t } = useTranslation();
@@ -77,7 +79,7 @@ const GameCard: React.FC<GameCardProps> = ({
         />
       )}
       <Transition
-        show={hovered}
+        show={hovered || alwaysShowTitle}
         as={React.Fragment}
         enter="transition ease-out duration-200 delay-100"
         enterFrom="opacity-0 translate-y-4"
