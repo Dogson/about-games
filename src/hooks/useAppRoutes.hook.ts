@@ -82,13 +82,6 @@ const useAppRoutes = (): UseAppRoutes => {
   }, [location.pathname, navigate]);
 
   const goToChannel = (channel: { id: number; title: string }) => {
-    console.log(
-      routes.admin.channel.goTo({
-        id: channel.id,
-        title: channel.title,
-      }),
-    );
-
     navigate(
       routes.admin.channel.goTo({
         id: channel.id,

@@ -22,6 +22,8 @@ import { getYoutubeChannelUrlFromHandle } from "../../helpers/utils/youtube.util
 import Modal from "../Modals/Modal/Modal.component";
 import LanguageCode from "../LanguageCode/LanguageCode.component";
 import { Helmet } from "react-helmet";
+import SmartLink from "../SmartLink/SmartLink.component";
+import { routes } from "../../router/routes.config";
 
 type VideoPageContentProps = {
   game?: Game;
@@ -175,10 +177,17 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                     className="flex w-full flex-row items-center
                       justify-between"
                   >
-                    <a
-                      href={getYoutubeChannelUrlFromHandle(
-                        video.ytChannel.youtubeHandle,
-                      )}
+                    <SmartLink
+                      to={
+                        isAdminRoute
+                          ? routes.admin.channel.goTo({
+                              id: video.ytChannel.id,
+                              title: video.ytChannel.name,
+                            })
+                          : getYoutubeChannelUrlFromHandle(
+                              video.ytChannel.youtubeHandle,
+                            )
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-ghost flex gap-2"
@@ -199,7 +208,7 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                           )}
                         </span>
                       </div>
-                    </a>
+                    </SmartLink>
                     <LanguageCode language={video.ytChannel.language} />
                   </div>
                   <VideoDescription

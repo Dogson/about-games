@@ -4,10 +4,13 @@ import type { CreateGameDTO } from "../../data-access/games/model/games.model.ts
 export const mapIgdbGamesToCreateGamesDTO = (
   igdbGame: IGDBGame,
 ): CreateGameDTO => {
-  const firstReleaseDate =
-    igdbGame.release_dates && igdbGame.release_dates.length > 0
-      ? Math.min(...(igdbGame.release_dates || []).map((date) => date.date))
-      : undefined;
+  const firstReleaseDate = getFirstReleaseDate(igdbGame);
+  if (igdbGame.name === "Crazy Taxi") {
+    console.log(firstReleaseDate);
+    console.log(
+      firstReleaseDate && new Date(firstReleaseDate * 1000).toISOString(),
+    );
+  }
 
   return {
     title: igdbGame.name,
