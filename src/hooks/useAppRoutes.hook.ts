@@ -16,7 +16,10 @@ type UseAppRoutes = {
   currentChannelId: number | null;
   isAdminRoute: boolean;
   goToParentRoute: () => void;
-  goToAdminChildRoute: () => void;
+  goToAdminChildRoute: (params?: {
+    videoId: number;
+    videoTitle: string;
+  }) => void;
 };
 
 const useAppRoutes = (): UseAppRoutes => {
@@ -54,8 +57,20 @@ const useAppRoutes = (): UseAppRoutes => {
     );
   };
 
-  const goToAdminChildRoute = () => {
+  const goToAdminChildRoute = (params?: {
+    videoId: number;
+    videoTitle: string;
+  }) => {
     if (isAdminRoute) return;
+
+    if (params) {
+      return navigate(
+        routes.admin.video.goTo({
+          id: params.videoId,
+          title: params.videoTitle,
+        }),
+      );
+    }
 
     return navigate(`${location.pathname}/admin`);
   };

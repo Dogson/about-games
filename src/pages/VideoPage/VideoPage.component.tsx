@@ -7,7 +7,7 @@ import VideoPageContentModule from "../../components/VideoPageContentModule/Vide
 const VideoPage: React.FC<{ carousel?: true }> = () => {
   const { currentGameId, currentVideoId } = useAppRoutes();
 
-  const { game } = useCurrentGame(currentGameId || -1);
+  const { game } = useCurrentGame(currentGameId);
 
   return (
     <PageLayout>

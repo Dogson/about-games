@@ -43,7 +43,10 @@
     "logs": "API logs",
     "createChannelSuccess": "Channel added successfully.",
     "editChannelSuccess": "Channel edited successfully.",
-    "deleteChannelSuccess": "Channel deleted successfully."
+    "deleteChannelSuccess": "Channel deleted successfully.",
+    "unignoreAllVideos": "Unignore all ignored videos",
+    "unignoreSuccess": "The game generation has started for {{count}} videos",
+    "unignoreNoChanges": "No changes have been made"
   },
   "ChannelForm": {
     "errors": {

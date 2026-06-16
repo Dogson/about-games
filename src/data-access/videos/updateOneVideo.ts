@@ -10,6 +10,7 @@ const updateOneVideo = async (
     games: CreateGameDTO[];
     validated: boolean;
     ignored: boolean;
+    hasSearchedGames: boolean;
   }>,
 ): Promise<void> => {
   try {

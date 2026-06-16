@@ -1,3 +1,5 @@
+import type { Video } from "./Video.model.ts";
+
 export const ChannelParsingAttributes = ["title", "description"] as const;
 export type ChannelParsingAttribute = (typeof ChannelParsingAttributes)[number];
 
@@ -23,6 +25,7 @@ export type Channel = {
   language: ChannelLanguage;
   parsingOptions: ChannelParsingOptions;
   videosCount: number;
+  videos: Video[];
   lastParsingError: {
     date: string;
     message: string;

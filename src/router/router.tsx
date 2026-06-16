@@ -51,7 +51,7 @@ export const router = createBrowserRouter([
         children: [{ path: "", element: <AdminVideoCarouselPage /> }],
       },
       {
-        path: routes.game.video.admin.path,
+        path: routes.admin.video.path,
         element: <AuthRoute />,
         children: [{ path: "", element: <VideoPage /> }],
       },

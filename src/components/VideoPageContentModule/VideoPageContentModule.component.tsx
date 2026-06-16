@@ -222,7 +222,12 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                       <IconButton
                         noCircle
                         Icon={LuSettings}
-                        onClick={goToAdminChildRoute}
+                         onClick={() =>
+                            goToAdminChildRoute({
+                              videoId: video.id,
+                              videoTitle: video.title,
+                            })
+                          }
                         isSmall
                       />
                     </div>

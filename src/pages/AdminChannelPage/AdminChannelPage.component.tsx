@@ -10,19 +10,29 @@ import { Separator } from "../../components/Separator/Separator.component.tsx";
 import { useTranslation } from "react-i18next";
 import { AnimatePresence } from "framer-motion";
 import Modal from "../../components/Modals/Modal/Modal.component.tsx";
+import ChannelVideosTable from "../../components/ChannelVideosTable/ChannelVideosTable.component.tsx";
+import MainButton from "../../components/Buttons/MainButton/MainButton.component.tsx";
+import updateOneVideo from "../../data-access/videos/updateOneVideo.ts";
+import generateGames from "../../data-access/channels/generateGames.ts";
+import {
+  launchErrorToast,
+  launchSuccessToast,
+  launchWarningToast,
+} from "../../helpers/toasts/toasts.ts";
+import { SpecificError } from "../../types/error/error.types.ts";
 
 const AdminChannelPage: React.FC = () => {
   const { currentChannelId, goToParentRoute } = useAppRoutes();
   const { t } = useTranslation();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [unignoring, setUnignoring] = useState(false);
 
   if (!currentChannelId) {
     goToParentRoute();
   }
 
-  const { channel, loading, deleteChannel, updateChannel } = useCurrentChannel(
-    currentChannelId || -1,
-  );
+  const { channel, loading, fetchChannel, deleteChannel, updateChannel } =
+    useCurrentChannel(currentChannelId || -1);
 
   const [channelParsingForm, setChannelParsingForm] = useState<
     Partial<CreateChannelDTO> | undefined
@@ -52,6 +62,43 @@ const AdminChannelPage: React.FC = () => {
     }
   }, [channel]);
 
+  const ignoredVideosCount =
+    channel?.videos?.filter((v) => v.ignored).length ?? 0;
+
+  const handleUnignoreAll = async () => {
+    if (!channel?.videos) return;
+    const ignoredVideos = channel.videos.filter((v) => v.ignored);
+    try {
+      setUnignoring(true);
+      await Promise.all(
+        ignoredVideos.map((v) =>
+          updateOneVideo(v.id, {
+            ignored: false,
+            hasSearchedGames: false,
+            validated: false,
+          }),
+        ),
+      );
+      const result = await generateGames(channel.id);
+      if (result.updated > 0) {
+        launchSuccessToast(
+          t("Admin.unignoreSuccess", { count: result.updated }),
+        );
+      } else {
+        launchWarningToast(t("Admin.unignoreNoChanges"));
+      }
+      fetchChannel();
+    } catch (e) {
+      if (e instanceof SpecificError) {
+        launchErrorToast(t(`${e.apiErrorKey}`));
+      } else {
+        launchErrorToast(t("ApiErrors.unknown"));
+      }
+    } finally {
+      setUnignoring(false);
+    }
+  };
+
   const handleDeleteClick = () => {
     setShowDeleteModal(true);
   };
@@ -65,7 +112,7 @@ const AdminChannelPage: React.FC = () => {
     <PageLayout>
       <div
         className="mt-15 flex w-full flex-1 flex-col items-center gap-10 p-5
-          md:mt-0 md:w-auto md:justify-center"
+          md:mt-20 md:w-auto md:justify-center"
       >
         <ChannelInfos
           avatarUrl={channel?.thumbnailUrl || ""}
@@ -83,6 +130,20 @@ const AdminChannelPage: React.FC = () => {
           loading={loading}
           onDelete={handleDeleteClick}
         />
+        <Separator bulletSize="md" direction="horizontal" />
+        <div className="flex w-full flex-col gap-4">
+          <div className="flex items-center justify-between">
+            <h2 className="font-title text-ghost text-xl">Videos</h2>
+            <MainButton
+              onClick={handleUnignoreAll}
+              disabled={ignoredVideosCount === 0 || unignoring}
+              loading={unignoring}
+            >
+              {t("Admin.unignoreAllVideos")} ({ignoredVideosCount})
+            </MainButton>
+          </div>
+          <ChannelVideosTable videos={channel?.videos || []} />
+        </div>
       </div>
       <AnimatePresence>
         {showDeleteModal && (

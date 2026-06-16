@@ -8,7 +8,7 @@ const getUnverifiedVideos = async (): Promise<Video[]> => {
   try {
     return (
       await api.get<Video[]>(`${ApiConfig.routes.videos}`, {
-        params: { validated: false },
+        params: { validated: false, hasSearchedGames: true },
       })
     ).data;
   } catch (e: unknown) {

@@ -15,7 +15,7 @@ export type UseCurrentGame = {
   changeGameOptions: (options: Partial<Game>) => void;
 };
 
-const useCurrentGame = (gameId: number): UseCurrentGame => {
+const useCurrentGame = (gameId: number | null): UseCurrentGame => {
   const [game, setGame] = React.useState<Game>();
   const [loading, setLoading] = React.useState<boolean>(false);
   const { languages } = useContext(ChannelsSettingsContext);
@@ -43,7 +43,7 @@ const useCurrentGame = (gameId: number): UseCurrentGame => {
   );
 
   const changeGameOptions = async (options: Partial<Game>) => {
-    if (!options || !game) return;
+    if (!options || !game || !gameId) return;
     const currGame = { ...game };
     try {
       setGame({ ...game, ...options });

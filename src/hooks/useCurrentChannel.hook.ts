@@ -15,6 +15,7 @@ import type { UpdateChannelDTO } from "../data-access/channels/model/channels.mo
 export type UseCurrentChannel = {
   channel?: Channel;
   loading: boolean;
+  fetchChannel: () => Promise<void>;
   deleteChannel: () => Promise<void>;
   updateChannel: (channel: Partial<Channel>) => Promise<void>;
 };
@@ -88,6 +89,7 @@ const useCurrentChannel = (channelId: number): UseCurrentChannel => {
   return {
     channel,
     loading,
+    fetchChannel,
     deleteChannel,
     updateChannel,
   };
