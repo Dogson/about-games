@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import PageLayout from "../../layouts/PageLayout/PageLayout.component.tsx";
 import ChannelParsingForm from "../../components/ChannelInfos/ChannelParsingForm/ChannelParsingForm.component.tsx";
 import createOneChannel from "../../data-access/channels/createOneChannel.ts";
-import { launchErrorToast } from "../../helpers/toasts/toasts.ts";
+import {
+  launchErrorToast,
+  launchSuccessToast,
+} from "../../helpers/toasts/toasts.ts";
 import { SpecificError } from "../../types/error/error.types.ts";
 import type { CreateChannelDTO } from "../../data-access/channels/model/channels.model.ts";
 import { useTranslation } from "react-i18next";
@@ -44,6 +47,7 @@ const AdminCreateChannelPage: React.FC = () => {
           title: createdChannel.name,
         }),
       );
+      launchSuccessToast(t("Admin.createChannelSuccess"));
     } catch (error: unknown) {
       if (error instanceof SpecificError) {
         launchErrorToast(t(`${error.apiErrorKey}`));

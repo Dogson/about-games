@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect } from "react";
-import { launchErrorToast } from "../helpers/toasts/toasts.ts";
+import {
+  launchErrorToast,
+  launchSuccessToast,
+} from "../helpers/toasts/toasts.ts";
 import { useTranslation } from "react-i18next";
 import useAppRoutes from "./useAppRoutes.hook.ts";
 import { SpecificError } from "../types/error/error.types.ts";
@@ -48,6 +51,7 @@ const useCurrentChannel = (channelId: number): UseCurrentChannel => {
     if (!channel) return;
     try {
       await deleteOneChannel(channel.id);
+      launchSuccessToast(t("Admin.deleteChannelSuccess"));
       goToParentRoute();
     } catch (e) {
       if (e instanceof SpecificError) {
@@ -65,6 +69,7 @@ const useCurrentChannel = (channelId: number): UseCurrentChannel => {
       try {
         setLoading(true);
         await updateOneChannel(channelId, channelUpdateDto);
+        launchSuccessToast(t("Admin.editChannelSuccess"));
         setChannel(await getOneChannel(channelId));
       } catch (e) {
         if (e instanceof SpecificError) {

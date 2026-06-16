@@ -40,7 +40,10 @@
     "reviewVideos": "Review videos",
     "reviewVideosLabel": "{{count}} video(s) pending review",
     "createChannel": "Add a channel",
-    "logs": "API logs"
+    "logs": "API logs",
+    "createChannelSuccess": "Channel added successfully.",
+    "editChannelSuccess": "Channel edited successfully.",
+    "deleteChannelSuccess": "Channel deleted successfully."
   },
   "ChannelForm": {
     "errors": {
@@ -110,5 +113,9 @@
   },
   "IgdbGameSearch": {
     "noResults": "No games found"
-  }
+  },
+  "Channel": {
+    "notFound": "Channel not found"
+  },
+  "errorHasOccured": "An error occurred"
 }
