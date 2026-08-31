@@ -1,123 +1,132 @@
-# About Games
+# About Games — Copilot Instructions
 
-## Project Overview
+React 19 · TypeScript (strict) · Vite 7 · Tailwind CSS v4 · React Router v7 · i18next · Storybook · axios.
+A frontend connecting YouTube video essays to the games they cover, with a public catalog and an admin ("Game Master") area.
 
-A React + TypeScript + Vite application for managing and browsing video game content with YouTube integration. Uses Tailwind CSS for styling, React Router for navigation, and i18next for internationalization.
+## Guiding principles
 
-## Architecture
+Write code that is **readable**, **well-designed**, **clean**, and **strictly typed**. Prioritize clarity over cleverness. Follow existing patterns before inventing new ones.
 
-### Context Providers (Nested in App.tsx)
+---
 
-Three main context providers wrap the application:
+## TypeScript — strictness rules
 
-- `AuthProvider`: Authentication state, admin roles, localStorage persistence via `persistAuth` helper
-- `ChannelsSettingsProvider`: Application-wide settings (theme, language)
-- `GamesListProvider`: Manages games catalog with pagination, search filtering
+These are non-negotiable. The project compiles with `strict`, `noUnusedLocals`, `noUnusedParameters`, and `verbatimModuleSyntax`.
 
-### Routing Structure
+- **Never use `any`.** Prefer `unknown`, union types, or generics.
+- **Avoid type assertions (`as`)** to bypass the compiler. Use type guards and narrowing instead. `as const` for literal unions is fine.
+- **Always annotate return types** on functions, hooks, and components. Async functions return `Promise<T>`.
+- **Use `import type` for type-only imports.** Because `verbatimModuleSyntax` is on, importing a type without `import type` is an error.
+- **Always include the file extension** in imports: `import Game from "./Game.model.ts"` (`.ts` / `.tsx`).
+- **Narrow `null` / `undefined`** before use. Nullable API fields are modeled as `string | null`, not just optional.
+- **Catch `unknown`** and narrow it (`e instanceof AxiosError`, `e instanceof SpecificError`) before reading fields.
+- **Use `as const` + indexed access** for finite string unions, e.g.:
+  ```ts
+  export const ChannelLanguages = ["en", "fr"] as const;
+  export type ChannelLanguage = (typeof ChannelLanguages)[number];
+  ```
+- **No dead code**: no unused imports, variables, or parameters (they fail the build).
 
-Routes defined in `src/router/routes.config.ts` use slug-based URLs with `createSlug(id, title)` helper:
+---
 
-- Public: `/`, `/games/:gameIdTitle`, `/games/:gameIdTitle/:videoIdTitle`
-- Admin (protected by `AuthRoute`): `/admin`, `/admin/channels`, `/admin/videos`, `/games/:gameIdTitle/:videoIdTitle/admin`
+## Architecture & where code goes
 
-Navigation helpers in `useAppRoutes.hook.ts` provide type-safe `goTo()` methods.
+```
+src/
+├── components/    # Reusable UI: ComponentName.component.tsx + stories/ComponentName.stories.tsx
+├── config/        # App / API / localStorage config (default-exported objects, named consts)
+├── contexts/      # React contexts (Auth, ChannelsSettings, GamesList, UnverifiedVideosList)
+├── data-access/   # Typed API calls, one function per file + {domain}/model/ for DTOs
+├── helpers/       # axios instance, toasts, utils, auth, games helpers
+├── hooks/         # Custom hooks: useXxx.hook.ts
+├── i18n/          # i18next setup + content/{fr,en}.json
+├── layouts/       # PageLayout wrapper
+├── models/        # Shared domain types (Game, Video, Channel, IgdbGame)
+├── pages/         # Route-level pages
+├── router/        # routes.config.ts, router.tsx, AuthRoute
+└── types/         # Error types
+```
 
-### Data Layer
+- **Context providers** wrap the app in `App.tsx`: `AuthProvider`, `ChannelsSettingsProvider`, `GamesListProvider`, `UnverifiedVideosListProvider`.
+- **Routing** is declared in `src/router/routes.config.ts` as a nested object with `path` and a type-safe `goTo()` builder. Slug-based URLs use `createSlug(id, title)`; parse ids with `getIdFromSlug(slug)`. Navigation goes through `useAppRoutes()` (`goToGame`, `goToVideo`, `goBack`, ...), never raw string URLs.
 
-API calls in `src/data-access/` use axios instance (`src/helpers/axios/axios.ts`) with:
+---
 
-- Base URL from `VITE_API_URL` environment variable
-- Auto-attached Bearer token from localStorage via interceptor
-- Custom params serializer for query strings
-- Error handling: Specific `SpecificError` class for `ApiErrorType.FORBIDDEN` (403)
+## Conventions
 
-API routes configured in `src/config/api.config.ts`.
+### Component-oriented mindset
 
-### Component Patterns
+Think in small, focused, reusable components. Prefer composing existing pieces over duplicating markup or logic.
 
-- **File naming**: `ComponentName.component.tsx` with separate `.stories.tsx` for Storybook
-- **Styling**: Tailwind classes with dynamic template literals: `className={\`base-classes ${conditional ? 'extra-classes' : ''}\`}`
-- **Props types**: Export as `ComponentNameProps` from component file
-- **Internationalization**: Use `useTranslation()` hook, keys like `"Homepage.tagline"` from `src/i18n/content/{lang}.json`
+- **Reuse first**: before writing JSX, check `src/components/` for an existing component (Button, Card, Modal, VideoThumbnail, ...) that already covers the need.
+- **Edit existing components when needed**: if a component is *almost* right, extend it (new optional prop, variant, or refactor) rather than forking a near-copy. Keep changes backward-compatible with sensible defaults.
+- **Extract rather than bloat**: when a component grows beyond one responsibility, pull pieces into new components (and optionally a shared `stories/`).
+- **Create new components freely**: a new well-scoped component is better than a tangled page. One component per concern, colocated in its own folder with `Xxx.component.tsx` + `stories/Xxx.stories.tsx`.
+- **Remove dead components**: if a component becomes unused after a refactor, delete it (and its Storybook story). Don't leave orphaned code.
+- **Prefer declarative props over imperative logic**: pass `onXxx` callbacks and render via props/children; keep state local where possible and lift it only when necessary.
+- **Colocate by feature**: styles, sub-components, and stories for a component live together under `components/Xxx/`.
 
-## Development Workflows
+### Naming & files
+- Components: `Xxx.component.tsx` → `export default Xxx`, props as `export type XxxProps`, declared with `React.FC<XxxProps>`.
+- Hooks: `useXxx.hook.ts` → `export type UseXxx = {...}` + `export default useXxx`.
+- Data-access: `verbOneNoun.ts` → `export default verbOneNoun`.
+- Models: `Xxx.model.ts` → `export type Xxx`.
+- Config: `xxx.config.ts` → `export default XxxConfig` or named constants.
+- Utils: `xxx.utils.ts` → named pure functions.
+- Storybook: one `Xxx.stories.tsx` per component.
 
-### Running the Application
+### Data-access
+- One exported async function per file with a typed params object and explicit `Promise<T>` return.
+- Use the shared `api` axios instance from `src/helpers/axios/axios.ts` (base URL + auth interceptor are already configured).
+- Routes come from `ApiConfig.routes`.
+- Handle `403` consistently:
+  ```ts
+  } catch (e: unknown) {
+    if (e instanceof AxiosError && e.response?.status === 403) {
+      throw new SpecificError(ApiErrorType.FORBIDDEN);
+    }
+    throw e;
+  }
+  ```
+- DTOs live in `src/data-access/{domain}/model/`; shared domain types in `src/models/`.
+
+### Hooks
+- Return a typed object; always `export type UseXxx`.
+- Stabilize callbacks with `useCallback` and derived values with `useMemo`; keep dependency arrays correct (run `npm run lint` — `react-hooks/exhaustive-deps` is enabled).
+- Debounce with a `useRef<Timeout>` and guard stale async responses with a request-id ref (see `useIgdbSearch.hook.ts`).
+
+### Errors & feedback
+- Domain errors: throw/check `SpecificError` with `ApiErrorType` (`src/types/error/error.types.ts`); map to i18n via `ErrorMessageI18nKeys`.
+- Toasts: use `launchSuccessToast` / `launchErrorToast` / `launchWarningToast` / `launchBasicToast` from `src/helpers/toasts/toasts.ts`.
+
+### i18n
+- All user-facing strings go through `useTranslation()` (`const { t } = useTranslation()`), with keys added to both `src/i18n/content/en.json` and `fr.json`. Never hardcode UI text.
+
+### Styling
+- Tailwind CSS v4 utility classes; conditional classes via template literals:
+  ```tsx
+  className={`base-class ${isActive ? "active-class" : "idle-class"}`}
+  ```
+- Prettier (with Tailwind plugin) sorts and merges classes — don't fight its formatting.
+
+---
+
+## Readability & cleanliness
+
+- **One idea per function/component.** Extract helpers when a block exceeds ~30 lines or mixes concerns.
+- **Meaningful names**; no cryptic abbreviations.
+- **No commented-out code** and **no leftover `console.log`/`debugger`** (debugging statements are the only exception — remove them before finishing).
+- **Prefer pure, typed helpers** in `helpers/` over inline logic repeated in components.
+- **Match surrounding style**: look at a neighboring file before writing a new one.
+
+## Verification
+
+Before considering work done, run:
 
 ```bash
-npm run dev              # Start Vite dev server
-npm run build            # TypeScript build + Vite production build
-npm run preview          # Preview production build
-npm run storybook        # Launch Storybook on port 6006
+npm run lint    # ESLint (TS + react-hooks + react-refresh + storybook)
+npm run build   # tsc -b && vite build — this is the real type gate
 ```
 
-### Code Quality
-
-- **Linting**: `npm run lint` (ESLint with TypeScript, React hooks, Storybook configs)
-- **Pre-commit**: Husky + lint-staged auto-fixes on staged files
-- **Commits**: Commitlint enforces conventional commits
-
-### Environment Setup
-
-Create `.env` file (see `.env.example`):
-
-```
-VITE_API_URL=http://localhost:5000
-```
-
-## Key Conventions
-
-### File Extensions
-
-Always use `.ts` or `.tsx` extensions in imports: `import Component from './Component.component.tsx'`
-
-### Toast Notifications
-
-Use helper functions from `src/helpers/toasts/toasts.ts`:
-
-- `launchSuccessToast(message, key?)`
-- `launchErrorToast(message, key?)`
-- `launchBasicToast(message, key?)`
-
-### Authentication
-
-- Check auth status: `const { isAuthenticated, isAdmin } = useContext(AuthContext)`
-- Protected routes use `<AuthRoute />` wrapper with redirect-to-login on unauthorized access
-- Auth persisted via `persistAuth` helper in localStorage
-
-### Type Definitions
-
-Models in `src/models/`: `Game.model.ts`, `Video.model.ts`, `Channel.model.ts`, `IgdbGame.model.ts`
-DTOs in data-access layer: `src/data-access/{domain}/model/`
-
-## Common Patterns
-
-### Custom Hooks
-
-Located in `src/hooks/`:
-
-- `useCurrentGame(gameId)`: Fetch game data with options management
-- `useCurrentVideo(videoId)`: Fetch video data
-- `useAppRoutes()`: Navigation helpers with slug generation
-- `useElementInViewport(ref, callback)`: Intersection observer
-
-### Layout
-
-Use `<PageLayout>` wrapper (in `src/layouts/PageLayout/`) for consistent page structure with optional header via `noHeader` prop.
-
-### Modal Portal
-
-Modals render into `#modal-root` div (defined in `App.tsx`). Use `<Modal>` component with `onClose` callback.
-
-### Error Handling
-
-`<AxiosErrorHandler>` wrapper in protected routes intercepts axios errors. Components use `<ErrorComponent />` as `errorElement` in router config.
-
-## Dependencies Note
-
-- React Router v7 (latest routing patterns)
-- ag-grid-react for data tables in admin
-- framer-motion for animations
-- react-virtuoso for virtualized lists
-- Tailwind CSS v4 with Vite plugin
+- Commit messages follow Conventional Commits (commitlint).
+- Husky + lint-staged run `eslint --fix` on staged files automatically.
