@@ -1,69 +1,94 @@
-# React + TypeScript + Vite
+# About Games
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Where video creators and essayists talk about games.
 
-Currently, two official plugins are available:
+A React frontend that connects YouTube video essays to the games they cover. Browse a
+catalog of games, discover videos about them, and manage everything from a "Game Master"
+admin area.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Live site:** https://aboutgames.gwen.cool
+**Backend API:** https://github.com/Dogson/about-games-api
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Public
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Browse games with paginated search and filtering
+- Game detail pages listing associated videos
+- Video detail pages with embedded YouTube player
+- Filter videos by language (FR/EN)
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Admin (Game Master mode)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- Manage YouTube channels (create / edit / delete)
+- Configure per-channel parsing options (regex ignore/stop rules, language, parsing attribute)
+- Review auto-detected games and validate/ignore videos
+- Search the IGDB game database to link games to videos
+- View API logs
+
+## Tech stack
+
+React 19 · TypeScript · Vite 7 · Tailwind CSS v4 · React Router v7 · i18next ·
+Storybook · ag-grid · framer-motion · react-virtuoso · axios
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 20+
+
+### Install & run
+
+```bash
+npm install
+cp .env.example .env   # adjust VITE_API_URL if needed
+npm run dev            # start dev server
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Environment variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Variable              | Description                            | Default                  |
+| --------------------- | -------------------------------------- | ------------------------ |
+| `VITE_API_URL`        | Backend API base URL                   | `http://localhost:5000`  |
+| `SITEMAP_BASE_URL`    | Base URL used in generated sitemap     | `http://localhost:5173`  |
+| `SITEMAP_OUTPUT_PATH` | Output path for the generated sitemap  | `./public/sitemap.xml`   |
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Scripts
+
+| Script                    | Description                                  |
+| ------------------------- | -------------------------------------------- |
+| `npm run dev`             | Start Vite dev server                        |
+| `npm run build`           | Type-check and build for production          |
+| `npm run preview`         | Preview the production build                 |
+| `npm run lint`            | Run ESLint                                   |
+| `npm run storybook`       | Launch Storybook on port 6006                |
+| `npm run build-storybook` | Build Storybook as static site               |
+| `npm run generate:sitemap`| Generate the sitemap (see SITEMAP.md)        |
+
+## Project structure
+
 ```
+src/
+├── components/   # Reusable UI components
+├── config/       # App, API and localStorage config
+├── data-access/  # Typed API calls (auth, channels, games, videos, logs)
+├── helpers/      # Axios instance, toasts, sitemap utils, etc.
+├── hooks/        # Custom hooks
+├── i18n/         # i18next setup + FR/EN translations
+├── layouts/      # Page layout wrappers
+├── models/       # Shared domain types
+├── pages/        # Route-level pages
+└── router/       # Router, route config, auth guard
+```
+
+## SEO / sitemap
+
+A sitemap is generated for public and dynamic routes and committed to the repo. See
+[SITEMAP.md](SITEMAP.md) for details and the GitHub Actions workflow.
+
+## Contributing
+
+- Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/) (enforced by commitlint).
+- Husky + lint-staged run ESLint on staged files on commit.
+- Run `npm run lint` before pushing.
+- See `.github/copilot-instructions.md` for architecture notes and coding conventions.
