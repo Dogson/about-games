@@ -35,19 +35,21 @@ const AdminHomePage: React.FC = () => {
         className="flex h-full w-full flex-1 flex-col justify-center gap-10 px-5
           py-20 md:px-30 md:py-30"
       >
-        <Card>
-          <div className="flex flex-col items-center gap-3 md:gap-8">
-            <span className="font-title text-xl">
-              {t("Admin.reviewVideosLabel", { count: unverifiedVideosCount })}
-            </span>
-            <MainButton
-              onClick={() => navigate(routes.admin.videos.goTo())}
-              className="w-90"
-            >
-              {t("Admin.reviewVideos")}
-            </MainButton>
-          </div>
-        </Card>
+        {unverifiedVideosCount !== undefined && unverifiedVideosCount > 0 && (
+          <Card>
+            <div className="flex flex-col items-center gap-3 md:gap-8">
+              <span className="font-title text-xl">
+                {t("Admin.reviewVideosLabel", { count: unverifiedVideosCount })}
+              </span>
+              <MainButton
+                onClick={() => navigate(routes.admin.videos.goTo())}
+                className="w-90"
+              >
+                {t("Admin.reviewVideos")}
+              </MainButton>
+            </div>
+          </Card>
+        )}
 
         <span className="font-title self-start text-3xl">Channels</span>
         <div className="flex w-full flex-1 flex-col gap-4">
