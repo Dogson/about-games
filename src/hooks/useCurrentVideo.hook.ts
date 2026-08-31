@@ -7,8 +7,7 @@ import useAppRoutes from "./useAppRoutes.hook.ts";
 import type { CreateGameDTO } from "../data-access/games/model/games.model.ts";
 import updateOneVideo from "../data-access/videos/updateOneVideo.ts";
 import { SpecificError } from "../types/error/error.types.ts";
-import type { GamesListItem } from "../models/Game.model.ts";
-import updateOneGame from "../data-access/games/updateOneGame.ts";
+
 
 export type UseCurrentVideo = {
   video?: Video;
@@ -17,7 +16,6 @@ export type UseCurrentVideo = {
   removeGame: (gameId: number) => Promise<void>;
   validateVideo: (onSuccess?: () => void) => Promise<void>;
   ignoreVideo: (onSuccess?: () => void) => Promise<void>;
-  markGameAsIgnored: (game: GamesListItem) => Promise<void>;
 };
 
 const useCurrentVideo = (videoId: number): UseCurrentVideo => {
@@ -114,27 +112,6 @@ const useCurrentVideo = (videoId: number): UseCurrentVideo => {
     }
   };
 
-  const markGameAsIgnored = async (
-    game: GamesListItem,
-    onSuccess?: () => void,
-  ) => {
-    if (!video) return;
-    const gamesListGameIndex = video.games.findIndex((g) => g.id === game.id);
-    try {
-      await updateOneGame(game.id, { ignoreDuringSearch: true });
-      const updatedGames = [...video.games];
-      updatedGames[gamesListGameIndex] = { ...game, ignoreDuringSearch: true };
-      setVideo({ ...video, games: updatedGames });
-      onSuccess?.();
-    } catch (e) {
-      if (e instanceof SpecificError) {
-        launchErrorToast(t(`${e.apiErrorKey}`));
-      } else {
-        console.error(e);
-      }
-    }
-  };
-
   return {
     video,
     loading,
@@ -142,7 +119,6 @@ const useCurrentVideo = (videoId: number): UseCurrentVideo => {
     removeGame,
     validateVideo,
     ignoreVideo,
-    markGameAsIgnored,
   };
 };
 

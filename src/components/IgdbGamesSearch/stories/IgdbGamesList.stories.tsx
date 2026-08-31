@@ -81,7 +81,6 @@ WithOneSelected.args = {
       companies: ["CD Projekt Red"],
       coverImg: "https://via.placeholder.com/90x120",
       boxartImg: "https://via.placeholder.com/320x180",
-      ignoreDuringSearch: false,
     },
   ],
   onSelectGame: (game) => alert(`Selected: ${game.title}`),

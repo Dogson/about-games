@@ -105,7 +105,6 @@
   "Game": {
     "tba": "TBA",
     "notFound": "Game not found",
-    "ignoreDuringSearch": "Ignore this game during automatic game detection",
     "noVideosTitle": "No videos found.",
     "noVideosDescription": "You can broaden your language preferences to include more videos."
   },

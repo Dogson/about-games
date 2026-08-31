@@ -8,7 +8,6 @@ export type GamesListItem = {
   coverImg: string | null;
   boxartImg: string | null;
   companies: string[];
-  ignoreDuringSearch: boolean;
 };
 
 export type Game = GamesListItem & {

@@ -5,14 +5,11 @@ import { launchErrorToast } from "../helpers/toasts/toasts.ts";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../router/routes.config.ts";
 import { useTranslation } from "react-i18next";
-import updateOneGame from "../data-access/games/updateOneGame.ts";
-import { SpecificError } from "../types/error/error.types.ts";
 import { ChannelsSettingsContext } from "../contexts/channelsSettings/ChannelsSettingsContext.ts";
 
 export type UseCurrentGame = {
   game?: Game;
   loading: boolean;
-  changeGameOptions: (options: Partial<Game>) => void;
 };
 
 const useCurrentGame = (gameId: number | null): UseCurrentGame => {
@@ -42,22 +39,6 @@ const useCurrentGame = (gameId: number | null): UseCurrentGame => {
     [navigate, languages],
   );
 
-  const changeGameOptions = async (options: Partial<Game>) => {
-    if (!options || !game || !gameId) return;
-    const currGame = { ...game };
-    try {
-      setGame({ ...game, ...options });
-      await updateOneGame(gameId, options);
-    } catch (e) {
-      setGame(currGame);
-      if (e instanceof SpecificError) {
-        launchErrorToast(t(`${e.apiErrorKey}`));
-      } else {
-        launchErrorToast(t("ApiErrors.unknown"));
-      }
-    }
-  };
-
   useEffect(() => {
     if (gameId && languages) {
       fetchGame(gameId);
@@ -67,7 +48,6 @@ const useCurrentGame = (gameId: number | null): UseCurrentGame => {
   return {
     game,
     loading,
-    changeGameOptions,
   };
 };
 

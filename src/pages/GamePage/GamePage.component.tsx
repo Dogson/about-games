@@ -4,10 +4,7 @@ import useAppRoutes from "../../hooks/useAppRoutes.hook.ts";
 import GamePageHeader from "../../components/GamePageHeader/GamePageHeader.component.tsx";
 import VideosGrid from "../../components/VideosGrid/VideosGrid.component.tsx";
 import useCurrentGame from "../../hooks/useCurrentGame.hook.ts";
-import Switch from "../../components/Switch/Switch.component.tsx";
 import { useTranslation } from "react-i18next";
-import { AuthContext } from "../../contexts/auth/AuthContext.ts";
-import Modal from "../../components/Modals/Modal/Modal.component.tsx";
 import { Helmet } from "react-helmet";
 import Card from "../../components/Card/Card.component.tsx";
 import SecondaryButton from "../../components/Buttons/SecondaryButton/SecondaryButton.component.tsx";
@@ -16,8 +13,6 @@ import { ChannelsSettingsContext } from "../../contexts/channelsSettings/Channel
 
 const GamePage: React.FC = () => {
   const { currentGameId, goToVideo, goToParentRoute, goBack } = useAppRoutes();
-  const { isAdmin } = useContext(AuthContext);
-  const [modalOpened, setModalOpened] = useState(false);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
   const { languages, changeLanguages } = useContext(ChannelsSettingsContext);
   const { t } = useTranslation();
@@ -31,7 +26,7 @@ const GamePage: React.FC = () => {
     setShowLanguageModal(false);
   };
 
-  const { game, changeGameOptions } = useCurrentGame(currentGameId || -1);
+  const { game } = useCurrentGame(currentGameId || -1);
 
   return (
     <PageLayout>
@@ -39,20 +34,6 @@ const GamePage: React.FC = () => {
         <Helmet>
           <title>{`${game.title} - about games`}</title>
         </Helmet>
-      )}
-      {modalOpened && game && (
-        <Modal onClose={() => setModalOpened(false)}>
-          <div className="flex min-w-0 grow-0 justify-center">
-            <Switch
-              checked={game.ignoreDuringSearch}
-              onChange={(checked) =>
-                changeGameOptions({ ignoreDuringSearch: checked })
-              }
-              danger
-              label={t("Game.ignoreDuringSearch")}
-            />
-          </div>
-        </Modal>
       )}
       {game && (
         <div className="flex w-full flex-1 flex-col items-center gap-3">
@@ -62,9 +43,7 @@ const GamePage: React.FC = () => {
             boxartImg={game.boxartImg}
             coverImg={game.coverImg}
             companies={game.companies}
-            admin={!!isAdmin}
             onBackClick={goBack}
-            onAdminSettingsClick={() => setModalOpened(true)}
           />
           <div className="flex w-full flex-col items-center px-5">
             <div className="max-w-container">

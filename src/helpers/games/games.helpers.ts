@@ -27,7 +27,6 @@ export const mapIgdbGamesToCreateGamesDTO = (
     companies: (igdbGame.involved_companies || []).map(
       (company) => company.company.name,
     ),
-    ignoreDuringSearch: false,
   };
 };
 

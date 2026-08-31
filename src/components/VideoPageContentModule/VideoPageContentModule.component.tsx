@@ -56,7 +56,6 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
     removeGame,
     validateVideo,
     ignoreVideo,
-    markGameAsIgnored,
   } = useCurrentVideo(currentVideoId);
   const {
     searchValue,
@@ -78,10 +77,6 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
 
   const handleDeleteGame = (game: GamesListItem) => {
     removeGame(game.id);
-  };
-
-  const handleMarkGameAsIgnored = (game: GamesListItem) => {
-    markGameAsIgnored(game);
   };
 
   const handleValidateVideo = () => {
@@ -239,9 +234,6 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                     onGameClick={handleClickGame}
                     onDeleteGame={isAdminRoute ? handleDeleteGame : undefined}
                     isAdminRoute={isAdminRoute}
-                    onMarkGameAsIgnored={
-                      isAdminRoute ? handleMarkGameAsIgnored : undefined
-                    }
                   />
                   {isAdminRoute && !video.validated && (
                     <MainButton onClick={handleValidateVideo}>
