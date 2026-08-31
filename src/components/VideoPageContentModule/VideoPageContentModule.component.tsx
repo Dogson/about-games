@@ -48,7 +48,8 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
 }) => {
   const { isAdmin } = useContext(AuthContext);
   const { i18n, t } = useTranslation();
-  const { goToGame, isAdminRoute, goToAdminChildRoute } = useAppRoutes();
+  const { goToGame, goBackToGame, isAdminRoute, goToAdminChildRoute } =
+    useAppRoutes();
   const {
     video,
     addGame,
@@ -130,7 +131,8 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
               <div className="self-start md:absolute md:top-18 md:left-5">
                 <GameBackButton
                   onClick={() =>
-                    goToGame && goToGame({ title: game.title, id: game.id })
+                    goBackToGame &&
+                    goBackToGame({ title: game.title, id: game.id })
                   }
                   gameCoverImgUrl={game.boxartImg}
                 />

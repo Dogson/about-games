@@ -4,7 +4,7 @@ import GameCard from "../GameCard/GameCard.component.tsx";
 import { getYearFromDate } from "../../helpers/utils/datetime.utils.ts";
 import { Separator } from "../Separator/Separator.component.tsx";
 import IconButton from "../Buttons/IconButton/IconButton.component.tsx";
-import { LuSettings } from "react-icons/lu";
+import { LuArrowLeft, LuSettings } from "react-icons/lu";
 
 export type GamePageHeaderProps = {
   title: string;
@@ -13,6 +13,7 @@ export type GamePageHeaderProps = {
   boxartImg: string | null;
   companies: string[];
   admin: boolean;
+  onBackClick: () => void;
   onAdminSettingsClick: () => void;
 };
 
@@ -23,6 +24,7 @@ const GamePageHeader: React.FC<GamePageHeaderProps> = ({
   boxartImg,
   companies,
   admin,
+  onBackClick,
   onAdminSettingsClick,
 }) => {
   const { t } = useTranslation();
@@ -35,6 +37,14 @@ const GamePageHeader: React.FC<GamePageHeaderProps> = ({
         style={coverImg ? { backgroundImage: `url(${coverImg})` } : {}}
         className="absolute top-0 right-0 left-0 h-60 w-full bg-cover bg-center
           md:h-72"
+      />
+      <IconButton
+        noCircle
+        Icon={LuArrowLeft}
+        isSmall
+        onClick={onBackClick}
+        iconClassName="text-white"
+        className="absolute top-13 left-4"
       />
       <div
         className={

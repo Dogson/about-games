@@ -11,6 +11,7 @@ export default {
     },
     onClick: { action: "clicked" },
     className: { control: "text" },
+    iconClassName: { control: "text" },
   },
 } as Meta<typeof IconButton>;
 

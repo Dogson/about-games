@@ -15,7 +15,7 @@ import VideoLanguagesModal from "../../components/Modals/VideosLanguagesModal/Vi
 import { ChannelsSettingsContext } from "../../contexts/channelsSettings/ChannelsSettingsContext.ts";
 
 const GamePage: React.FC = () => {
-  const { currentGameId, goToVideo, goToParentRoute } = useAppRoutes();
+  const { currentGameId, goToVideo, goToParentRoute, goBack } = useAppRoutes();
   const { isAdmin } = useContext(AuthContext);
   const [modalOpened, setModalOpened] = useState(false);
   const [showLanguageModal, setShowLanguageModal] = useState(false);
@@ -63,6 +63,7 @@ const GamePage: React.FC = () => {
             coverImg={game.coverImg}
             companies={game.companies}
             admin={!!isAdmin}
+            onBackClick={goBack}
             onAdminSettingsClick={() => setModalOpened(true)}
           />
           <div className="flex w-full flex-col items-center px-5">

@@ -17,9 +17,9 @@ const GameBackButton: React.FC<GameBackButtonProps> = ({
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="flex items-center gap-2"
+      className="group flex items-center gap-2"
     >
-      <LuArrowLeft className="text-white" />
+      <LuArrowLeft className="text-white transition-all duration-200 group-hover:scale-110" />
       <div
         className={`h-12 w-9 shrink-0 rounded-lg bg-black bg-cover bg-center
           shadow-md duration-100 ${

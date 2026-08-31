@@ -5,6 +5,7 @@ import { getIdFromSlug } from "../helpers/games/games.helpers.ts";
 
 type UseAppRoutes = {
   goToGame: (game: { title: string; id: number }) => void;
+  goBackToGame: (game: { title: string; id: number }) => void;
   goToVideo: (video: {
     id: number;
     title: string;
@@ -16,6 +17,7 @@ type UseAppRoutes = {
   currentChannelId: number | null;
   isAdminRoute: boolean;
   goToParentRoute: () => void;
+  goBack: () => void;
   goToAdminChildRoute: (params?: {
     videoId: number;
     videoTitle: string;
@@ -40,6 +42,15 @@ const useAppRoutes = (): UseAppRoutes => {
         title: game.title,
       }),
     );
+  };
+
+  const goBackToGame = (game: { title: string; id: number }) => {
+    if (isAdminRoute || location.key === "default") {
+      goToGame(game);
+      return;
+    }
+
+    navigate(-1);
   };
 
   const goToVideo = (video: {
@@ -96,6 +107,14 @@ const useAppRoutes = (): UseAppRoutes => {
     navigate(parentPath);
   }, [location.pathname, navigate]);
 
+  const goBack = useCallback(() => {
+    if (location.key === "default") {
+      navigate(routes.home.goTo());
+    } else {
+      navigate(-1);
+    }
+  }, [location.key, navigate]);
+
   const goToChannel = (channel: { id: number; title: string }) => {
     navigate(
       routes.admin.channel.goTo({
@@ -114,12 +133,14 @@ const useAppRoutes = (): UseAppRoutes => {
 
   return {
     goToGame,
+    goBackToGame,
     goToVideo,
     goToChannel,
     currentGameId,
     currentVideoId,
     currentChannelId,
     goToParentRoute,
+    goBack,
     goToAdminChildRoute,
     isAdminRoute,
   };
