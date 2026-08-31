@@ -52,18 +52,13 @@
     "errors": {
       "required": "This field is required",
       "invalidRegexp": "Invalid regular expression",
-      "invalidLanguage": "Invalid language",
-      "invalidAttribute": "Invalid attribute"
+      "invalidLanguage": "Invalid language"
     },
     "youtubeHandle": "YouTube channel handle",
     "language": "Language",
-    "parsingAttribute": "Attribute to parse",
-    "title": "Video title",
-    "description": "Video description",
     "ignoreEpisodesContaining": "Ignore episodes containing these regexps",
-    "ignoreSearchIn": "Ignore search for game in these regexps",
-    "endParsingAfter": "Stop parsing after these regexps",
     "ignoreEpisodesMissing": "Ignore episodes missing these regexps",
+    "gameCandidateAIPrompt": "AI prompt for game candidate extraction",
     "deleteChannel": {
       "title": "Delete channel",
       "message": "Are you sure you want to delete this channel? This action is irreversible.",

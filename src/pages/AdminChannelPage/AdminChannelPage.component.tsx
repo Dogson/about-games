@@ -20,6 +20,7 @@ import {
   launchWarningToast,
 } from "../../helpers/toasts/toasts.ts";
 import { SpecificError } from "../../types/error/error.types.ts";
+import { normalizeGameCandidateAIPrompt } from "../../helpers/utils/string.utils.ts";
 
 const AdminChannelPage: React.FC = () => {
   const { currentChannelId, goToParentRoute } = useAppRoutes();
@@ -45,8 +46,15 @@ const AdminChannelPage: React.FC = () => {
   };
 
   const handleChannelParsingFormSubmit = () => {
+    const gameCandidateAIPrompt = normalizeGameCandidateAIPrompt(
+      channelParsingForm?.gameCandidateAIPrompt,
+    );
+
     updateChannel({
-      parsingOptions: channelParsingForm?.parsingOptions,
+      ...(gameCandidateAIPrompt !== undefined && { gameCandidateAIPrompt }),
+      ignoreEpisodesContaining:
+        channelParsingForm?.ignoreEpisodesContaining,
+      ignoreEpisodesMissing: channelParsingForm?.ignoreEpisodesMissing,
       youtubeHandle: channelParsingForm?.youtubeHandle,
       language: channelParsingForm?.language as ChannelLanguage,
     });
@@ -55,7 +63,9 @@ const AdminChannelPage: React.FC = () => {
   useEffect(() => {
     if (channel) {
       setChannelParsingForm({
-        parsingOptions: channel.parsingOptions,
+        ignoreEpisodesContaining: channel.ignoreEpisodesContaining,
+        ignoreEpisodesMissing: channel.ignoreEpisodesMissing,
+        gameCandidateAIPrompt: channel.gameCandidateAIPrompt ?? "",
         youtubeHandle: channel.youtubeHandle,
         language: channel.language,
       });

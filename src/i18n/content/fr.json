@@ -52,18 +52,13 @@
     "errors": {
       "required": "Ce champ est requis",
       "invalidRegexp": "Expression régulière invalide",
-      "invalidLanguage": "Langue invalide",
-      "invalidAttribute": "Attribut invalide"
+      "invalidLanguage": "Langue invalide"
     },
     "youtubeHandle": "Handle de la chaîne Youtube",
     "language": "Langue",
-    "parsingAttribute": "Attribut à analyser",
-    "title": "Titre de la vidéo",
-    "description": "Description de la vidéo",
     "ignoreEpisodesContaining": "Ignorer les épisodes contenant ces regexp",
-    "ignoreSearchIn": "Ignorer la recherche de jeu dans ces regexp",
-    "endParsingAfter": "Arrêter l'analyse après ces regexp",
     "ignoreEpisodesMissing": "Ignorer les épisodes manquants ces regexp",
+    "gameCandidateAIPrompt": "Prompt IA pour l'extraction des jeux candidats",
     "deleteChannel": {
       "title": "Supprimer la chaîne",
       "message": "Êtes-vous sûr de vouloir supprimer cette chaîne ? Cette action est irréversible.",

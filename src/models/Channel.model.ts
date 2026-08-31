@@ -1,16 +1,5 @@
 import type { Video } from "./Video.model.ts";
 
-export const ChannelParsingAttributes = ["title", "description"] as const;
-export type ChannelParsingAttribute = (typeof ChannelParsingAttributes)[number];
-
-export type ChannelParsingOptions = {
-  parsingAttribute: ChannelParsingAttribute;
-  ignoreEpisodesContaining: string[];
-  ignoreSearchIn: string[];
-  endParsingAfter: string[];
-  ignoreEpisodesMissing: string[];
-};
-
 export const ChannelLanguages = ["en", "fr"] as const;
 export type ChannelLanguage = (typeof ChannelLanguages)[number];
 
@@ -23,7 +12,9 @@ export type Channel = {
   description: string;
   thumbnailUrl: string;
   language: ChannelLanguage;
-  parsingOptions: ChannelParsingOptions;
+  ignoreEpisodesContaining: string[];
+  ignoreEpisodesMissing: string[];
+  gameCandidateAIPrompt?: string;
   videosCount: number;
   videos: Video[];
   lastParsingError: {

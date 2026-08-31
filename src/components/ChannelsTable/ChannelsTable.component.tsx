@@ -72,11 +72,6 @@ const ChannelsTable = ({ channels }: ChannelsTableProps) => {
       },
       { headerName: "Videos", field: "videosCount", minWidth: 100 },
       {
-        headerName: "Parsing Attribute",
-        field: "parsingOptions.parsingAttribute",
-        minWidth: 150,
-      },
-      {
         headerName: "Language",
         field: "language",
         minWidth: 150,

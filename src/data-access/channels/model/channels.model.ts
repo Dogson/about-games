@@ -1,15 +1,17 @@
-import type { ChannelParsingOptions } from "../../../models/Channel.model";
-
 export type CreateChannelDTO = {
   youtubeHandle: string;
   language: string;
-  parsingOptions: ChannelParsingOptions;
+  ignoreEpisodesContaining: string[];
+  ignoreEpisodesMissing: string[];
+  gameCandidateAIPrompt: string;
 };
 
 export type UpdateChannelDTO = {
   youtubeHandle?: string;
   language?: string;
-  parsingOptions?: ChannelParsingOptions;
+  ignoreEpisodesContaining?: string[];
+  ignoreEpisodesMissing?: string[];
+  gameCandidateAIPrompt?: string;
   name?: string;
   description?: string;
   thumbnailUrl?: string;

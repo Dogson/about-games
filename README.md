@@ -21,7 +21,7 @@ admin area.
 ### Admin (Game Master mode)
 
 - Manage YouTube channels (create / edit / delete)
-- Configure per-channel parsing options (regex ignore/stop rules, language, parsing attribute)
+- Configure per-channel settings (language, regex ignore rules, AI prompt for game candidate extraction)
 - Review auto-detected games and validate/ignore videos
 - Search the IGDB game database to link games to videos
 - View API logs
