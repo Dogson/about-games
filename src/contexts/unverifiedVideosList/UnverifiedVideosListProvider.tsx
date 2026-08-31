@@ -9,9 +9,11 @@ export const UnverifiedVideosListProvider: React.FC<{
     isLoadingVideos,
     goToNextUnverifiedVideo,
     goToPreviousUnverifiedVideo,
+    refreshUnverifiedVideos,
     isFirstVideo,
     isLastVideo,
     unverifiedVideosCount,
+    totalVideosCount,
     currentVideo,
     currentVideoIdx,
   } = useUnverifiedVideosListContext();
@@ -22,9 +24,11 @@ export const UnverifiedVideosListProvider: React.FC<{
         isLoadingVideos,
         goToNextUnverifiedVideo,
         goToPreviousUnverifiedVideo,
+        refreshUnverifiedVideos,
         isFirstVideo,
         isLastVideo,
         unverifiedVideosCount,
+        totalVideosCount,
         currentVideo,
         currentVideoIdx,
       }}

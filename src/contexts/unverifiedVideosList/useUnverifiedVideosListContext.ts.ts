@@ -7,23 +7,31 @@ export type UseUnverifiedVideosListContext = {
   isLoadingVideos: boolean;
   goToNextUnverifiedVideo: () => void;
   goToPreviousUnverifiedVideo: () => void;
+  refreshUnverifiedVideos: () => Promise<void>;
   currentVideo?: Video;
   isFirstVideo: boolean;
   isLastVideo: boolean;
   unverifiedVideosCount?: number;
+  totalVideosCount: number;
   currentVideoIdx?: number;
 };
 
 const useUnverifiedVideosListContext = (): UseUnverifiedVideosListContext => {
   const [unverifiedVideos, setUnverifiedVideos] = useState<Video[]>([]);
   const [currentVideoIdx, setCurrentVideoIdx] = useState<number>(0);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [pendingCount, setPendingCount] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const { isAdmin } = useContext(AuthContext);
 
-  const fetchUnverifiedVideos = useCallback(async () => {
-    setLoading(true);
-    setUnverifiedVideos(await getUnverifiedVideos());
+  const refreshUnverifiedVideos = useCallback(async () => {
+    const videos = await getUnverifiedVideos();
+    setPendingCount(videos.length);
+    setUnverifiedVideos((prev) => {
+      const existingIds = new Set(prev.map((video) => video.id));
+      const addedVideos = videos.filter((video) => !existingIds.has(video.id));
+      return [...prev, ...addedVideos];
+    });
     setLoading(false);
   }, []);
 
@@ -41,8 +49,8 @@ const useUnverifiedVideosListContext = (): UseUnverifiedVideosListContext => {
   };
 
   useEffect(() => {
-    if (isAdmin) fetchUnverifiedVideos();
-  }, [fetchUnverifiedVideos, isAdmin]);
+    if (isAdmin) refreshUnverifiedVideos();
+  }, [refreshUnverifiedVideos, isAdmin]);
 
   console.log(currentVideoIdx);
 
@@ -51,9 +59,11 @@ const useUnverifiedVideosListContext = (): UseUnverifiedVideosListContext => {
     currentVideo: unverifiedVideos[currentVideoIdx],
     goToNextUnverifiedVideo,
     goToPreviousUnverifiedVideo,
+    refreshUnverifiedVideos,
     isFirstVideo: currentVideoIdx === 0,
     isLastVideo: currentVideoIdx === unverifiedVideos.length - 1,
-    unverifiedVideosCount: unverifiedVideos.length,
+    unverifiedVideosCount: pendingCount,
+    totalVideosCount: unverifiedVideos.length,
     currentVideoIdx,
   };
 };

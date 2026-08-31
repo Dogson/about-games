@@ -15,13 +15,19 @@ const AdminHomePage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [channels, setChannels] = useState<Channel[]>([]);
-  const { unverifiedVideosCount } = useContext(UnverifiedVideosListContext);
+  const { unverifiedVideosCount, refreshUnverifiedVideos } = useContext(
+    UnverifiedVideosListContext,
+  );
 
   useEffect(() => {
     getAllChannels().then((channels) => {
       setChannels(channels);
     });
   }, []);
+
+  useEffect(() => {
+    refreshUnverifiedVideos();
+  }, [refreshUnverifiedVideos]);
 
   return (
     <PageLayout>

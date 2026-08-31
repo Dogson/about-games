@@ -18,6 +18,7 @@ import { FiChevronRight } from "react-icons/fi";
 import { FiChevronLeft } from "react-icons/fi";
 import { LuSettings } from "react-icons/lu";
 import { AuthContext } from "../../contexts/auth/AuthContext";
+import { UnverifiedVideosListContext } from "../../contexts/unverifiedVideosList/UnverifiedVideosListContext.ts";
 import { getYoutubeChannelUrlFromHandle } from "../../helpers/utils/youtube.utils";
 import Modal from "../Modals/Modal/Modal.component";
 import LanguageCode from "../LanguageCode/LanguageCode.component";
@@ -47,6 +48,7 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
   isLastVideo,
 }) => {
   const { isAdmin } = useContext(AuthContext);
+  const { refreshUnverifiedVideos } = useContext(UnverifiedVideosListContext);
   const { i18n, t } = useTranslation();
   const { goToGame, goBackToGame, isAdminRoute, goToAdminChildRoute } =
     useAppRoutes();
@@ -81,6 +83,7 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
 
   const handleValidateVideo = () => {
     validateVideo(() => {
+      refreshUnverifiedVideos();
       if (goToNextVideo && !isLastVideo) {
         goToNextVideo();
       }
@@ -90,6 +93,7 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
   const handleIgnoreVideo = () => {
     setShowIgnoreVideoModal(false);
     ignoreVideo(() => {
+      refreshUnverifiedVideos();
       if (goToNextVideo && !isLastVideo) {
         goToNextVideo();
       }

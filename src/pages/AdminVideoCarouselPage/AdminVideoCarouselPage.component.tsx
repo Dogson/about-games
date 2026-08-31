@@ -11,7 +11,7 @@ const AdminVideoCarouselPage: React.FC = () => {
     isFirstVideo,
     isLastVideo,
     isLoadingVideos,
-    unverifiedVideosCount,
+    totalVideosCount,
     currentVideoIdx,
   } = useContext(UnverifiedVideosListContext);
 
@@ -19,14 +19,14 @@ const AdminVideoCarouselPage: React.FC = () => {
 
   return (
     <PageLayout>
-      {!isLoadingVideos && unverifiedVideosCount && currentVideo && (
+      {!isLoadingVideos && currentVideo && (
         <VideoPageContentModule
           currentVideoId={currentVideo.id}
           goToNextVideo={goToNextUnverifiedVideo}
           goToPreviousVideo={goToPreviousUnverifiedVideo}
           isFirstVideo={isFirstVideo}
           isLastVideo={isLastVideo}
-          totalVideoCount={unverifiedVideosCount}
+          totalVideoCount={totalVideosCount}
           currentVideoRank={
             currentVideoIdx !== undefined ? currentVideoIdx + 1 : undefined
           }
