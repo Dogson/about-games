@@ -3,6 +3,12 @@ import type { Video } from "./Video.model.ts";
 export const ChannelLanguages = ["en", "fr"] as const;
 export type ChannelLanguage = (typeof ChannelLanguages)[number];
 
+export type ParsingOptions = {
+  ignoreEpisodesContaining: string[];
+  ignoreEpisodesMissing: string[];
+  playlistsIds?: string[];
+};
+
 export type Channel = {
   id: number;
   name: string;
@@ -12,8 +18,7 @@ export type Channel = {
   description: string;
   thumbnailUrl: string;
   language: ChannelLanguage;
-  ignoreEpisodesContaining: string[];
-  ignoreEpisodesMissing: string[];
+  parsingOptions: ParsingOptions;
   gameCandidateAIPrompt?: string;
   videosCount: number;
   videos: Video[];

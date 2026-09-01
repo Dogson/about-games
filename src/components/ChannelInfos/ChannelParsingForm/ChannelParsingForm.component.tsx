@@ -90,10 +90,10 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
     }
 
     const ignoreEpisodesContainingErrors = validateRegexList(
-      value?.ignoreEpisodesContaining || [],
+      value?.parsingOptions?.ignoreEpisodesContaining || [],
     );
     const ignoreEpisodesMissingErrors = validateRegexList(
-      value?.ignoreEpisodesMissing || [],
+      value?.parsingOptions?.ignoreEpisodesMissing || [],
     );
 
     setErrors((prev) => ({
@@ -111,8 +111,15 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
 
     onChange?.({
       ...value,
-      ignoreEpisodesContaining: value?.ignoreEpisodesContaining || [],
-      ignoreEpisodesMissing: value?.ignoreEpisodesMissing || [],
+      parsingOptions: {
+        ignoreEpisodesContaining:
+          value?.parsingOptions?.ignoreEpisodesContaining || [],
+        ignoreEpisodesMissing:
+          value?.parsingOptions?.ignoreEpisodesMissing || [],
+        playlistsIds: (value?.parsingOptions?.playlistsIds || []).filter(
+          Boolean,
+        ),
+      },
       gameCandidateAIPrompt: value?.gameCandidateAIPrompt ?? "",
     });
 
@@ -155,57 +162,133 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
         <MultiInput
           label={t("ChannelForm.ignoreEpisodesContaining")}
           placeholder="/Exemple/i"
-          value={value?.ignoreEpisodesContaining || []}
+          value={value?.parsingOptions?.ignoreEpisodesContaining || []}
           onChange={(values) =>
             onChange?.({
               ...value,
-              ignoreEpisodesContaining: values,
+              parsingOptions: {
+                ignoreEpisodesContaining: values,
+                ignoreEpisodesMissing:
+                  value?.parsingOptions?.ignoreEpisodesMissing || [],
+                playlistsIds: value?.parsingOptions?.playlistsIds,
+              },
             })
           }
           errors={errors.ignoreEpisodesContaining}
           onAddInput={() =>
             onChange?.({
               ...value,
-              ignoreEpisodesContaining: [
-                ...(value?.ignoreEpisodesContaining || []),
-                "",
-              ],
+              parsingOptions: {
+                ignoreEpisodesContaining: [
+                  ...(value?.parsingOptions?.ignoreEpisodesContaining || []),
+                  "",
+                ],
+                ignoreEpisodesMissing:
+                  value?.parsingOptions?.ignoreEpisodesMissing || [],
+                playlistsIds: value?.parsingOptions?.playlistsIds,
+              },
             })
           }
           onRemoveInput={(index) =>
             onChange?.({
               ...value,
-              ignoreEpisodesContaining: (
-                value?.ignoreEpisodesContaining || []
-              ).filter((_: string, i: number) => i !== index),
+              parsingOptions: {
+                ignoreEpisodesContaining: (
+                  value?.parsingOptions?.ignoreEpisodesContaining || []
+                ).filter((_: string, i: number) => i !== index),
+                ignoreEpisodesMissing:
+                  value?.parsingOptions?.ignoreEpisodesMissing || [],
+                playlistsIds: value?.parsingOptions?.playlistsIds,
+              },
             })
           }
         />
         <MultiInput
           label={t("ChannelForm.ignoreEpisodesMissing")}
-          value={value?.ignoreEpisodesMissing || []}
+          value={value?.parsingOptions?.ignoreEpisodesMissing || []}
           onChange={(values) =>
             onChange?.({
               ...value,
-              ignoreEpisodesMissing: values,
+              parsingOptions: {
+                ignoreEpisodesContaining:
+                  value?.parsingOptions?.ignoreEpisodesContaining || [],
+                ignoreEpisodesMissing: values,
+                playlistsIds: value?.parsingOptions?.playlistsIds,
+              },
             })
           }
           errors={errors.ignoreEpisodesMissing}
           onAddInput={() =>
             onChange?.({
               ...value,
-              ignoreEpisodesMissing: [
-                ...(value?.ignoreEpisodesMissing || []),
-                "",
-              ],
+              parsingOptions: {
+                ignoreEpisodesContaining:
+                  value?.parsingOptions?.ignoreEpisodesContaining || [],
+                ignoreEpisodesMissing: [
+                  ...(value?.parsingOptions?.ignoreEpisodesMissing || []),
+                  "",
+                ],
+                playlistsIds: value?.parsingOptions?.playlistsIds,
+              },
             })
           }
           onRemoveInput={(index) =>
             onChange?.({
               ...value,
-              ignoreEpisodesMissing: (
-                value?.ignoreEpisodesMissing || []
-              ).filter((_: string, i: number) => i !== index),
+              parsingOptions: {
+                ignoreEpisodesContaining:
+                  value?.parsingOptions?.ignoreEpisodesContaining || [],
+                ignoreEpisodesMissing: (
+                  value?.parsingOptions?.ignoreEpisodesMissing || []
+                ).filter((_: string, i: number) => i !== index),
+                playlistsIds: value?.parsingOptions?.playlistsIds,
+              },
+            })
+          }
+        />
+        <MultiInput
+          label={t("ChannelForm.playlistsIds")}
+          placeholder="PL…"
+          value={value?.parsingOptions?.playlistsIds || []}
+          onChange={(values) =>
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ignoreEpisodesContaining:
+                  value?.parsingOptions?.ignoreEpisodesContaining || [],
+                ignoreEpisodesMissing:
+                  value?.parsingOptions?.ignoreEpisodesMissing || [],
+                playlistsIds: values,
+              },
+            })
+          }
+          onAddInput={() =>
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ignoreEpisodesContaining:
+                  value?.parsingOptions?.ignoreEpisodesContaining || [],
+                ignoreEpisodesMissing:
+                  value?.parsingOptions?.ignoreEpisodesMissing || [],
+                playlistsIds: [
+                  ...(value?.parsingOptions?.playlistsIds || []),
+                  "",
+                ],
+              },
+            })
+          }
+          onRemoveInput={(index) =>
+            onChange?.({
+              ...value,
+              parsingOptions: {
+                ignoreEpisodesContaining:
+                  value?.parsingOptions?.ignoreEpisodesContaining || [],
+                ignoreEpisodesMissing:
+                  value?.parsingOptions?.ignoreEpisodesMissing || [],
+                playlistsIds: (value?.parsingOptions?.playlistsIds || []).filter(
+                  (_: string, i: number) => i !== index,
+                ),
+              },
             })
           }
         />

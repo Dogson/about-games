@@ -57,8 +57,10 @@ Default.args = {
   value: {
     youtubeHandle: "",
     language: "en",
-    ignoreEpisodesContaining: [],
-    ignoreEpisodesMissing: [],
+    parsingOptions: {
+      ignoreEpisodesContaining: [],
+      ignoreEpisodesMissing: [],
+    },
     gameCandidateAIPrompt: "",
   },
 };

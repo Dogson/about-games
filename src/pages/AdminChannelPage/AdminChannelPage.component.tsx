@@ -49,12 +49,17 @@ const AdminChannelPage: React.FC = () => {
     const gameCandidateAIPrompt = normalizeGameCandidateAIPrompt(
       channelParsingForm?.gameCandidateAIPrompt,
     );
+    const parsingOptions = channelParsingForm?.parsingOptions;
 
     updateChannel({
       ...(gameCandidateAIPrompt !== undefined && { gameCandidateAIPrompt }),
-      ignoreEpisodesContaining:
-        channelParsingForm?.ignoreEpisodesContaining,
-      ignoreEpisodesMissing: channelParsingForm?.ignoreEpisodesMissing,
+      ...(parsingOptions && {
+        parsingOptions: {
+          ignoreEpisodesContaining: parsingOptions.ignoreEpisodesContaining,
+          ignoreEpisodesMissing: parsingOptions.ignoreEpisodesMissing,
+          playlistsIds: parsingOptions.playlistsIds,
+        },
+      }),
       youtubeHandle: channelParsingForm?.youtubeHandle,
       language: channelParsingForm?.language as ChannelLanguage,
     });
@@ -63,8 +68,12 @@ const AdminChannelPage: React.FC = () => {
   useEffect(() => {
     if (channel) {
       setChannelParsingForm({
-        ignoreEpisodesContaining: channel.ignoreEpisodesContaining,
-        ignoreEpisodesMissing: channel.ignoreEpisodesMissing,
+        parsingOptions: {
+          ignoreEpisodesContaining: channel.parsingOptions
+            .ignoreEpisodesContaining,
+          ignoreEpisodesMissing: channel.parsingOptions.ignoreEpisodesMissing,
+          playlistsIds: channel.parsingOptions.playlistsIds ?? [],
+        },
         gameCandidateAIPrompt: channel.gameCandidateAIPrompt ?? "",
         youtubeHandle: channel.youtubeHandle,
         language: channel.language,

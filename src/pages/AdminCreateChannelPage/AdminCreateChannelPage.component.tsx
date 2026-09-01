@@ -19,8 +19,11 @@ const AdminCreateChannelPage: React.FC = () => {
   const navigate = useNavigate();
   const [channel, setChannel] = useState<Partial<CreateChannelDTO>>({
     language: AppConfig.channelForm.defaultValues.language,
-    ignoreEpisodesContaining: [],
-    ignoreEpisodesMissing: [],
+    parsingOptions: {
+      ignoreEpisodesContaining: [],
+      ignoreEpisodesMissing: [],
+      playlistsIds: [],
+    },
     gameCandidateAIPrompt: AppConfig.channelForm.defaultValues
       .gameCandidateAIPrompt,
   });
@@ -31,8 +34,8 @@ const AdminCreateChannelPage: React.FC = () => {
       !channel ||
       !channel.youtubeHandle ||
       !channel.language ||
-      !channel.ignoreEpisodesContaining ||
-      !channel.ignoreEpisodesMissing
+      !channel.parsingOptions?.ignoreEpisodesContaining ||
+      !channel.parsingOptions?.ignoreEpisodesMissing
     )
       return;
     try {

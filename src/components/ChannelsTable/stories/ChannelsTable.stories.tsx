@@ -23,8 +23,10 @@ const mockChannels: Channel[] = [
     thumbnailUrl:
       "https://yt3.ggpht.com/oEvJp21jyoK8viSJQZsoIB4TpDmXsRBjOfMybj8azcfgCQ6dkQ8uP6Fg4nyYUCosnYhYzTlc=s68-c-k-c0x00ffffff-no-rj",
     videosCount: 42,
-    ignoreEpisodesContaining: [],
-    ignoreEpisodesMissing: [],
+    parsingOptions: {
+      ignoreEpisodesContaining: [],
+      ignoreEpisodesMissing: [],
+    },
     gameCandidateAIPrompt: "",
     videos: [],
     lastParsingError: { date: "2023-10-01", message: "Big Error Mate" },
@@ -43,8 +45,10 @@ const mockChannels: Channel[] = [
     thumbnailUrl:
       "https://yt3.ggpht.com/oEvJp21jyoK8viSJQZsoIB4TpDmXsRBjOfMybj8azcfgCQ6dkQ8uP6Fg4nyYUCosnYhYzTlc=s68-c-k-c0x00ffffff-no-rj",
     videosCount: 18,
-    ignoreEpisodesContaining: [],
-    ignoreEpisodesMissing: [],
+    parsingOptions: {
+      ignoreEpisodesContaining: [],
+      ignoreEpisodesMissing: [],
+    },
     gameCandidateAIPrompt: "",
     videos: [],
     lastParsingError: null,
@@ -63,8 +67,10 @@ const mockChannels: Channel[] = [
     thumbnailUrl:
       "https://yt3.ggpht.com/oEvJp21jyoK8viSJQZsoIB4TpDmXsRBjOfMybj8azcfgCQ6dkQ8uP6Fg4nyYUCosnYhYzTlc=s68-c-k-c0x00ffffff-no-rj",
     videosCount: 55,
-    ignoreEpisodesContaining: [],
-    ignoreEpisodesMissing: [],
+    parsingOptions: {
+      ignoreEpisodesContaining: [],
+      ignoreEpisodesMissing: [],
+    },
     gameCandidateAIPrompt: "",
     videos: [],
     lastParsingError: null,
@@ -83,8 +89,10 @@ const mockChannels: Channel[] = [
     thumbnailUrl:
       "https://yt3.ggpht.com/oEvJp21jyoK8viSJQZsoIB4TpDmXsRBjOfMybj8azcfgCQ6dkQ8uP6Fg4nyYUCosnYhYzTlc=s68-c-k-c0x00ffffff-no-rj",
     videosCount: 5,
-    ignoreEpisodesContaining: [],
-    ignoreEpisodesMissing: [],
+    parsingOptions: {
+      ignoreEpisodesContaining: [],
+      ignoreEpisodesMissing: [],
+    },
     gameCandidateAIPrompt: "",
     videos: [],
     lastParsingError: null,
@@ -103,8 +111,10 @@ const mockChannels: Channel[] = [
     thumbnailUrl:
       "https://yt3.ggpht.com/oEvJp21jyoK8viSJQZsoIB4TpDmXsRBjOfMybj8azcfgCQ6dkQ8uP6Fg4nyYUCosnYhYzTlc=s68-c-k-c0x00ffffff-no-rj",
     videosCount: 100,
-    ignoreEpisodesContaining: [],
-    ignoreEpisodesMissing: [],
+    parsingOptions: {
+      ignoreEpisodesContaining: [],
+      ignoreEpisodesMissing: [],
+    },
     gameCandidateAIPrompt: "",
     videos: [],
     lastParsingError: null,

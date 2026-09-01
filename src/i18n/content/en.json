@@ -58,6 +58,7 @@
     "language": "Language",
     "ignoreEpisodesContaining": "Ignore episodes containing these regexps",
     "ignoreEpisodesMissing": "Ignore episodes missing these regexps",
+    "playlistsIds": "Playlist IDs (only fetch videos from these playlists)",
     "gameCandidateAIPrompt": "AI prompt for game candidate extraction",
     "deleteChannel": {
       "title": "Delete channel",

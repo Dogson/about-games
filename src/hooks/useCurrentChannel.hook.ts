@@ -17,7 +17,7 @@ export type UseCurrentChannel = {
   loading: boolean;
   fetchChannel: () => Promise<void>;
   deleteChannel: () => Promise<void>;
-  updateChannel: (channel: Partial<Channel>) => Promise<void>;
+  updateChannel: (channel: UpdateChannelDTO) => Promise<void>;
 };
 
 const useCurrentChannel = (channelId: number): UseCurrentChannel => {
