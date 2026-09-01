@@ -4,17 +4,25 @@ import getAllChannels from "../../data-access/channels/getAllChannels.ts";
 import type { Channel } from "../../models/Channel.model.ts";
 import ChannelsTable from "../../components/ChannelsTable/ChannelsTable.component.tsx";
 import MainButton from "../../components/Buttons/MainButton/MainButton.component.tsx";
+import SecondaryButton from "../../components/Buttons/SecondaryButton/SecondaryButton.component.tsx";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../router/routes.config.ts";
 import { useTranslation } from "react-i18next";
-import { LuCirclePlus } from "react-icons/lu";
+import { LuCirclePlus, LuRefreshCw } from "react-icons/lu";
 import { UnverifiedVideosListContext } from "../../contexts/unverifiedVideosList/UnverifiedVideosListContext.ts";
 import Card from "../../components/Card/Card.component.tsx";
+import generateVideos from "../../data-access/channels/generateVideos.ts";
+import {
+  launchErrorToast,
+  launchSuccessToast,
+} from "../../helpers/toasts/toasts.ts";
+import { SpecificError } from "../../types/error/error.types.ts";
 
 const AdminHomePage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [channels, setChannels] = useState<Channel[]>([]);
+  const [generatingVideos, setGeneratingVideos] = useState(false);
   const { unverifiedVideosCount, refreshUnverifiedVideos } = useContext(
     UnverifiedVideosListContext,
   );
@@ -28,6 +36,24 @@ const AdminHomePage: React.FC = () => {
   useEffect(() => {
     refreshUnverifiedVideos();
   }, [refreshUnverifiedVideos]);
+
+  const handleGenerateVideos = async () => {
+    try {
+      setGeneratingVideos(true);
+      const result = await generateVideos();
+      launchSuccessToast(result.message);
+      refreshUnverifiedVideos();
+      setChannels(await getAllChannels());
+    } catch (e) {
+      if (e instanceof SpecificError) {
+        launchErrorToast(t(`${e.apiErrorKey}`));
+      } else {
+        launchErrorToast(t("ApiErrors.unknown"));
+      }
+    } finally {
+      setGeneratingVideos(false);
+    }
+  };
 
   return (
     <PageLayout>
@@ -51,7 +77,16 @@ const AdminHomePage: React.FC = () => {
           </Card>
         )}
 
-        <span className="font-title self-start text-3xl">Channels</span>
+        <div className="flex w-full items-center justify-between">
+          <span className="font-title text-3xl">Channels</span>
+          <SecondaryButton
+            onClick={handleGenerateVideos}
+            loading={generatingVideos}
+            Icon={LuRefreshCw}
+          >
+            {t("Admin.fetchNewVideos")}
+          </SecondaryButton>
+        </div>
         <div className="flex w-full flex-1 flex-col gap-4">
           <ChannelsTable channels={channels} />
           <MainButton

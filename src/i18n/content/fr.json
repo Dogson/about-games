@@ -40,6 +40,7 @@
     "reviewVideos": "Vérifier les nouvelles vidéos",
     "reviewVideosLabel": "{{count}} vidéo(s) en attente de vérification",
     "createChannel": "Ajouter une chaîne",
+    "fetchNewVideos": "Récupérer les nouvelles vidéos",
     "logs": "Logs de l'API",
     "createChannelSuccess": "La chaîne a été ajoutée avec succès.",
     "editChannelSuccess": "La chaîne a été modifiée avec succès.",

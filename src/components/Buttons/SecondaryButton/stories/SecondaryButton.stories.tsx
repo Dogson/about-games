@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import SecondaryButton from "../SecondaryButton.component";
+import { LuRefreshCw } from "react-icons/lu";
 
 const meta: Meta<typeof SecondaryButton> = {
   title: "Buttons/SecondaryButton",
@@ -20,6 +21,22 @@ export const Default: Story = {
   args: {
     disabled: false,
     children: "Secondary action",
+  },
+};
+
+export const WithIcon: Story = {
+  args: {
+    disabled: false,
+    children: "Refresh",
+    Icon: LuRefreshCw,
+  },
+};
+
+export const Loading: Story = {
+  args: {
+    disabled: false,
+    loading: true,
+    children: "Loading action",
   },
 };
 
