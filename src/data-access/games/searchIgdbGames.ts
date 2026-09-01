@@ -9,7 +9,7 @@ const searchIgdbGames = async (params: {
 }): Promise<IGDBGame[]> => {
   try {
     return (
-      await api.get<IGDBGame[]>(`${ApiConfig.routes.games}${ApiConfig.routes.igdbSearch}`, {
+      await api.get<IGDBGame[]>(`${ApiConfig.routes.igdbSearch}`, {
         params,
       })
     ).data;
