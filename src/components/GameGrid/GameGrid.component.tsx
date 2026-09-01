@@ -1,58 +1,116 @@
 import React, { useEffect, useRef } from "react";
 import type { GamesListItem } from "../../models/Game.model.ts";
 import GameCard from "../GameCard/GameCard.component.tsx";
+import useElementWidth from "../../hooks/useElementWidth.hook.ts";
+
+const COLUMN_WIDTH = 160;
+const COLUMN_GAP = 20;
 
 export type GameGridProps = {
   games: GamesListItem[];
   onGameClick: (game: GamesListItem) => void;
   onScrollEnd: () => void;
+  isLoading?: boolean;
+  hasMore?: boolean;
 };
 
 const GameGrid: React.FC<GameGridProps> = ({
   games,
   onGameClick,
   onScrollEnd,
+  isLoading = false,
+  hasMore = false,
 }) => {
-  const calledForGamesRef = useRef<GamesListItem[] | null>(null);
+  const { ref: gridRef, width: gridWidth } = useElementWidth();
+  const firstSkeletonRef = useRef<HTMLDivElement | null>(null);
+
+  const columns = Math.max(
+    1,
+    Math.floor((gridWidth + COLUMN_GAP) / (COLUMN_WIDTH + COLUMN_GAP)),
+  );
+
+  const showInitialSkeleton = isLoading && games.length === 0;
+
+  const remainder = games.length % columns;
+  const skeletonCount =
+    hasMore && games.length > 0
+      ? remainder === 0
+        ? columns
+        : columns - remainder
+      : 0;
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight;
+    const element = firstSkeletonRef.current;
+    if (!element) return;
 
-      if (documentHeight - (scrollTop + windowHeight) < 100) {
-        // Only call if we haven't called for the current games list
-        if (calledForGamesRef.current !== games) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
           onScrollEnd();
-          calledForGamesRef.current = games;
         }
-      }
-    };
+      },
+      { root: null, threshold: 0 },
+    );
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [onScrollEnd, games]);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [onScrollEnd, games, hasMore]);
+
+  const baseGridClassName =
+    "max-w-container grid w-full grid-cols-[repeat(auto-fit,160px)] justify-center gap-x-5 gap-y-5 p-4";
+  const gridClassName = `${baseGridClassName} auto-rows-fr`;
+  const initialSkeletonClassName =
+    `${baseGridClassName} auto-rows-[13rem] overflow-hidden h-[calc(3*13rem_+_2*1.25rem_+_2rem)]`;
+
+  const skeletonCardClassName =
+    "h-52 w-39 animate-pulse rounded-xl bg-black";
+
+  const renderSkeletonCard = (
+    key: string,
+    ref?: React.Ref<HTMLDivElement>,
+  ) => (
+    <div
+      key={key}
+      ref={ref}
+      className={skeletonCardClassName}
+      style={{ animationDuration: "4s" }}
+    />
+  );
 
   return (
     <div
-      className="max-w-container grid w-full auto-rows-fr
-        grid-cols-[repeat(auto-fit,160px)] justify-center gap-x-5 gap-y-5 p-4"
+      ref={gridRef}
+      className={showInitialSkeleton ? initialSkeletonClassName : gridClassName}
     >
-      {games.map((game) => (
-        <button
-          key={game.id}
-          onClick={() => onGameClick(game)}
-          className="flex flex-col text-left"
-        >
-          <GameCard
-            isFlat={false}
-            title={game.title}
-            imgUrl={game.boxartImg}
-            releaseDate={game.releaseDate}
-          />
-        </button>
-      ))}
+      {showInitialSkeleton ? (
+        Array.from({ length: 18 }, (_, index) =>
+          renderSkeletonCard(`initial-${index}`),
+        )
+      ) : (
+        <>
+          {games.map((game) => (
+            <button
+              key={game.id}
+              onClick={() => onGameClick(game)}
+              className="flex flex-col text-left"
+            >
+              <GameCard
+                isFlat={false}
+                title={game.title}
+                imgUrl={game.boxartImg}
+                releaseDate={game.releaseDate}
+              />
+            </button>
+          ))}
+          {skeletonCount > 0 &&
+            Array.from({ length: skeletonCount }, (_, index) =>
+              renderSkeletonCard(
+                `more-${index}`,
+                index === 0 ? firstSkeletonRef : undefined,
+              ),
+            )}
+        </>
+      )}
     </div>
   );
 };

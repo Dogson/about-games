@@ -12,6 +12,7 @@ export type UseGamesListContext = {
   onChangeSearchFilter: (newFilter: string) => void;
   totalGames: number;
   totalPages: number;
+  hasMore: boolean;
 };
 
 const useGameListContext = (): UseGamesListContext => {
@@ -121,6 +122,7 @@ const useGameListContext = (): UseGamesListContext => {
     searchFilter,
     totalGames,
     totalPages,
+    hasMore: page < totalPages,
   };
 };
 

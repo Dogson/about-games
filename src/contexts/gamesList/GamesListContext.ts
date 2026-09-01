@@ -12,4 +12,5 @@ export const GamesListContext = createContext<GamesListContextType>({
   nextPage: async () => {},
   totalGames: 0,
   totalPages: 0,
+  hasMore: false,
 });

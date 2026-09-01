@@ -24,8 +24,15 @@ const HomePage: React.FC = () => {
   const { t } = useTranslation();
   const { isAdmin } = useContext(AuthContext);
 
-  const { games, nextPage, onChangeSearchFilter, searchFilter, reloadGames } =
-    useContext(GamesListContext);
+  const {
+    games,
+    nextPage,
+    onChangeSearchFilter,
+    searchFilter,
+    reloadGames,
+    isLoadingGames,
+    hasMore,
+  } = useContext(GamesListContext);
   const { languages, changeLanguages } = useContext(ChannelsSettingsContext);
   const logoRef = useRef<HTMLDivElement | null>(null);
   const [isLogoInView, setIsLogoInView] = useState(true);
@@ -117,8 +124,10 @@ const HomePage: React.FC = () => {
             games={games || []}
             onGameClick={goToGame}
             onScrollEnd={nextPage}
+            isLoading={isLoadingGames || games === undefined}
+            hasMore={hasMore}
           />
-          {games && games.length === 0 && (
+          {games !== undefined && !isLoadingGames && games.length === 0 && (
             <Card className="flex gap-1">
               <span className="font-title text-lg">
                 {t("Homepage.noGamesTitle")}
