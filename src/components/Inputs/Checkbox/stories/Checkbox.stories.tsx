@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Meta, StoryFn } from "@storybook/react-vite";
-import Checkbox, { type CheckboxProps } from "../Checkbox.component";
+import Checkbox, { type CheckboxProps } from "../Checkbox.component.tsx";
 
 export default {
   title: "Inputs/Checkbox",

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import Modal from "../Modal/Modal.component";
+import Modal from "../Modal/Modal.component.tsx";
 import { useTranslation } from "react-i18next";
-import CheckboxGroup from "../../Inputs/CheckboxGroup/CheckboxGroup.component";
-import AppConfig from "../../../config/app.config";
-import LanguageCode from "../../LanguageCode/LanguageCode.component";
+import CheckboxGroup from "../../Inputs/CheckboxGroup/CheckboxGroup.component.tsx";
+import AppConfig from "../../../config/app.config.ts";
+import LanguageCode from "../../LanguageCode/LanguageCode.component.tsx";
 
 type VideoLanguagesModalProps = {
   onClose: () => void;

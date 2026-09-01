@@ -119,7 +119,6 @@ const ChannelsTable = ({ channels }: ChannelsTableProps) => {
         domLayout="autoHeight"
         onRowClicked={(params) => {
           if (!params.data) return;
-          console.log(params.data);
           goToChannel({ id: params.data.id, title: params.data.name });
         }}
       />

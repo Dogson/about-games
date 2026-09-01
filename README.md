@@ -91,4 +91,4 @@ A sitemap is generated for public and dynamic routes and committed to the repo. 
 - Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/) (enforced by commitlint).
 - Husky + lint-staged run ESLint on staged files on commit.
 - Run `npm run lint` before pushing.
-- See `.github/copilot-instructions.md` for architecture notes and coding conventions.
+- See `AGENTS.md` for architecture notes and coding conventions.

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import MainButton from "../MainButton.component";
+import MainButton from "../MainButton.component.tsx";
 import { useState } from "react";
 
 const meta: Meta<typeof MainButton> = {

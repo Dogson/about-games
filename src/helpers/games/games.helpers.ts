@@ -5,12 +5,6 @@ export const mapIgdbGamesToCreateGamesDTO = (
   igdbGame: IGDBGame,
 ): CreateGameDTO => {
   const firstReleaseDate = getFirstReleaseDate(igdbGame);
-  if (igdbGame.name === "Crazy Taxi") {
-    console.log(firstReleaseDate);
-    console.log(
-      firstReleaseDate && new Date(firstReleaseDate * 1000).toISOString(),
-    );
-  }
 
   return {
     title: igdbGame.name,

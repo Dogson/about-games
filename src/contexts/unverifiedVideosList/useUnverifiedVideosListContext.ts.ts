@@ -36,7 +36,6 @@ const useUnverifiedVideosListContext = (): UseUnverifiedVideosListContext => {
   }, []);
 
   const goToNextUnverifiedVideo = () => {
-    console.log(unverifiedVideos);
     if (currentVideoIdx < unverifiedVideos.length - 1) {
       setCurrentVideoIdx((v) => v + 1);
     }
@@ -51,8 +50,6 @@ const useUnverifiedVideosListContext = (): UseUnverifiedVideosListContext => {
   useEffect(() => {
     if (isAdmin) refreshUnverifiedVideos();
   }, [refreshUnverifiedVideos, isAdmin]);
-
-  console.log(currentVideoIdx);
 
   return {
     isLoadingVideos: loading,

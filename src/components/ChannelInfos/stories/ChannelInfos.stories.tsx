@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import ChannelInfos from "../ChannelInfos.component";
+import ChannelInfos from "../ChannelInfos.component.tsx";
 
 const meta: Meta<typeof ChannelInfos> = {
   title: "Channel/ChannelInfos",

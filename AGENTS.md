@@ -1,6 +1,6 @@
-# About Games — Copilot Instructions
+# About Games — Agent Instructions
 
-React 19 · TypeScript (strict) · Vite 7 · Tailwind CSS v4 · React Router v7 · i18next · Storybook · axios.
+React 19 · TypeScript (strict) · Vite 7 · Tailwind CSS v4 · React Router v7 · i18next · Storybook · axios · ag-grid · framer-motion · react-virtuoso · react-toastify · react-helmet.
 A frontend connecting YouTube video essays to the games they cover, with a public catalog and an admin ("Game Master") area.
 
 ## Guiding principles
@@ -11,13 +11,13 @@ Write code that is **readable**, **well-designed**, **clean**, and **strictly ty
 
 ## TypeScript — strictness rules
 
-These are non-negotiable. The project compiles with `strict`, `noUnusedLocals`, `noUnusedParameters`, and `verbatimModuleSyntax`.
+The project compiles with `strict`, `noUnusedLocals`, `noUnusedParameters`, and `verbatimModuleSyntax`.
 
 - **Never use `any`.** Prefer `unknown`, union types, or generics.
-- **Avoid type assertions (`as`)** to bypass the compiler. Use type guards and narrowing instead. `as const` for literal unions is fine.
-- **Always annotate return types** on functions, hooks, and components. Async functions return `Promise<T>`.
+- **Prefer narrowing and type guards over type assertions (`as`).** `as` is acceptable for DOM queries (`querySelector`), third-party/Storybook casts (`as Meta<typeof X>`), and casts after a runtime check. `as const` for literal unions is fine.
+- **Annotate return types** on exported functions, hooks, and components. Async functions return `Promise<T>`. (This is a convention, not enforced by lint.)
 - **Use `import type` for type-only imports.** Because `verbatimModuleSyntax` is on, importing a type without `import type` is an error.
-- **Always include the file extension** in imports: `import Game from "./Game.model.ts"` (`.ts` / `.tsx`).
+- **Always include the file extension** in relative imports: `import Game from "./Game.model.ts"` (`.ts` / `.tsx`).
 - **Narrow `null` / `undefined`** before use. Nullable API fields are modeled as `string | null`, not just optional.
 - **Catch `unknown`** and narrow it (`e instanceof AxiosError`, `e instanceof SpecificError`) before reading fields.
 - **Use `as const` + indexed access** for finite string unions, e.g.:
@@ -33,18 +33,22 @@ These are non-negotiable. The project compiles with `strict`, `noUnusedLocals`, 
 
 ```
 src/
-├── components/    # Reusable UI: ComponentName.component.tsx + stories/ComponentName.stories.tsx
-├── config/        # App / API / localStorage config (default-exported objects, named consts)
-├── contexts/      # React contexts (Auth, ChannelsSettings, GamesList, UnverifiedVideosList)
-├── data-access/   # Typed API calls, one function per file + {domain}/model/ for DTOs
-├── helpers/       # axios instance, toasts, utils, auth, games helpers
-├── hooks/         # Custom hooks: useXxx.hook.ts
-├── i18n/          # i18next setup + content/{fr,en}.json
-├── layouts/       # PageLayout wrapper
-├── models/        # Shared domain types (Game, Video, Channel, IgdbGame)
-├── pages/         # Route-level pages
-├── router/        # routes.config.ts, router.tsx, AuthRoute
-└── types/         # Error types
+├── assets/         # Static assets (flags, ...)
+├── components/     # Reusable UI: ComponentName.component.tsx + stories/ComponentName.stories.tsx
+├── config/         # App / API / localStorage config (default-exported objects, named consts)
+├── contexts/       # React contexts (Auth, ChannelsSettings, GamesList, UnverifiedVideosList)
+├── data-access/    # Typed API calls, one function per file + {domain}/model/ for DTOs
+├── fonts/          # Self-hosted fonts
+├── helpers/        # axios instance, toasts, utils, auth, games helpers
+├── hooks/          # Custom hooks: useXxx.hook.ts
+├── i18n/           # i18next setup + content/{fr,en}.json
+├── layouts/        # PageLayout wrapper
+├── mocks/          # Mock data for stories/dev
+├── models/         # Shared domain types (Game, Video, Channel, IgdbGame)
+├── pages/          # Route-level pages
+├── router/         # routes.config.ts, router.tsx, AuthRoute
+├── styles/         # Global / third-party CSS (index.css, fonts.css, ag-grid-theme.css)
+└── types/          # Error types
 ```
 
 - **Context providers** wrap the app in `App.tsx`: `AuthProvider`, `ChannelsSettingsProvider`, `GamesListProvider`, `UnverifiedVideosListProvider`.
@@ -73,7 +77,7 @@ Think in small, focused, reusable components. Prefer composing existing pieces o
 - **Colocate by feature**: styles, sub-components, and stories for a component live together under `components/Xxx/`.
 
 ### Naming & files
-- Components: `Xxx.component.tsx` → `export default Xxx`, props as `export type XxxProps`, declared with `React.FC<XxxProps>`.
+- Components: `Xxx.component.tsx` → usually `export default Xxx` (some existing components use named exports, e.g. `Separator`, `VideoThumbnail`, `VideosGrid` — match the surrounding file), props as `export type XxxProps`, declared with `React.FC<XxxProps>`.
 - Hooks: `useXxx.hook.ts` → `export type UseXxx = {...}` + `export default useXxx`.
 - Data-access: `verbOneNoun.ts` → `export default verbOneNoun`.
 - Models: `Xxx.model.ts` → `export type Xxx`.
@@ -100,7 +104,7 @@ Think in small, focused, reusable components. Prefer composing existing pieces o
 ### Hooks
 - Return a typed object; always `export type UseXxx`.
 - Stabilize callbacks with `useCallback` and derived values with `useMemo`; keep dependency arrays correct (run `npm run lint` — `react-hooks/exhaustive-deps` is enabled).
-- Debounce with a `useRef<Timeout>` and guard stale async responses with a request-id ref (see `useIgdbSearch.hook.ts`).
+- Debounce with a `useRef<NodeJS.Timeout | null>` and guard stale async responses with a request-id ref (see `useIgdbSearch.hook.ts`).
 
 ### Errors & feedback
 - Domain errors: throw/check `SpecificError` with `ApiErrorType` (`src/types/error/error.types.ts`); map to i18n via `ErrorMessageI18nKeys`.
@@ -122,7 +126,7 @@ Think in small, focused, reusable components. Prefer composing existing pieces o
 
 - **One idea per function/component.** Extract helpers when a block exceeds ~30 lines or mixes concerns.
 - **Meaningful names**; no cryptic abbreviations.
-- **No commented-out code** and **no leftover `console.log`/`debugger`** (debugging statements are the only exception — remove them before finishing).
+- **No commented-out code** and **no `console.log`/`debugger`** — `console.warn`/`console.error` are allowed and are preferred for real error reporting (enforced by `no-console`).
 - **Prefer pure, typed helpers** in `helpers/` over inline logic repeated in components.
 - **Match surrounding style**: look at a neighboring file before writing a new one.
 
@@ -131,9 +135,11 @@ Think in small, focused, reusable components. Prefer composing existing pieces o
 Before considering work done, run:
 
 ```bash
-npm run lint    # ESLint (TS + react-hooks + react-refresh + storybook)
+npm run lint    # ESLint (TS + react-hooks + react-refresh + storybook + no-console)
 npm run build   # tsc -b && vite build — this is the real type gate
 ```
+
+There is no test suite configured.
 
 - Commit messages follow Conventional Commits (commitlint).
 - Husky + lint-staged run `eslint --fix` on staged files automatically.

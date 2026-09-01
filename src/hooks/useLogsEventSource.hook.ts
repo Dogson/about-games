@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import ApiConfig from "../config/api.config";
-import type { LogEvent } from "../data-access/logging/logging.model";
-import getLastLogs from "../data-access/logging/getLastLogs";
-import { AuthContext } from "../contexts/auth/AuthContext";
+import ApiConfig from "../config/api.config.ts";
+import type { LogEvent } from "../data-access/logging/logging.model.ts";
+import getLastLogs from "../data-access/logging/getLastLogs.ts";
+import { AuthContext } from "../contexts/auth/AuthContext.ts";
 
 type UseLogsEventSource = {
   logs: LogEvent[];
@@ -50,7 +50,6 @@ const useLogsEventSource = (): UseLogsEventSource => {
     };
 
     return () => {
-      console.log("closing logs event source...");
       es.close();
     };
   }, [authInfos?.access_token, hasFetchedLastLogs, isAdmin]);

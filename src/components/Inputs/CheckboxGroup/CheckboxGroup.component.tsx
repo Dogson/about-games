@@ -1,5 +1,5 @@
 import React from "react";
-import Checkbox from "../Checkbox/Checkbox.component";
+import Checkbox from "../Checkbox/Checkbox.component.tsx";
 
 export type CheckboxOption = {
   label: React.ReactNode;

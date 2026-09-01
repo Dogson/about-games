@@ -22,5 +22,8 @@ export default tseslint.config([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      "no-console": ["error", { allow: ["warn", "error"] }],
+    },
   },
 ], storybook.configs["flat/recommended"]);

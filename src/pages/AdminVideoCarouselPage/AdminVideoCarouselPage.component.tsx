@@ -15,8 +15,6 @@ const AdminVideoCarouselPage: React.FC = () => {
     currentVideoIdx,
   } = useContext(UnverifiedVideosListContext);
 
-  console.log(currentVideoIdx);
-
   return (
     <PageLayout>
       {!isLoadingVideos && currentVideo && (

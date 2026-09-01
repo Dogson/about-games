@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
-import SecondaryButton from "../SecondaryButton.component";
+import SecondaryButton from "../SecondaryButton.component.tsx";
 import { LuRefreshCw } from "react-icons/lu";
 
 const meta: Meta<typeof SecondaryButton> = {

@@ -1,4 +1,4 @@
-import LanguageCode from "../LanguageCode.component";
+import LanguageCode from "../LanguageCode.component.tsx";
 import type { Meta, StoryFn } from "@storybook/react-vite";
 
 type LanguageFlagProps = React.ComponentProps<typeof LanguageCode>;

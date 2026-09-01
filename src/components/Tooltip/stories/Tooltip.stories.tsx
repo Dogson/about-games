@@ -1,5 +1,5 @@
 import type { Meta, StoryFn } from "@storybook/react-vite";
-import Tooltip from "../Tooltip.component";
+import Tooltip from "../Tooltip.component.tsx";
 
 export default {
   title: "Components/Tooltip",

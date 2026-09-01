@@ -1,8 +1,8 @@
 import { AxiosError } from "axios";
-import ApiConfig from "../../config/api.config";
-import { api } from "../../helpers/axios/axios";
-import type { Video } from "../../models/Video.model";
-import { ApiErrorType, SpecificError } from "../../types/error/error.types";
+import ApiConfig from "../../config/api.config.ts";
+import { api } from "../../helpers/axios/axios.ts";
+import type { Video } from "../../models/Video.model.ts";
+import { ApiErrorType, SpecificError } from "../../types/error/error.types.ts";
 
 const getUnverifiedVideos = async (): Promise<Video[]> => {
   try {

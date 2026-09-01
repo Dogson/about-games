@@ -2,7 +2,7 @@ import { useState } from "react";
 import type { Meta, StoryFn } from "@storybook/react-vite";
 import CheckboxGroup, {
   type CheckboxGroupProps,
-} from "../CheckboxGroup.component";
+} from "../CheckboxGroup.component.tsx";
 
 export default {
   title: "Inputs/CheckboxGroup",
