@@ -34,7 +34,7 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
         ${disabled || loading ? "cursor-default opacity-50" : "cursor-pointer"}
         ${className}`}
     >
-      {Icon && <Icon className="text-turquoise" />}
+      {Icon && <Icon className="text-corn" />}
       {children}
       {loading && (
         <div className="absolute right-[-18px]">
