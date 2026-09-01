@@ -52,6 +52,12 @@ src/
 
 ---
 
+## API reference
+
+Whenever adding, editing, or removing a feature that interacts with the backend, **first read `API_ROUTES.md`** to understand the API surface (routes, auth, DTOs) before writing or modifying data-access code.
+
+---
+
 ## Conventions
 
 ### Component-oriented mindset
@@ -76,6 +82,7 @@ Think in small, focused, reusable components. Prefer composing existing pieces o
 - Storybook: one `Xxx.stories.tsx` per component.
 
 ### Data-access
+- Always consult `API_ROUTES.md` first before writing or changing API calls (see "API reference").
 - One exported async function per file with a typed params object and explicit `Promise<T>` return.
 - Use the shared `api` axios instance from `src/helpers/axios/axios.ts` (base URL + auth interceptor are already configured).
 - Routes come from `ApiConfig.routes`.
