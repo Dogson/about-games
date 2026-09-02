@@ -44,6 +44,7 @@
     "fetchNewVideos": "Récupérer les nouvelles vidéos",
     "logs": "Logs de l'API",
     "createChannelSuccess": "La chaîne a été ajoutée avec succès.",
+    "backToAdmin": "Retour à l'administration",
     "editChannelSuccess": "La chaîne a été modifiée avec succès.",
     "deleteChannelSuccess": "La chaîne a été supprimée avec succès.",
     "unignoreAllVideos": "Ne plus ignorer les vidéos ignorées",

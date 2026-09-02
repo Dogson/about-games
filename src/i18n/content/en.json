@@ -43,6 +43,7 @@
     "createChannel": "Add a channel",
     "fetchNewVideos": "Fetch new videos",
     "logs": "API logs",
+    "backToAdmin": "Back to admin",
     "createChannelSuccess": "Channel added successfully.",
     "editChannelSuccess": "Channel edited successfully.",
     "deleteChannelSuccess": "Channel deleted successfully.",
