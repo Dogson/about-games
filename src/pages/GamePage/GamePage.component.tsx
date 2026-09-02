@@ -10,6 +10,7 @@ import Card from "../../components/Card/Card.component.tsx";
 import SecondaryButton from "../../components/Buttons/SecondaryButton/SecondaryButton.component.tsx";
 import VideoLanguagesModal from "../../components/Modals/VideosLanguagesModal/VideoLanguagesModal.component.tsx";
 import { ChannelsSettingsContext } from "../../contexts/channelsSettings/ChannelsSettingsContext.ts";
+import InlineError from "../../components/InlineError/InlineError.component.tsx";
 
 const GamePage: React.FC = () => {
   const { currentGameId, goToVideo, goToParentRoute, goBack } = useAppRoutes();
@@ -26,10 +27,20 @@ const GamePage: React.FC = () => {
     setShowLanguageModal(false);
   };
 
-  const { game } = useCurrentGame(currentGameId || -1);
+  const { game, error, retry } = useCurrentGame(currentGameId || -1);
 
   return (
     <PageLayout>
+      {error && !game && (
+        <div className="flex w-full flex-1 flex-col items-center px-5">
+          <div className="max-w-container w-full">
+            <InlineError
+              message={t(`${error.apiErrorKey ?? "ApiErrors.unknown"}`)}
+              onRetry={retry}
+            />
+          </div>
+        </div>
+      )}
       {game && (
         <Helmet>
           <title>{`${game.title} - about games`}</title>

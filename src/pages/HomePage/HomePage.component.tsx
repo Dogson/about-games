@@ -19,6 +19,7 @@ import SecondaryButton from "../../components/Buttons/SecondaryButton/SecondaryB
 import VideoLanguagesModal from "../../components/Modals/VideosLanguagesModal/VideoLanguagesModal.component.tsx";
 import { Helmet } from "react-helmet";
 import Card from "../../components/Card/Card.component.tsx";
+import InlineError from "../../components/InlineError/InlineError.component.tsx";
 
 const HomePage: React.FC = () => {
   const { t } = useTranslation();
@@ -32,6 +33,7 @@ const HomePage: React.FC = () => {
     reloadGames,
     isLoadingGames,
     hasMore,
+    loadError,
   } = useContext(GamesListContext);
   const { languages, changeLanguages } = useContext(ChannelsSettingsContext);
   const logoRef = useRef<HTMLDivElement | null>(null);
@@ -127,16 +129,25 @@ const HomePage: React.FC = () => {
             isLoading={isLoadingGames || games === undefined}
             hasMore={hasMore}
           />
-          {games !== undefined && !isLoadingGames && games.length === 0 && (
-            <Card className="flex gap-1">
-              <span className="font-title text-lg">
-                {t("Homepage.noGamesTitle")}
-              </span>
-              <span className="text-sm">
-                {t("Homepage.noGamesDescription")}
-              </span>
-            </Card>
+          {loadError && !isLoadingGames && (games ?? []).length === 0 && (
+            <InlineError
+              message={t(`${loadError.apiErrorKey ?? "ApiErrors.unknown"}`)}
+              onRetry={() => reloadGames(searchFilter)}
+            />
           )}
+          {!loadError &&
+            games !== undefined &&
+            !isLoadingGames &&
+            games.length === 0 && (
+              <Card className="flex gap-1">
+                <span className="font-title text-lg">
+                  {t("Homepage.noGamesTitle")}
+                </span>
+                <span className="text-sm">
+                  {t("Homepage.noGamesDescription")}
+                </span>
+              </Card>
+            )}
         </section>
       </div>
     </PageLayout>

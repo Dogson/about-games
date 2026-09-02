@@ -2,6 +2,10 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import type { GamesListItem } from "../../models/Game.model.ts";
 import getAllGames from "../../data-access/games/getAllGames.ts";
 import { ChannelsSettingsContext } from "../channelsSettings/ChannelsSettingsContext.ts";
+import {
+  isInfrastructureSpecificError,
+  type SpecificError,
+} from "../../types/error/error.types.ts";
 
 export type UseGamesListContext = {
   games?: GamesListItem[];
@@ -13,6 +17,7 @@ export type UseGamesListContext = {
   totalGames: number;
   totalPages: number;
   hasMore: boolean;
+  loadError: SpecificError | null;
 };
 
 const useGameListContext = (): UseGamesListContext => {
@@ -23,6 +28,7 @@ const useGameListContext = (): UseGamesListContext => {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalGames, setTotalGames] = useState<number>(0);
   const [searchFilter, setSearchFilter] = useState<string>("");
+  const [loadError, setLoadError] = useState<SpecificError | null>(null);
 
   const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const latestRequestId = useRef<number>(0);
@@ -36,6 +42,7 @@ const useGameListContext = (): UseGamesListContext => {
       setPage(1);
       setGames([]);
       setLoading(true);
+      setLoadError(null);
 
       const requestId = ++latestRequestId.current;
 
@@ -54,7 +61,11 @@ const useGameListContext = (): UseGamesListContext => {
           setTotalPages(result.totalPages);
         }
       } catch (err) {
-        console.error("Error loading games:", err);
+        if (isInfrastructureSpecificError(err)) {
+          setLoadError(err);
+        } else {
+          console.error("Error loading games:", err);
+        }
       } finally {
         // Only stop loading if still the latest request
         if (requestId === latestRequestId.current) {
@@ -69,6 +80,7 @@ const useGameListContext = (): UseGamesListContext => {
     if (loading) return;
     if (page === totalPages) return;
     setLoading(true);
+    setLoadError(null);
     const newPage = page + 1;
 
     const requestId = ++latestRequestId.current;
@@ -86,7 +98,11 @@ const useGameListContext = (): UseGamesListContext => {
         setPage(newPage);
       }
     } catch (err) {
-      console.error("Error loading next page:", err);
+      if (isInfrastructureSpecificError(err)) {
+        setLoadError(err);
+      } else {
+        console.error("Error loading next page:", err);
+      }
     } finally {
       if (requestId === latestRequestId.current) {
         setLoading(false);
@@ -123,6 +139,7 @@ const useGameListContext = (): UseGamesListContext => {
     totalGames,
     totalPages,
     hasMore: page < totalPages,
+    loadError,
   };
 };
 

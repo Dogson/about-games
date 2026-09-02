@@ -1,72 +1,27 @@
 import { AxiosError } from "axios";
+import { ApiErrorType, SpecificError } from "../../types/error/error.types.ts";
 
-type ApiError = AxiosError & {
-  apiErrors?: {
-    status: number;
-    intlKey: string;
-    description?: string;
-  };
+const mapNoResponseError = (error: AxiosError): SpecificError => {
+  const isTimeout =
+    error.code === "ECONNABORTED" ||
+    error.code === "ETIMEDOUT" ||
+    error.code === "ERR_CANCELED";
+  return new SpecificError(
+    isTimeout ? ApiErrorType.TIMEOUT : ApiErrorType.NETWORK,
+  );
 };
 
-type ApiResponseError = Record<number, { intlKey: string }>;
-
-export const errorWithMessageIfStatusMatch = (
-  error: unknown,
-  specificsError?: ApiResponseError,
-): Error => {
-  if (!(error instanceof Error)) {
-    console.warn("Error should be an instance of Error", error);
-    throw new Error("Unknown error");
+export const mapAxiosErrorToSpecificError = (error: unknown): unknown => {
+  if (!(error instanceof AxiosError)) {
+    return error;
   }
 
-  if (error instanceof AxiosError) {
-    const status = getErrorStatus(error);
-    if (status && specificsError?.[status]) {
-      const customAxiosError = error as ApiError;
-      customAxiosError.apiErrors = {
-        status,
-        ...specificsError[status],
-      };
-      return customAxiosError;
+  if (error.response) {
+    if (error.response.status >= 500) {
+      return new SpecificError(ApiErrorType.SERVER_ERROR);
     }
+    return error;
   }
 
-  return error;
-};
-
-export const getApiError = (
-  error: unknown,
-): ApiError["apiErrors"] | undefined => {
-  if (
-    error instanceof AxiosError &&
-    (error as ApiError).apiErrors !== undefined
-  ) {
-    const customAxiosError = error as ApiError;
-    if (
-      customAxiosError.apiErrors?.status &&
-      customAxiosError.apiErrors?.status >= 300
-    ) {
-      return customAxiosError.apiErrors;
-    }
-  }
-
-  return undefined;
-};
-
-export const getErrorStatus = (error: AxiosError): number | null =>
-  error.response?.status ?? null;
-
-export const commonApiErrorsByStatus: ApiResponseError = {
-  500: {
-    intlKey: "error.internalServerError",
-  },
-  400: {
-    intlKey: "error.badRequest",
-  },
-  403: {
-    intlKey: "error.forbidden",
-  },
-  404: {
-    intlKey: "error.notFound",
-  },
+  return mapNoResponseError(error);
 };

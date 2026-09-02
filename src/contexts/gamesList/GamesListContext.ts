@@ -13,4 +13,5 @@ export const GamesListContext = createContext<GamesListContextType>({
   totalGames: 0,
   totalPages: 0,
   hasMore: false,
+  loadError: null,
 });

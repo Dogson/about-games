@@ -17,7 +17,8 @@
     "videos": "Videos",
     "save": "Save",
     "delete": "Delete",
-    "close": "Close"
+    "close": "Close",
+    "retry": "Retry"
   },
   "GameSearch": {
     "noResults": "No games found",
@@ -93,7 +94,10 @@
     "forbidden": "You don't have permission for this route.",
     "sessionExpired": "Session expired, please log in again.",
     "unknown": "An unknown error occurred",
-    "userNotFound": "User not found"
+    "userNotFound": "User not found",
+    "networkError": "Couldn't reach the server. Check your connection and try again.",
+    "timeout": "The server took too long to respond. Please try again.",
+    "serverError": "Something went wrong on the server. Please try again later."
   },
   "Video": {
     "notFound": "Video not found",

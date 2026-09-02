@@ -25,6 +25,7 @@ import LanguageCode from "../LanguageCode/LanguageCode.component.tsx";
 import { Helmet } from "react-helmet";
 import SmartLink from "../SmartLink/SmartLink.component.tsx";
 import { routes } from "../../router/routes.config.ts";
+import InlineError from "../InlineError/InlineError.component.tsx";
 
 type VideoPageContentProps = {
   game?: Game;
@@ -54,6 +55,8 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
     useAppRoutes();
   const {
     video,
+    error,
+    retry,
     addGame,
     removeGame,
     validateVideo,
@@ -115,6 +118,16 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
         >
           {t("Video.ignoreModal.body")}
         </Modal>
+      )}
+      {error && !video && (
+        <div className="flex w-full flex-1 flex-col items-center px-5 pt-20">
+          <div className="max-w-container w-full">
+            <InlineError
+              message={t(`${error.apiErrorKey ?? "ApiErrors.unknown"}`)}
+              onRetry={retry}
+            />
+          </div>
+        </div>
       )}
       {video && (
         <>
@@ -223,12 +236,12 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                       <IconButton
                         noCircle
                         Icon={LuSettings}
-                         onClick={() =>
-                            goToAdminChildRoute({
-                              videoId: video.id,
-                              videoTitle: video.title,
-                            })
-                          }
+                        onClick={() =>
+                          goToAdminChildRoute({
+                            videoId: video.id,
+                            videoTitle: video.title,
+                          })
+                        }
                         isSmall
                       />
                     </div>

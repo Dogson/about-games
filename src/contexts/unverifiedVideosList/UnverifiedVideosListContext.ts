@@ -6,6 +6,7 @@ export type UnverifiedVideosListContextType = UseUnverifiedVideosListContext;
 export const UnverifiedVideosListContext =
   createContext<UnverifiedVideosListContextType>({
     isLoadingVideos: true,
+    error: null,
     currentVideo: undefined,
     goToNextUnverifiedVideo: () => {},
     goToPreviousUnverifiedVideo: () => {},

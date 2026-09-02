@@ -15,6 +15,7 @@ export const GamesListProvider: React.FC<{ children: ReactNode }> = ({
     totalPages,
     totalGames,
     hasMore,
+    loadError,
   } = useGameListContext();
 
   return (
@@ -29,6 +30,7 @@ export const GamesListProvider: React.FC<{ children: ReactNode }> = ({
         totalPages,
         totalGames,
         hasMore,
+        loadError,
       }}
     >
       {children}

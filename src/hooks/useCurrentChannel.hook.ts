@@ -5,7 +5,10 @@ import {
 } from "../helpers/toasts/toasts.ts";
 import { useTranslation } from "react-i18next";
 import useAppRoutes from "./useAppRoutes.hook.ts";
-import { SpecificError } from "../types/error/error.types.ts";
+import {
+  isInfrastructureSpecificError,
+  SpecificError,
+} from "../types/error/error.types.ts";
 import type { Channel } from "../models/Channel.model.ts";
 import getOneChannel from "../data-access/channels/getOneChannel.ts";
 import deleteOneChannel from "../data-access/channels/deleteOneChannel.ts";
@@ -15,6 +18,7 @@ import type { UpdateChannelDTO } from "../data-access/channels/model/channels.mo
 export type UseCurrentChannel = {
   channel?: Channel;
   loading: boolean;
+  error?: SpecificError;
   fetchChannel: () => Promise<void>;
   deleteChannel: () => Promise<void>;
   updateChannel: (channel: UpdateChannelDTO) => Promise<void>;
@@ -23,6 +27,7 @@ export type UseCurrentChannel = {
 const useCurrentChannel = (channelId: number): UseCurrentChannel => {
   const [channel, setChannel] = React.useState<Channel | undefined>(undefined);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<SpecificError>();
   const { goToParentRoute } = useAppRoutes();
   const { t } = useTranslation();
 
@@ -30,11 +35,16 @@ const useCurrentChannel = (channelId: number): UseCurrentChannel => {
     async () => {
       try {
         setLoading(true);
+        setError(undefined);
         setChannel(await getOneChannel(channelId));
       } catch (e) {
-        launchErrorToast(t("Channel.notFound"));
-        goToParentRoute();
-        console.error(e);
+        if (isInfrastructureSpecificError(e)) {
+          setError(e);
+        } else {
+          launchErrorToast(t("Channel.notFound"));
+          goToParentRoute();
+          console.error(e);
+        }
       } finally {
         setLoading(false);
       }
@@ -89,6 +99,7 @@ const useCurrentChannel = (channelId: number): UseCurrentChannel => {
   return {
     channel,
     loading,
+    error,
     fetchChannel,
     deleteChannel,
     updateChannel,

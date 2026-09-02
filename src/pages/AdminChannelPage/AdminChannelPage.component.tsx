@@ -21,6 +21,7 @@ import {
 } from "../../helpers/toasts/toasts.ts";
 import { SpecificError } from "../../types/error/error.types.ts";
 import { normalizeGameCandidateAIPrompt } from "../../helpers/utils/string.utils.ts";
+import InlineError from "../../components/InlineError/InlineError.component.tsx";
 
 const AdminChannelPage: React.FC = () => {
   const { currentChannelId, goToParentRoute } = useAppRoutes();
@@ -32,8 +33,14 @@ const AdminChannelPage: React.FC = () => {
     goToParentRoute();
   }
 
-  const { channel, loading, fetchChannel, deleteChannel, updateChannel } =
-    useCurrentChannel(currentChannelId || -1);
+  const {
+    channel,
+    loading,
+    error,
+    fetchChannel,
+    deleteChannel,
+    updateChannel,
+  } = useCurrentChannel(currentChannelId || -1);
 
   const [channelParsingForm, setChannelParsingForm] = useState<
     Partial<CreateChannelDTO> | undefined
@@ -69,8 +76,8 @@ const AdminChannelPage: React.FC = () => {
     if (channel) {
       setChannelParsingForm({
         parsingOptions: {
-          ignoreEpisodesContaining: channel.parsingOptions
-            .ignoreEpisodesContaining,
+          ignoreEpisodesContaining:
+            channel.parsingOptions.ignoreEpisodesContaining,
           ignoreEpisodesMissing: channel.parsingOptions.ignoreEpisodesMissing,
           playlistsIds: channel.parsingOptions.playlistsIds ?? [],
         },
@@ -129,41 +136,55 @@ const AdminChannelPage: React.FC = () => {
 
   return (
     <PageLayout>
-      <div
-        className="mt-15 flex w-full flex-1 flex-col items-center gap-10 p-5
-          md:mt-20 md:w-auto md:justify-center"
-      >
-        <ChannelInfos
-          avatarUrl={channel?.thumbnailUrl || ""}
-          name={channel?.name || ""}
-          gamesCount={channel?.gamesCount || 0}
-          videosCount={channel?.videosCount || 0}
-          lastGamesCount={0} // TODO: add last games count
-          lastGamesFoundCount={0} // TODO: add last games found count
-        />
-        <Separator bulletSize="md" direction="horizontal" />
-        <ChannelParsingForm
-          value={channelParsingForm}
-          onChange={handleChannelParsingFormChange}
-          onSubmit={handleChannelParsingFormSubmit}
-          loading={loading}
-          onDelete={handleDeleteClick}
-        />
-        <Separator bulletSize="md" direction="horizontal" />
-        <div className="flex w-full flex-col gap-4">
-          <div className="flex items-center justify-between">
-            <h2 className="font-title text-ghost text-xl">Videos</h2>
-            <MainButton
-              onClick={handleUnignoreAll}
-              disabled={ignoredVideosCount === 0 || unignoring}
-              loading={unignoring}
-            >
-              {t("Admin.unignoreAllVideos")} ({ignoredVideosCount})
-            </MainButton>
+      {error && !channel ? (
+        <div
+          className="mt-15 flex w-full flex-1 flex-col items-center p-5
+            md:mt-20"
+        >
+          <div className="max-w-container w-full">
+            <InlineError
+              message={t(`${error.apiErrorKey ?? "ApiErrors.unknown"}`)}
+              onRetry={() => fetchChannel()}
+            />
           </div>
-          <ChannelVideosTable videos={channel?.videos || []} />
         </div>
-      </div>
+      ) : (
+        <div
+          className="mt-15 flex w-full flex-1 flex-col items-center gap-10 p-5
+            md:mt-20 md:w-auto md:justify-center"
+        >
+          <ChannelInfos
+            avatarUrl={channel?.thumbnailUrl || ""}
+            name={channel?.name || ""}
+            gamesCount={channel?.gamesCount || 0}
+            videosCount={channel?.videosCount || 0}
+            lastGamesCount={0} // TODO: add last games count
+            lastGamesFoundCount={0} // TODO: add last games found count
+          />
+          <Separator bulletSize="md" direction="horizontal" />
+          <ChannelParsingForm
+            value={channelParsingForm}
+            onChange={handleChannelParsingFormChange}
+            onSubmit={handleChannelParsingFormSubmit}
+            loading={loading}
+            onDelete={handleDeleteClick}
+          />
+          <Separator bulletSize="md" direction="horizontal" />
+          <div className="flex w-full flex-col gap-4">
+            <div className="flex items-center justify-between">
+              <h2 className="font-title text-ghost text-xl">Videos</h2>
+              <MainButton
+                onClick={handleUnignoreAll}
+                disabled={ignoredVideosCount === 0 || unignoring}
+                loading={unignoring}
+              >
+                {t("Admin.unignoreAllVideos")} ({ignoredVideosCount})
+              </MainButton>
+            </div>
+            <ChannelVideosTable videos={channel?.videos || []} />
+          </div>
+        </div>
+      )}
       <AnimatePresence>
         {showDeleteModal && (
           <Modal

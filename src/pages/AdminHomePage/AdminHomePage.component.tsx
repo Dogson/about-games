@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import PageLayout from "../../layouts/PageLayout/PageLayout.component.tsx";
 import getAllChannels from "../../data-access/channels/getAllChannels.ts";
 import type { Channel } from "../../models/Channel.model.ts";
@@ -16,22 +16,40 @@ import {
   launchErrorToast,
   launchSuccessToast,
 } from "../../helpers/toasts/toasts.ts";
-import { SpecificError } from "../../types/error/error.types.ts";
+import {
+  isInfrastructureSpecificError,
+  SpecificError,
+} from "../../types/error/error.types.ts";
+import InlineError from "../../components/InlineError/InlineError.component.tsx";
 
 const AdminHomePage: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const [channels, setChannels] = useState<Channel[]>([]);
+  const [channelsError, setChannelsError] = useState<SpecificError | null>(
+    null,
+  );
   const [generatingVideos, setGeneratingVideos] = useState(false);
   const { unverifiedVideosCount, refreshUnverifiedVideos } = useContext(
     UnverifiedVideosListContext,
   );
 
-  useEffect(() => {
-    getAllChannels().then((channels) => {
-      setChannels(channels);
-    });
+  const loadChannels = useCallback(async () => {
+    try {
+      setChannelsError(null);
+      setChannels(await getAllChannels());
+    } catch (e) {
+      if (isInfrastructureSpecificError(e)) {
+        setChannelsError(e);
+      } else {
+        console.error("Error loading channels:", e);
+      }
+    }
   }, []);
+
+  useEffect(() => {
+    loadChannels();
+  }, [loadChannels]);
 
   useEffect(() => {
     refreshUnverifiedVideos();
@@ -88,7 +106,14 @@ const AdminHomePage: React.FC = () => {
           </SecondaryButton>
         </div>
         <div className="flex w-full flex-1 flex-col gap-4">
-          <ChannelsTable channels={channels} />
+          {channelsError && channels.length === 0 ? (
+            <InlineError
+              message={t(`${channelsError.apiErrorKey ?? "ApiErrors.unknown"}`)}
+              onRetry={() => loadChannels()}
+            />
+          ) : (
+            <ChannelsTable channels={channels} />
+          )}
           <MainButton
             onClick={() => navigate(routes.admin.channelCreate.goTo())}
             className="bg- w-90 self-end"
