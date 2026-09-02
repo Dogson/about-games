@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import type { GamesListItem } from "../../models/Game.model.ts";
 import GameCard from "../GameCard/GameCard.component.tsx";
+import Skeleton from "../Skeleton/Skeleton.component.tsx";
 import useElementWidth from "../../hooks/useElementWidth.hook.ts";
 
 const COLUMN_WIDTH = 160;
@@ -62,19 +63,13 @@ const GameGrid: React.FC<GameGridProps> = ({
   const initialSkeletonClassName =
     `${baseGridClassName} auto-rows-[13rem] overflow-hidden h-[calc(3*13rem_+_2*1.25rem_+_2rem)]`;
 
-  const skeletonCardClassName =
-    "h-52 w-39 animate-pulse rounded-xl bg-black";
-
   const renderSkeletonCard = (
     key: string,
     ref?: React.Ref<HTMLDivElement>,
   ) => (
-    <div
-      key={key}
-      ref={ref}
-      className={skeletonCardClassName}
-      style={{ animationDuration: "4s" }}
-    />
+    <div key={key} ref={ref} className="h-52 w-39">
+      <Skeleton className="h-full w-full rounded-xl" />
+    </div>
   );
 
   return (

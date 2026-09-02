@@ -26,6 +26,7 @@ import { Helmet } from "react-helmet";
 import SmartLink from "../SmartLink/SmartLink.component.tsx";
 import { routes } from "../../router/routes.config.ts";
 import InlineError from "../InlineError/InlineError.component.tsx";
+import Skeleton from "../Skeleton/Skeleton.component.tsx";
 
 type VideoPageContentProps = {
   game?: Game;
@@ -55,6 +56,7 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
     useAppRoutes();
   const {
     video,
+    loading,
     error,
     retry,
     addGame,
@@ -119,8 +121,53 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
           {t("Video.ignoreModal.body")}
         </Modal>
       )}
+      {loading && !video && (
+        <div className="relative flex w-full flex-col gap-5 px-5 pt-15 md:px-30 md:pt-20">
+          {game && (
+            <div className="flex items-center gap-2 self-start md:absolute md:top-18 md:left-5">
+              <Skeleton className="h-4 w-4" />
+              <Skeleton className="h-12 w-9 rounded-lg" />
+            </div>
+          )}
+          <div
+            className="max-w-container relative flex w-full min-w-0 flex-1
+              flex-col items-center gap-4"
+          >
+            <div className="flex w-full flex-col items-center gap-5">
+              <div className="flex w-full justify-center">
+                <div
+                  className={`flex w-full flex-col gap-3 ${
+                    isAdminRoute ? "max-w-[460px]" : "max-w-[960px]"
+                  }`}
+                >
+                  <Skeleton className="h-8 w-2/3 rounded-lg" />
+                  <Skeleton className="aspect-video w-full rounded-lg" />
+                </div>
+              </div>
+            </div>
+            <Separator direction="horizontal" bulletSize="sm" />
+            <div className="flex w-full flex-col items-start gap-4 md:flex-row">
+              <div className="flex min-w-0 flex-1 flex-col items-start gap-2">
+                <div className="flex w-full items-center gap-2">
+                  <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
+                  <Skeleton className="h-9 min-w-0 flex-1 rounded-lg" />
+                </div>
+                <Skeleton className="h-26 w-full rounded-xl" />
+              </div>
+              <div className="relative mt-2 flex shrink-0 flex-col gap-3">
+                <Skeleton className="h-5 w-36 rounded-lg" />
+                <div className="grid grid-cols-3 gap-3 px-2 pt-2">
+                  <Skeleton className="h-32 w-24 rounded-xl" />
+                  <Skeleton className="h-32 w-24 rounded-xl" />
+                  <Skeleton className="h-32 w-24 rounded-xl" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       {error && !video && (
-        <div className="flex w-full flex-1 flex-col items-center px-5 pt-20">
+        <div className="flex w-full flex-1 flex-col items-center justify-center px-5">
           <div className="max-w-container w-full">
             <InlineError
               message={t(`${error.apiErrorKey ?? "ApiErrors.unknown"}`)}

@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import Skeleton from "../Skeleton/Skeleton.component.tsx";
 
 export type YoutubeVideoProps = {
   seekTo: number;
@@ -81,8 +82,13 @@ const YoutubeVideo: React.FC<YoutubeVideoProps> = ({
         <span className="font-title block w-full text-2xl">{title}</span>
 
         {/* Video wrapper */}
-        <div className="aspect-video w-full">
+        <div className="relative aspect-video w-full">
           <div ref={containerRef} className="h-full w-full rounded-lg" />
+          {!playerReady && (
+            <div className="pointer-events-none absolute inset-0">
+              <Skeleton className="h-full w-full rounded-lg" />
+            </div>
+          )}
         </div>
       </div>
     </div>
