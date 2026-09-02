@@ -20,7 +20,7 @@ import {
   launchWarningToast,
 } from "../../helpers/toasts/toasts.ts";
 import { SpecificError } from "../../types/error/error.types.ts";
-import { normalizeGameCandidateAIPrompt } from "../../helpers/utils/string.utils.ts";
+import { normalizeAdditionalGameCandidateAIPrompt } from "../../helpers/utils/string.utils.ts";
 import InlineError from "../../components/InlineError/InlineError.component.tsx";
 
 const AdminChannelPage: React.FC = () => {
@@ -53,13 +53,16 @@ const AdminChannelPage: React.FC = () => {
   };
 
   const handleChannelParsingFormSubmit = () => {
-    const gameCandidateAIPrompt = normalizeGameCandidateAIPrompt(
-      channelParsingForm?.gameCandidateAIPrompt,
-    );
+    const additionalGameCandidateAIPrompt =
+      normalizeAdditionalGameCandidateAIPrompt(
+        channelParsingForm?.additionalGameCandidateAIPrompt,
+      );
     const parsingOptions = channelParsingForm?.parsingOptions;
 
     updateChannel({
-      ...(gameCandidateAIPrompt !== undefined && { gameCandidateAIPrompt }),
+      ...(additionalGameCandidateAIPrompt !== undefined && {
+        additionalGameCandidateAIPrompt,
+      }),
       ...(parsingOptions && {
         parsingOptions: {
           ignoreEpisodesContaining: parsingOptions.ignoreEpisodesContaining,
@@ -81,7 +84,8 @@ const AdminChannelPage: React.FC = () => {
           ignoreEpisodesMissing: channel.parsingOptions.ignoreEpisodesMissing,
           playlistsIds: channel.parsingOptions.playlistsIds ?? [],
         },
-        gameCandidateAIPrompt: channel.gameCandidateAIPrompt ?? "",
+        additionalGameCandidateAIPrompt:
+          channel.additionalGameCandidateAIPrompt ?? "",
         youtubeHandle: channel.youtubeHandle,
         language: channel.language,
       });

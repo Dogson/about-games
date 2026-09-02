@@ -61,7 +61,9 @@
     "ignoreEpisodesContaining": "Ignorer les épisodes contenant ces regexp",
     "ignoreEpisodesMissing": "Ignorer les épisodes manquants ces regexp",
     "playlistsIds": "IDs des playlists (ne récupérer les vidéos que de ces playlists)",
-    "gameCandidateAIPrompt": "Prompt IA pour l'extraction des jeux candidats",
+    "additionalGameCandidateAIPrompt": "Instructions supplémentaires pour la détection de jeux",
+    "viewDefaultPrompt": "Voir le prompt par défaut",
+    "defaultGameDetectionPromptTitle": "Prompt de détection de jeux par défaut",
     "deleteChannel": {
       "title": "Supprimer la chaîne",
       "message": "Êtes-vous sûr de vouloir supprimer cette chaîne ? Cette action est irréversible.",

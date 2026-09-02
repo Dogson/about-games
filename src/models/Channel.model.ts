@@ -19,7 +19,7 @@ export type Channel = {
   thumbnailUrl: string;
   language: ChannelLanguage;
   parsingOptions: ParsingOptions;
-  gameCandidateAIPrompt?: string;
+  additionalGameCandidateAIPrompt?: string;
   videosCount: number;
   videos: Video[];
   lastParsingError: {

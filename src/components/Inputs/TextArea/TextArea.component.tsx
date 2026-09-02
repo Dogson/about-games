@@ -6,6 +6,7 @@ export type TextAreaProps = {
   className?: string;
   placeholder?: string;
   label?: string;
+  labelAction?: React.ReactNode;
   error?: string | null;
   required?: boolean;
   rows?: number;
@@ -18,6 +19,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   className = "",
   placeholder = "",
   label,
+  labelAction,
   error,
   required = false,
   rows = 5,
@@ -30,13 +32,13 @@ const TextArea: React.FC<TextAreaProps> = ({
   return (
     <div className={`w-full ${className}`}>
       {label && (
-        <label
-          className="text-turquoise font-title mb-1 block px-2 text-sm
-            font-medium"
-        >
-          {label}
-          {required && <span className="ml-1 text-red-500">*</span>}
-        </label>
+        <div className="mb-1 flex items-center justify-between gap-2 px-2">
+          <label className="text-turquoise font-title text-sm font-medium">
+            {label}
+            {required && <span className="ml-1 text-red-500">*</span>}
+          </label>
+          {labelAction && <div className="shrink-0">{labelAction}</div>}
+        </div>
       )}
 
       <textarea
@@ -45,8 +47,8 @@ const TextArea: React.FC<TextAreaProps> = ({
         value={value}
         onChange={handleChange}
         placeholder={placeholder}
-        className={`w-full rounded-xl bg-ghost px-4 py-2 text-sm text-black
-          focus:ring-turquoise focus:ring-1 focus:outline-none
+        className={`bg-ghost focus:ring-turquoise w-full rounded-xl px-4 py-2
+          text-sm text-black focus:ring-1 focus:outline-none
           ${error ? "border border-red-500" : ""}`}
         onFocus={onFocus}
       />

@@ -1,4 +1,4 @@
-export const DEFAULT_GAME_CANDIDATE_AI_PROMPT = `You are a video-game title extractor. Read the YouTube video title and description and identify the MAIN video game(s) that the video is actually about.
+export const DEFAULT_GAME_DETECTION_AI_PROMPT = `You are a video-game title extractor. Read the YouTube video title and description and identify the MAIN video game(s) that the video is actually about.
 
 Decision rule:
 - Determine the video's actual TOPIC from the title and narrative FIRST. If the topic is not a video game or a game series (for example it is about stock footage, films, art, history, people, or ideas), return an empty array — even if game titles appear in the description.
@@ -21,9 +21,9 @@ const AppConfig = {
   channelForm: {
     defaultValues: {
       language: "fr",
-      gameCandidateAIPrompt: "",
+      additionalGameCandidateAIPrompt: "",
     },
-    gameCandidateAIPromptDefault: DEFAULT_GAME_CANDIDATE_AI_PROMPT,
+    defaultGameDetectionPrompt: DEFAULT_GAME_DETECTION_AI_PROMPT,
   },
 };
 

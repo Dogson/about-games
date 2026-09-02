@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../router/routes.config.ts";
 import AppConfig from "../../config/app.config.ts";
-import { normalizeGameCandidateAIPrompt } from "../../helpers/utils/string.utils.ts";
+import { normalizeAdditionalGameCandidateAIPrompt } from "../../helpers/utils/string.utils.ts";
 
 const AdminCreateChannelPage: React.FC = () => {
   const { t } = useTranslation();
@@ -24,8 +24,8 @@ const AdminCreateChannelPage: React.FC = () => {
       ignoreEpisodesMissing: [],
       playlistsIds: [],
     },
-    gameCandidateAIPrompt: AppConfig.channelForm.defaultValues
-      .gameCandidateAIPrompt,
+    additionalGameCandidateAIPrompt:
+      AppConfig.channelForm.defaultValues.additionalGameCandidateAIPrompt,
   });
   const [loading, setLoading] = useState(false);
 
@@ -42,8 +42,10 @@ const AdminCreateChannelPage: React.FC = () => {
       setLoading(true);
       const createdChannel = await createOneChannel({
         ...channel,
-        gameCandidateAIPrompt:
-          normalizeGameCandidateAIPrompt(channel.gameCandidateAIPrompt) ?? "",
+        additionalGameCandidateAIPrompt:
+          normalizeAdditionalGameCandidateAIPrompt(
+            channel.additionalGameCandidateAIPrompt,
+          ) ?? "",
       } as CreateChannelDTO);
       navigate(
         routes.admin.channel.goTo({

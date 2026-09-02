@@ -61,6 +61,6 @@ Default.args = {
       ignoreEpisodesContaining: [],
       ignoreEpisodesMissing: [],
     },
-    gameCandidateAIPrompt: "",
+    additionalGameCandidateAIPrompt: "",
   },
 };
