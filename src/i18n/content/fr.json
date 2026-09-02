@@ -48,7 +48,8 @@
     "deleteChannelSuccess": "La chaîne a été supprimée avec succès.",
     "unignoreAllVideos": "Ne plus ignorer les vidéos ignorées",
     "unignoreSuccess": "La génération des jeux a démarré pour {{count}} vidéos",
-    "unignoreNoChanges": "Aucun changement n'a été effectué"
+    "unignoreNoChanges": "Aucun changement n'a été effectué",
+    "addedOn": "Date d'ajout"
   },
   "ChannelForm": {
     "errors": {

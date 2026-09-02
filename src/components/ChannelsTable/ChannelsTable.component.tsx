@@ -2,14 +2,14 @@ import { useMemo, useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import type { ColDef, ICellRendererParams } from "ag-grid-community";
 import "../../styles/ag-grid-theme.css";
-import { AiOutlineExclamationCircle } from "react-icons/ai";
 import type { Channel } from "../../models/Channel.model.ts";
 import ChannelNameAndThumbnail from "../ChannelNameAndThumbnail/ChannelNameAndThumbnail.component.tsx";
 import { AllCommunityModule, ModuleRegistry } from "ag-grid-community";
-import Tooltip from "../Tooltip/Tooltip.component.tsx";
 import SearchInput from "../Inputs/SearchInput/SearchInput.component.tsx";
 import useAppRoutes from "../../hooks/useAppRoutes.hook.ts";
 import LanguageCode from "../LanguageCode/LanguageCode.component.tsx";
+import { useTranslation } from "react-i18next";
+import { formatDateLocalized } from "../../helpers/utils/datetime.utils.ts";
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -17,44 +17,10 @@ export type ChannelsTableProps = {
   channels: Channel[];
 };
 
-const LastParsingErrorCell = ({
-  error,
-  date,
-  channelId,
-}: {
-  error: string;
-  date: string;
-  channelId: number;
-}) => {
-  if (!error) return null;
-  return (
-    <>
-      <div
-        className="flex items-center gap-2 text-sm font-medium text-red-400"
-        data-tooltip-id={`tooltip-channel-error-${channelId}`}
-      >
-        <div
-          className="flex h-6 w-6 items-center justify-center rounded-full
-            bg-red-500 text-white"
-        >
-          <AiOutlineExclamationCircle size={14} />
-        </div>
-        <span>{date}</span>
-      </div>
-      <Tooltip
-        id={`tooltip-channel-error-${channelId}`}
-        place="top"
-        stayOpenedOnHover
-      >
-        {error}
-      </Tooltip>
-    </>
-  );
-};
-
 const ChannelsTable = ({ channels }: ChannelsTableProps) => {
   const [searchText, setSearchText] = useState("");
   const { goToChannel } = useAppRoutes();
+  const { t, i18n } = useTranslation();
 
   const columnDefs: ColDef<Channel>[] = useMemo(
     () => [
@@ -82,20 +48,14 @@ const ChannelsTable = ({ channels }: ChannelsTableProps) => {
         },
       },
       {
-        headerName: "Last Parsing Error",
-        field: "lastParsingError",
-        minWidth: 200,
-        cellRenderer: (params: ICellRendererParams<Channel>) =>
-          params.value ? (
-            <LastParsingErrorCell
-              error={params.value?.message}
-              date={new Date().toLocaleDateString()}
-              channelId={params.data?.id || 0}
-            />
-          ) : null,
+        headerName: t("Admin.addedOn"),
+        field: "createdAt",
+        minWidth: 150,
+        valueFormatter: (params) =>
+          formatDateLocalized(params.value, i18n.language),
       },
     ],
-    [],
+    [i18n.language, t],
   );
 
   return (

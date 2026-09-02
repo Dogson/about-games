@@ -21,11 +21,8 @@ export type Channel = {
   parsingOptions: ParsingOptions;
   additionalGameCandidateAIPrompt?: string;
   videosCount: number;
+  createdAt: string;
   videos: Video[];
-  lastParsingError: {
-    date: string;
-    message: string;
-  } | null;
   totalGamesCount: number;
   totalGamesFoundCount: number;
   gamesCount: number;

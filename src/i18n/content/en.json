@@ -48,7 +48,8 @@
     "deleteChannelSuccess": "Channel deleted successfully.",
     "unignoreAllVideos": "Unignore all ignored videos",
     "unignoreSuccess": "The game generation has started for {{count}} videos",
-    "unignoreNoChanges": "No changes have been made"
+    "unignoreNoChanges": "No changes have been made",
+    "addedOn": "Added on"
   },
   "ChannelForm": {
     "errors": {
