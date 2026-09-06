@@ -25,12 +25,11 @@ export const mapIgdbGamesToCreateGamesDTO = (
 };
 
 export const getFirstReleaseDate = (igdbGame: IGDBGame): number | null => {
-  return igdbGame.release_dates && igdbGame.release_dates.length > 0
-    ? Math.min(
-        ...(igdbGame.release_dates || [])
-          .filter((date) => date.date)
-          .map((date) => date.date),
-      )
+  const releaseDates = igdbGame.release_dates
+    ?.map((date) => date.date)
+    .filter((date) => date);
+  return releaseDates && releaseDates.length > 0
+    ? Math.min(...(releaseDates || []))
     : null;
 };
 
