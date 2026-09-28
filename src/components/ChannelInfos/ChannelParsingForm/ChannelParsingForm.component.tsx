@@ -1,15 +1,17 @@
 import {
   ChannelLanguages,
   type ChannelLanguage,
-  type ChannelParsingAttribute,
-  ChannelParsingAttributes,
 } from "../../../models/Channel.model.ts";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { AnimatePresence } from "framer-motion";
 import { isStringRegexp } from "../../../helpers/utils/string.utils.ts";
 import Input from "../../Inputs/Input/Input.component.tsx";
 import MultiInput from "../../Inputs/MultiInput/MultiInput.component.tsx";
+import TextArea from "../../Inputs/TextArea/TextArea.component.tsx";
 import MainButton from "../../Buttons/MainButton/MainButton.component.tsx";
+import SecondaryButton from "../../Buttons/SecondaryButton/SecondaryButton.component.tsx";
+import Modal from "../../Modals/Modal/Modal.component.tsx";
 import type { CreateChannelDTO } from "../../../data-access/channels/model/channels.model.ts";
 import SelectInput from "../../Inputs/SelectInput/SelectInput.component.tsx";
 import AppConfig from "../../../config/app.config.ts";
@@ -26,10 +28,7 @@ export type ChannelParsingFormProps = {
 type ChannelParsingErrors = {
   youtubeHandle: string | null;
   language: string | null;
-  parsingAttribute: string | null;
   ignoreEpisodesContaining: (string | null)[];
-  ignoreSearchIn: (string | null)[];
-  endParsingAfter: (string | null)[];
   ignoreEpisodesMissing: (string | null)[];
 };
 
@@ -45,26 +44,14 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
   const [errors, setErrors] = useState<ChannelParsingErrors>({
     youtubeHandle: null,
     language: null,
-    parsingAttribute: null,
     ignoreEpisodesContaining: [],
-    ignoreSearchIn: [],
-    endParsingAfter: [],
     ignoreEpisodesMissing: [],
   });
 
-  const getParsingOptions = () => {
-    return {
-      parsingAttribute:
-        (value?.parsingOptions?.parsingAttribute as
-          | ChannelParsingAttribute
-          | undefined) || ("title" as ChannelParsingAttribute),
-      ignoreEpisodesContaining:
-        value?.parsingOptions?.ignoreEpisodesContaining || [],
-      ignoreSearchIn: value?.parsingOptions?.ignoreSearchIn || [],
-      endParsingAfter: value?.parsingOptions?.endParsingAfter || [],
-      ignoreEpisodesMissing: value?.parsingOptions?.ignoreEpisodesMissing || [],
-    };
-  };
+  const [showDefaultPrompt, setShowDefaultPrompt] = useState(false);
+
+  const additionalGameCandidateAIPromptValue =
+    value?.additionalGameCandidateAIPrompt ?? "";
 
   const validateRegexList = (values: string[]): (string | null)[] => {
     return values.map((value) => {
@@ -106,53 +93,22 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
       isFormValid = false;
     }
 
-    if (!value?.parsingOptions?.parsingAttribute) {
-      setErrors((prev) => ({
-        ...prev,
-        parsingAttribute: t("ChannelForm.errors.required"),
-      }));
-      isFormValid = false;
-    } else if (
-      !ChannelParsingAttributes.includes(
-        value?.parsingOptions?.parsingAttribute as ChannelParsingAttribute,
-      )
-    ) {
-      setErrors((prev) => ({
-        ...prev,
-        parsingAttribute: t("ChannelForm.errors.invalidAttribute"),
-      }));
-      isFormValid = false;
-    }
+    const ignoreEpisodesContainingErrors = validateRegexList(
+      value?.parsingOptions?.ignoreEpisodesContaining || [],
+    );
+    const ignoreEpisodesMissingErrors = validateRegexList(
+      value?.parsingOptions?.ignoreEpisodesMissing || [],
+    );
 
     setErrors((prev) => ({
       ...prev,
-      endParsingAfter: validateRegexList(
-        value?.parsingOptions?.endParsingAfter || [],
-      ),
-      ignoreEpisodesContaining: validateRegexList(
-        value?.parsingOptions?.ignoreEpisodesContaining || [],
-      ),
-      ignoreSearchIn: validateRegexList(
-        value?.parsingOptions?.ignoreSearchIn || [],
-      ),
-      ignoreEpisodesMissing: validateRegexList(
-        value?.parsingOptions?.ignoreEpisodesMissing || [],
-      ),
+      ignoreEpisodesContaining: ignoreEpisodesContainingErrors,
+      ignoreEpisodesMissing: ignoreEpisodesMissingErrors,
     }));
 
     if (
-      validateRegexList(value?.parsingOptions?.endParsingAfter || []).some(
-        Boolean,
-      ) ||
-      validateRegexList(
-        value?.parsingOptions?.ignoreEpisodesContaining || [],
-      ).some(Boolean) ||
-      validateRegexList(value?.parsingOptions?.ignoreSearchIn || []).some(
-        Boolean,
-      ) ||
-      validateRegexList(
-        value?.parsingOptions?.ignoreEpisodesMissing || [],
-      ).some(Boolean)
+      ignoreEpisodesContainingErrors.some(Boolean) ||
+      ignoreEpisodesMissingErrors.some(Boolean)
     ) {
       isFormValid = false;
     }
@@ -160,15 +116,16 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
     onChange?.({
       ...value,
       parsingOptions: {
-        parsingAttribute: value?.parsingOptions
-          ?.parsingAttribute as ChannelParsingAttribute,
-        endParsingAfter: value?.parsingOptions?.endParsingAfter || [],
         ignoreEpisodesContaining:
           value?.parsingOptions?.ignoreEpisodesContaining || [],
-        ignoreSearchIn: value?.parsingOptions?.ignoreSearchIn || [],
         ignoreEpisodesMissing:
           value?.parsingOptions?.ignoreEpisodesMissing || [],
+        playlistsIds: (value?.parsingOptions?.playlistsIds || []).filter(
+          Boolean,
+        ),
       },
+      additionalGameCandidateAIPrompt:
+        value?.additionalGameCandidateAIPrompt ?? "",
     });
 
     if (isFormValid) {
@@ -182,222 +139,220 @@ const ChannelParsingForm: React.FC<ChannelParsingFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <div className="grid grid-cols-2 gap-x-10 gap-y-6">
-        <Input
-          label={t("ChannelForm.youtubeHandle")}
-          value={value?.youtubeHandle || ""}
-          onChange={(newValue) =>
-            onChange?.({ ...value, youtubeHandle: newValue })
+    <>
+      <form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
+        <div className="grid grid-cols-1 gap-x-5 gap-y-6 md:grid-cols-2">
+          <Input
+            label={t("ChannelForm.youtubeHandle")}
+            value={value?.youtubeHandle || ""}
+            onChange={(newValue) =>
+              onChange?.({ ...value, youtubeHandle: newValue })
+            }
+            error={errors.youtubeHandle}
+            required
+          />
+          <SelectInput
+            label={t("ChannelForm.language")}
+            value={value?.language || ""}
+            onChange={(newValue) =>
+              onChange?.({ ...value, language: newValue as "en" | "fr" })
+            }
+            options={AppConfig.availableLanguages.map((lng) => ({
+              value: lng,
+              label: <LanguageCode language={lng} withLabel />,
+            }))}
+            error={errors.language}
+            required
+          />
+
+          <MultiInput
+            label={t("ChannelForm.ignoreEpisodesContaining")}
+            placeholder="/Exemple/i"
+            value={value?.parsingOptions?.ignoreEpisodesContaining || []}
+            onChange={(values) =>
+              onChange?.({
+                ...value,
+                parsingOptions: {
+                  ignoreEpisodesContaining: values,
+                  ignoreEpisodesMissing:
+                    value?.parsingOptions?.ignoreEpisodesMissing || [],
+                  playlistsIds: value?.parsingOptions?.playlistsIds,
+                },
+              })
+            }
+            errors={errors.ignoreEpisodesContaining}
+            onAddInput={() =>
+              onChange?.({
+                ...value,
+                parsingOptions: {
+                  ignoreEpisodesContaining: [
+                    ...(value?.parsingOptions?.ignoreEpisodesContaining || []),
+                    "",
+                  ],
+                  ignoreEpisodesMissing:
+                    value?.parsingOptions?.ignoreEpisodesMissing || [],
+                  playlistsIds: value?.parsingOptions?.playlistsIds,
+                },
+              })
+            }
+            onRemoveInput={(index) =>
+              onChange?.({
+                ...value,
+                parsingOptions: {
+                  ignoreEpisodesContaining: (
+                    value?.parsingOptions?.ignoreEpisodesContaining || []
+                  ).filter((_: string, i: number) => i !== index),
+                  ignoreEpisodesMissing:
+                    value?.parsingOptions?.ignoreEpisodesMissing || [],
+                  playlistsIds: value?.parsingOptions?.playlistsIds,
+                },
+              })
+            }
+          />
+          <MultiInput
+            label={t("ChannelForm.ignoreEpisodesMissing")}
+            value={value?.parsingOptions?.ignoreEpisodesMissing || []}
+            onChange={(values) =>
+              onChange?.({
+                ...value,
+                parsingOptions: {
+                  ignoreEpisodesContaining:
+                    value?.parsingOptions?.ignoreEpisodesContaining || [],
+                  ignoreEpisodesMissing: values,
+                  playlistsIds: value?.parsingOptions?.playlistsIds,
+                },
+              })
+            }
+            errors={errors.ignoreEpisodesMissing}
+            onAddInput={() =>
+              onChange?.({
+                ...value,
+                parsingOptions: {
+                  ignoreEpisodesContaining:
+                    value?.parsingOptions?.ignoreEpisodesContaining || [],
+                  ignoreEpisodesMissing: [
+                    ...(value?.parsingOptions?.ignoreEpisodesMissing || []),
+                    "",
+                  ],
+                  playlistsIds: value?.parsingOptions?.playlistsIds,
+                },
+              })
+            }
+            onRemoveInput={(index) =>
+              onChange?.({
+                ...value,
+                parsingOptions: {
+                  ignoreEpisodesContaining:
+                    value?.parsingOptions?.ignoreEpisodesContaining || [],
+                  ignoreEpisodesMissing: (
+                    value?.parsingOptions?.ignoreEpisodesMissing || []
+                  ).filter((_: string, i: number) => i !== index),
+                  playlistsIds: value?.parsingOptions?.playlistsIds,
+                },
+              })
+            }
+          />
+          <MultiInput
+            label={t("ChannelForm.playlistsIds")}
+            placeholder="PL…"
+            value={value?.parsingOptions?.playlistsIds || []}
+            onChange={(values) =>
+              onChange?.({
+                ...value,
+                parsingOptions: {
+                  ignoreEpisodesContaining:
+                    value?.parsingOptions?.ignoreEpisodesContaining || [],
+                  ignoreEpisodesMissing:
+                    value?.parsingOptions?.ignoreEpisodesMissing || [],
+                  playlistsIds: values,
+                },
+              })
+            }
+            onAddInput={() =>
+              onChange?.({
+                ...value,
+                parsingOptions: {
+                  ignoreEpisodesContaining:
+                    value?.parsingOptions?.ignoreEpisodesContaining || [],
+                  ignoreEpisodesMissing:
+                    value?.parsingOptions?.ignoreEpisodesMissing || [],
+                  playlistsIds: [
+                    ...(value?.parsingOptions?.playlistsIds || []),
+                    "",
+                  ],
+                },
+              })
+            }
+            onRemoveInput={(index) =>
+              onChange?.({
+                ...value,
+                parsingOptions: {
+                  ignoreEpisodesContaining:
+                    value?.parsingOptions?.ignoreEpisodesContaining || [],
+                  ignoreEpisodesMissing:
+                    value?.parsingOptions?.ignoreEpisodesMissing || [],
+                  playlistsIds: (
+                    value?.parsingOptions?.playlistsIds || []
+                  ).filter((_: string, i: number) => i !== index),
+                },
+              })
+            }
+          />
+        </div>
+
+        <TextArea
+          label={t("ChannelForm.additionalGameCandidateAIPrompt")}
+          labelAction={
+            <SecondaryButton
+              onClick={() => setShowDefaultPrompt(true)}
+              className="text-sm"
+            >
+              {t("ChannelForm.viewDefaultPrompt")}
+            </SecondaryButton>
           }
-          error={errors.youtubeHandle}
-          required
-        />
-        <SelectInput
-          label={t("ChannelForm.language")}
-          value={value?.language || ""}
+          value={additionalGameCandidateAIPromptValue}
+          rows={10}
           onChange={(newValue) =>
-            onChange?.({ ...value, language: newValue as "en" | "fr" })
+            onChange?.({
+              ...value,
+              additionalGameCandidateAIPrompt: newValue,
+            })
           }
-          options={AppConfig.availableLanguages.map((lng) => ({
-            value: lng,
-            label: <LanguageCode language={lng} withLabel />,
-          }))}
-          error={errors.language}
-          required
         />
 
-        <SelectInput
-          options={[
-            {
-              value: "title",
-              label: t("ChannelForm.title"),
-            },
-            {
-              value: "description",
-              label: t("ChannelForm.description"),
-            },
-          ]}
-          label={t("ChannelForm.parsingAttribute")}
-          value={value?.parsingOptions?.parsingAttribute || ""}
-          onChange={(newValue) =>
-            onChange?.({
-              ...value,
-              parsingOptions: {
-                ...getParsingOptions(),
-                parsingAttribute: newValue as ChannelParsingAttribute,
-              },
-            })
-          }
-          error={errors.parsingAttribute}
-          required
-        />
-        <MultiInput
-          label={t("ChannelForm.ignoreEpisodesContaining")}
-          placeholder="/Exemple/i"
-          value={value?.parsingOptions?.ignoreEpisodesContaining || []}
-          onChange={(values) =>
-            onChange?.({
-              ...value,
-              parsingOptions: {
-                ...getParsingOptions(),
-                ignoreEpisodesContaining: values,
-              },
-            })
-          }
-          errors={errors.ignoreEpisodesContaining}
-          onAddInput={() =>
-            onChange?.({
-              ...value,
-              parsingOptions: {
-                ...getParsingOptions(),
-                ignoreEpisodesContaining: [
-                  ...(value?.parsingOptions?.ignoreEpisodesContaining || []),
-                  "",
-                ],
-              },
-            })
-          }
-          onRemoveInput={(index) =>
-            onChange?.({
-              ...value,
-              parsingOptions: {
-                ...getParsingOptions(),
-                ignoreEpisodesContaining: (
-                  value?.parsingOptions?.ignoreEpisodesContaining || []
-                ).filter((_: string, i: number) => i !== index),
-              },
-            })
-          }
-        />
-        <MultiInput
-          label={t("ChannelForm.ignoreSearchIn")}
-          value={value?.parsingOptions?.ignoreSearchIn || []}
-          onChange={(values) =>
-            onChange?.({
-              ...value,
-              parsingOptions: {
-                ...getParsingOptions(),
-                ignoreSearchIn: values,
-              },
-            })
-          }
-          errors={errors.ignoreSearchIn}
-          onAddInput={() =>
-            onChange?.({
-              ...value,
-              parsingOptions: {
-                ...getParsingOptions(),
-                ignoreSearchIn: [
-                  ...(value?.parsingOptions?.ignoreSearchIn || []),
-                  "",
-                ],
-              },
-            })
-          }
-          onRemoveInput={(index) =>
-            onChange?.({
-              ...value,
-              parsingOptions: {
-                ...getParsingOptions(),
-                ignoreSearchIn: (
-                  value?.parsingOptions?.ignoreSearchIn || []
-                ).filter((_: string, i: number) => i !== index),
-              },
-            })
-          }
-        />
-        <MultiInput
-          label={t("ChannelForm.endParsingAfter")}
-          value={value?.parsingOptions?.endParsingAfter || []}
-          onChange={(values) =>
-            onChange?.({
-              ...value,
-              parsingOptions: {
-                ...getParsingOptions(),
-                endParsingAfter: values,
-              },
-            })
-          }
-          errors={errors.endParsingAfter}
-          onAddInput={() =>
-            onChange?.({
-              ...value,
-              parsingOptions: {
-                ...getParsingOptions(),
-                endParsingAfter: [
-                  ...(value?.parsingOptions?.endParsingAfter || []),
-                  "",
-                ],
-              },
-            })
-          }
-          onRemoveInput={(index) =>
-            onChange?.({
-              ...value,
-              parsingOptions: {
-                ...getParsingOptions(),
-                endParsingAfter: (
-                  value?.parsingOptions?.endParsingAfter || []
-                ).filter((_: string, i: number) => i !== index),
-              },
-            })
-          }
-        />
-        <MultiInput
-          label={t("ChannelForm.ignoreEpisodesMissing")}
-          value={value?.parsingOptions?.ignoreEpisodesMissing || []}
-          onChange={(values) =>
-            onChange?.({
-              ...value,
-              parsingOptions: {
-                ...getParsingOptions(),
-                ignoreEpisodesMissing: values,
-              },
-            })
-          }
-          errors={errors.ignoreEpisodesMissing}
-          onAddInput={() =>
-            onChange?.({
-              ...value,
-              parsingOptions: {
-                ...getParsingOptions(),
-                ignoreEpisodesMissing: [
-                  ...(value?.parsingOptions?.ignoreEpisodesMissing || []),
-                  "",
-                ],
-              },
-            })
-          }
-          onRemoveInput={(index) =>
-            onChange?.({
-              ...value,
-              parsingOptions: {
-                ...getParsingOptions(),
-                ignoreEpisodesMissing: (
-                  value?.parsingOptions?.ignoreEpisodesMissing || []
-                ).filter((_: string, i: number) => i !== index),
-              },
-            })
-          }
-        />
-      </div>
-      <div className="flex flex-row-reverse justify-between">
-        <MainButton type="submit" className="self-end" loading={loading}>
-          {t("common.save")}
-        </MainButton>
-        {onDelete && (
-          <MainButton
-            danger
-            type="button"
-            className="self-end"
-            onClick={onDelete}
-          >
-            {t("common.delete")}
+        <div className="mt-5 flex flex-row-reverse justify-between">
+          <MainButton type="submit" className="self-end" loading={loading}>
+            {t("common.save")}
           </MainButton>
+          {onDelete && (
+            <MainButton
+              danger
+              type="button"
+              className="self-end"
+              onClick={onDelete}
+            >
+              {t("common.delete")}
+            </MainButton>
+          )}
+        </div>
+      </form>
+      <AnimatePresence>
+        {showDefaultPrompt && (
+          <Modal
+            title={t("ChannelForm.defaultGameDetectionPromptTitle")}
+            onClose={() => setShowDefaultPrompt(false)}
+            className={{ Modal: "max-w-2xl!" }}
+          >
+            <pre
+              className="font-default text-sm leading-relaxed
+                whitespace-pre-wrap"
+            >
+              {AppConfig.channelForm.defaultGameDetectionPrompt}
+            </pre>
+          </Modal>
         )}
-      </div>
-    </form>
+      </AnimatePresence>
+    </>
   );
 };
 

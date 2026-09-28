@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { IGDBGame } from "../models/IgdbGame.model";
-import searchIgdbGames from "../data-access/games/searchIgdbGames";
-import { launchErrorToast } from "../helpers/toasts/toasts";
-import { SpecificError } from "../types/error/error.types";
+import type { IGDBGame } from "../models/IgdbGame.model.ts";
+import searchIgdbGames from "../data-access/games/searchIgdbGames.ts";
+import { launchErrorToast } from "../helpers/toasts/toasts.ts";
+import { SpecificError } from "../types/error/error.types.ts";
 import { useTranslation } from "react-i18next";
 
 type UseIgdbSearch = {

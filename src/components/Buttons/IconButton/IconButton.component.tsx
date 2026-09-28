@@ -8,6 +8,7 @@ export type IconButtonProps = {
   isSmall?: boolean;
   disabled?: boolean;
   hoverText?: string;
+  iconClassName?: string;
 };
 
 const IconButton: React.FC<IconButtonProps> = ({
@@ -18,6 +19,7 @@ const IconButton: React.FC<IconButtonProps> = ({
   className = "",
   disabled,
   hoverText,
+  iconClassName = "text-turquoise",
 }) => {
   return (
     <button
@@ -31,11 +33,13 @@ const IconButton: React.FC<IconButtonProps> = ({
         transition-all duration-200 hover:scale-110
         ${isSmall ? "h-6 w-6" : "h-8 w-8"}
         ${disabled ? "pointer-events-none opacity-50" : ""}
-        ${noCircle ? "bg-transparent" : "bg-maize"} ${className}`}
+        ${noCircle
+          ? "bg-transparent drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"
+          : "bg-maize drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]"} ${className}`}
       type="button"
       aria-label="icon button"
     >
-      <Icon className="text-turquoise h-full w-full" />
+      <Icon className={`${iconClassName} h-full w-full`} />
     </button>
   );
 };

@@ -18,7 +18,6 @@ const useChannelsSettings = (): UseChannelsSettingsContext => {
       setLanguages(parsedValue);
     } else {
       const userLanguage = navigator.language;
-      console.log(userLanguage);
       if (userLanguage === "fr-FR") {
         setLanguages(["fr", "en"]);
       } else {

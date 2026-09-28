@@ -45,7 +45,7 @@ export const OnFocusDemo: Story = {
   args: {
     placeholder: "Focus me!",
     value: "",
-    onFocus: () => console.log("Input focused"),
+    onFocus: () => undefined,
   },
 };
 

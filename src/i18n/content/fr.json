@@ -17,14 +17,15 @@
     "videos": "Vidéos",
     "save": "Enregistrer",
     "delete": "Supprimer",
-    "close": "Fermer"
+    "close": "Fermer",
+    "retry": "Réessayer"
   },
   "GameSearch": {
     "noResults": "Aucun jeu trouvé",
     "searchPlaceholder": "Rechercher un jeu"
   },
   "GamePageHeader": {
-    "about": "à propos de"
+    "about": "à propos de..."
   },
   "GameListForVideo": {
     "gamesItsAbout": "Jeux abordés",
@@ -38,26 +39,33 @@
     "gameMasterMode": "Game Master Mode: ON",
     "manageChannels": "Gérer les chaînes Youtube",
     "reviewVideos": "Vérifier les nouvelles vidéos",
-    "reviewVideosLabel": "Tu as {{count}} vidéo(s) en attente de vérification",
+    "reviewVideosLabel": "{{count}} vidéo(s) en attente de vérification",
     "createChannel": "Ajouter une chaîne",
-    "logs": "Logs de l'API"
+    "fetchNewVideos": "Récupérer les nouvelles vidéos",
+    "logs": "Logs de l'API",
+    "createChannelSuccess": "La chaîne a été ajoutée avec succès.",
+    "backToAdmin": "Retour à l'administration",
+    "editChannelSuccess": "La chaîne a été modifiée avec succès.",
+    "deleteChannelSuccess": "La chaîne a été supprimée avec succès.",
+    "unignoreAllVideos": "Ne plus ignorer les vidéos ignorées",
+    "unignoreSuccess": "La génération des jeux a démarré pour {{count}} vidéos",
+    "unignoreNoChanges": "Aucun changement n'a été effectué",
+    "addedOn": "Date d'ajout"
   },
   "ChannelForm": {
     "errors": {
       "required": "Ce champ est requis",
       "invalidRegexp": "Expression régulière invalide",
-      "invalidLanguage": "Langue invalide",
-      "invalidAttribute": "Attribut invalide"
+      "invalidLanguage": "Langue invalide"
     },
     "youtubeHandle": "Handle de la chaîne Youtube",
     "language": "Langue",
-    "parsingAttribute": "Attribut à analyser",
-    "title": "Titre de la vidéo",
-    "description": "Description de la vidéo",
     "ignoreEpisodesContaining": "Ignorer les épisodes contenant ces regexp",
-    "ignoreSearchIn": "Ignorer la recherche de jeu dans ces regexp",
-    "endParsingAfter": "Arrêter l'analyse après ces regexp",
     "ignoreEpisodesMissing": "Ignorer les épisodes manquants ces regexp",
+    "playlistsIds": "IDs des playlists (ne récupérer les vidéos que de ces playlists)",
+    "additionalGameCandidateAIPrompt": "Instructions supplémentaires pour la détection de jeux",
+    "viewDefaultPrompt": "Voir le prompt par défaut",
+    "defaultGameDetectionPromptTitle": "Prompt de détection de jeux par défaut",
     "deleteChannel": {
       "title": "Supprimer la chaîne",
       "message": "Êtes-vous sûr de vouloir supprimer cette chaîne ? Cette action est irréversible.",
@@ -90,7 +98,10 @@
     "forbidden": "Vous n'avez pas les droits pour cette route.",
     "sessionExpired": "La session a expiré, veuillez vous reconnecter.",
     "unknown": "Une erreur inconnue est survenue",
-    "userNotFound": "Utilisateur non trouvé"
+    "userNotFound": "Utilisateur non trouvé",
+    "networkError": "Impossible de joindre le serveur. Vérifiez votre connexion et réessayez.",
+    "timeout": "Le serveur met trop de temps à répondre. Veuillez réessayer.",
+    "serverError": "Une erreur est survenue sur le serveur. Veuillez réessayer plus tard."
   },
   "Video": {
     "notFound": "La vidéo recherchée n'existe pas",
@@ -104,11 +115,14 @@
   "Game": {
     "tba": "À venir",
     "notFound": "Le jeu recherché n'existe pas",
-    "ignoreDuringSearch": "Ignorer ce jeu lors de la détection automatique de jeux",
     "noVideosTitle": "Aucune vidéo n'a été trouvée.",
     "noVideosDescription": "Vous pouvez élargir vos préferences de langues afin d'inclure plus de vidéos."
   },
+  "Channel": {
+    "notFound": "La chaîne recherchée n'existe pas"
+  },
   "IgdbGameSearch": {
     "noResults": "Aucun jeu trouvé"
-  }
+  },
+  "errorHasOccured": "Une erreur est survenue"
 }

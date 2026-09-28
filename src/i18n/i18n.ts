@@ -5,10 +5,10 @@ import en from "../i18n/content/en.json";
 import fr from "../i18n/content/fr.json";
 
 const i18nResources = {
-  "en-GB": {
+  en: {
     translation: en,
   },
-  "fr-FR": {
+  fr: {
     translation: fr,
   },
 };

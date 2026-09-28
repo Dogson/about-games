@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import ApiConfig from "../config/api.config";
-import type { LogEvent } from "../data-access/logging/logging.model";
-import getLastLogs from "../data-access/logging/getLastLogs";
-import { AuthContext } from "../contexts/auth/AuthContext";
+import ApiConfig from "../config/api.config.ts";
+import type { LogEvent } from "../data-access/logging/logging.model.ts";
+import getLastLogs from "../data-access/logging/getLastLogs.ts";
+import { AuthContext } from "../contexts/auth/AuthContext.ts";
 
 type UseLogsEventSource = {
   logs: LogEvent[];
@@ -11,7 +11,7 @@ type UseLogsEventSource = {
 const useLogsEventSource = (): UseLogsEventSource => {
   const [logs, setLogs] = useState<LogEvent[]>([]);
   const [hasFetchedLastLogs, setHasFetchedLastLogs] = useState(false);
-  const { authInfos } = useContext(AuthContext);
+  const { authInfos, isAdmin } = useContext(AuthContext);
 
   const fetchLastLogs = async () => {
     try {
@@ -23,12 +23,13 @@ const useLogsEventSource = (): UseLogsEventSource => {
   };
 
   useEffect(() => {
+    if (!isAdmin) return;
     fetchLastLogs();
-  }, []);
+  }, [isAdmin]);
 
   useEffect(() => {
+    if (!isAdmin) return;
     if (!hasFetchedLastLogs) return;
-    console.log("opening logs event source");
     const es = new EventSource(
       `${import.meta.env.VITE_API_URL}${ApiConfig.routes.logs.stream}?token=${authInfos?.access_token}`,
     );
@@ -49,10 +50,9 @@ const useLogsEventSource = (): UseLogsEventSource => {
     };
 
     return () => {
-      console.log("closing logs event source...");
       es.close();
     };
-  }, [hasFetchedLastLogs]);
+  }, [authInfos?.access_token, hasFetchedLastLogs, isAdmin]);
 
   return { logs };
 };

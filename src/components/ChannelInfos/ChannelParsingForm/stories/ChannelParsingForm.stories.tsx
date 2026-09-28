@@ -58,11 +58,9 @@ Default.args = {
     youtubeHandle: "",
     language: "en",
     parsingOptions: {
-      parsingAttribute: "title",
       ignoreEpisodesContaining: [],
-      ignoreSearchIn: [],
-      endParsingAfter: [],
       ignoreEpisodesMissing: [],
     },
+    additionalGameCandidateAIPrompt: "",
   },
 };

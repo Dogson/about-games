@@ -10,7 +10,9 @@ const Logo: React.FC<LogoProps> = ({ inline = false }) => {
   return inline ? (
     <div className="relative flex items-center">
       <img src={logoSmallImg} alt="logo" className="mr-2 h-6" />
-      <span className="font-title text-lg font-bold text-shadow-lg">
+      <span
+        className="font-title hidden text-lg font-bold text-shadow-lg md:inline"
+      >
         about games
       </span>
     </div>

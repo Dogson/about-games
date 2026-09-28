@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import Skeleton from "../Skeleton/Skeleton.component.tsx";
 
 export type YoutubeVideoProps = {
   seekTo: number;
@@ -39,9 +40,7 @@ const YoutubeVideo: React.FC<YoutubeVideoProps> = ({
           rel: 0,
         },
         events: {
-          onReady: () => {
-            setPlayerReady(true);
-          },
+          onReady: () => setPlayerReady(true),
         },
       });
     };
@@ -73,17 +72,24 @@ const YoutubeVideo: React.FC<YoutubeVideoProps> = ({
   }, [seekTo, playerReady]);
 
   return (
-    <div className={"flex w-full flex-col gap-3"}>
-      <span className="font-title text-2xl">{title}</span>
+    <div className="flex w-full justify-center">
       <div
-        className={`flex aspect-video ${
-          smallContainer ? "max-h-[300px] self-center" : "max-h-[680px] w-full"
-          }`}
+        className={`flex w-full flex-col gap-3 ${
+          smallContainer ? "max-w-[460px]" : "max-w-[960px]"
+        }`}
       >
-        <div
-          ref={containerRef}
-          className={`h-full rounded-lg ${smallContainer ? "" : "w-full"}`}
-        />
+        {/* Title matches exact video width */}
+        <span className="font-title block w-full text-2xl">{title}</span>
+
+        {/* Video wrapper */}
+        <div className="relative aspect-video w-full">
+          <div ref={containerRef} className="h-full w-full rounded-lg" />
+          {!playerReady && (
+            <div className="pointer-events-none absolute inset-0">
+              <Skeleton className="h-full w-full rounded-lg" />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

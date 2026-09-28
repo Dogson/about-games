@@ -19,13 +19,22 @@ import SecondaryButton from "../../components/Buttons/SecondaryButton/SecondaryB
 import VideoLanguagesModal from "../../components/Modals/VideosLanguagesModal/VideoLanguagesModal.component.tsx";
 import { Helmet } from "react-helmet";
 import Card from "../../components/Card/Card.component.tsx";
+import InlineError from "../../components/InlineError/InlineError.component.tsx";
 
 const HomePage: React.FC = () => {
   const { t } = useTranslation();
   const { isAdmin } = useContext(AuthContext);
 
-  const { games, nextPage, onChangeSearchFilter, searchFilter, reloadGames } =
-    useContext(GamesListContext);
+  const {
+    games,
+    nextPage,
+    onChangeSearchFilter,
+    searchFilter,
+    reloadGames,
+    isLoadingGames,
+    hasMore,
+    loadError,
+  } = useContext(GamesListContext);
   const { languages, changeLanguages } = useContext(ChannelsSettingsContext);
   const logoRef = useRef<HTMLDivElement | null>(null);
   const [isLogoInView, setIsLogoInView] = useState(true);
@@ -61,20 +70,24 @@ const HomePage: React.FC = () => {
       >
         {isAdmin && (
           <IconButton
-            className="fixed right-5 bottom-5"
+            className="fixed right-5 bottom-5 z-10 shadow-md"
             Icon={LuSettings}
             onClick={() => navigate(routes.admin.goTo())}
           />
         )}
-        <section className="flex w-150 max-w-screen flex-col items-center gap-8">
+        <section
+          className="flex w-150 max-w-screen flex-col items-center gap-8 px-5"
+        >
           <div ref={logoRef} className="cursor-default">
             <Logo />
           </div>
-          <span className="font-title text-lg">{t("Homepage.tagline")}</span>
+          <span className="font-title text-center text-lg">
+            {t("Homepage.tagline")}
+          </span>
           <Separator direction="horizontal" bulletSize="md" />
         </section>
-        <section className="flex w-full flex-1 flex-col items-center gap-4">
-          <div className="flex w-full flex-col items-center gap-4">
+        <section className="flex w-full flex-1 flex-col items-center gap-4 px-5">
+          <div className="flex w-full flex-col items-center gap-4 px-5">
             <SearchInput
               searchText={searchFilter}
               onSearch={onChangeSearchFilter}
@@ -113,17 +126,28 @@ const HomePage: React.FC = () => {
             games={games || []}
             onGameClick={goToGame}
             onScrollEnd={nextPage}
+            isLoading={isLoadingGames || games === undefined}
+            hasMore={hasMore}
           />
-          {games && games.length === 0 && (
-            <Card className="flex gap-1">
-              <span className="font-title text-lg">
-                {t("Homepage.noGamesTitle")}
-              </span>
-              <span className="text-sm">
-                {t("Homepage.noGamesDescription")}
-              </span>
-            </Card>
+          {loadError && !isLoadingGames && (games ?? []).length === 0 && (
+            <InlineError
+              message={t(`${loadError.apiErrorKey ?? "ApiErrors.unknown"}`)}
+              onRetry={() => reloadGames(searchFilter)}
+            />
           )}
+          {!loadError &&
+            games !== undefined &&
+            !isLoadingGames &&
+            games.length === 0 && (
+              <Card className="flex gap-1">
+                <span className="font-title text-lg">
+                  {t("Homepage.noGamesTitle")}
+                </span>
+                <span className="text-sm">
+                  {t("Homepage.noGamesDescription")}
+                </span>
+              </Card>
+            )}
         </section>
       </div>
     </PageLayout>

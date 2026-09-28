@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
-import ApiConfig from "../../config/api.config";
-import { api } from "../../helpers/axios/axios";
-import { SpecificError, ApiErrorType } from "../../types/error/error.types";
+import ApiConfig from "../../config/api.config.ts";
+import { api } from "../../helpers/axios/axios.ts";
+import { SpecificError, ApiErrorType } from "../../types/error/error.types.ts";
 
 const deleteOneChannel = async (id: number): Promise<void> => {
   try {

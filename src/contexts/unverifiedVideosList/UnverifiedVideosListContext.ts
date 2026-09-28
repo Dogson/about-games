@@ -6,10 +6,14 @@ export type UnverifiedVideosListContextType = UseUnverifiedVideosListContext;
 export const UnverifiedVideosListContext =
   createContext<UnverifiedVideosListContextType>({
     isLoadingVideos: true,
+    error: null,
     currentVideo: undefined,
     goToNextUnverifiedVideo: () => {},
     goToPreviousUnverifiedVideo: () => {},
+    refreshUnverifiedVideos: () => Promise.resolve(),
     isFirstVideo: false,
     isLastVideo: false,
     unverifiedVideosCount: 0,
+    totalVideosCount: 0,
+    currentVideoIdx: 0,
   });

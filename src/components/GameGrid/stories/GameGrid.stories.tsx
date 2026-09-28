@@ -34,3 +34,21 @@ export const Default = Template.bind({});
 Default.args = {
   games: mockGames as GamesListItem[],
 };
+
+export const Loading = Template.bind({});
+Loading.args = {
+  games: [],
+  isLoading: true,
+};
+
+export const LoadingMore = Template.bind({});
+LoadingMore.args = {
+  games: mockGames as GamesListItem[],
+  hasMore: true,
+};
+
+export const LoadingMorePartial = Template.bind({});
+LoadingMorePartial.args = {
+  games: (mockGames as GamesListItem[]).slice(0, 7),
+  hasMore: true,
+};

@@ -3,14 +3,33 @@ export enum ApiErrorType {
   BAD_CREDENTIALS = "BAD_CREDENTIALS",
   SESSION_EXPIRED = "SESSION_EXPIRED",
   USER_NOT_FOUND = "USER_NOT_FOUND",
+  NETWORK = "NETWORK",
+  TIMEOUT = "TIMEOUT",
+  SERVER_ERROR = "SERVER_ERROR",
 }
+
+export const InfrastructureApiErrorTypes: ApiErrorType[] = [
+  ApiErrorType.NETWORK,
+  ApiErrorType.TIMEOUT,
+  ApiErrorType.SERVER_ERROR,
+];
 
 export const ErrorMessageI18nKeys: Record<ApiErrorType, string> = {
   [ApiErrorType.FORBIDDEN]: "ApiErrors.forbidden",
   [ApiErrorType.BAD_CREDENTIALS]: "LoginPage.errors.badCredentials",
   [ApiErrorType.SESSION_EXPIRED]: "ApiErrors.sessionExpired",
   [ApiErrorType.USER_NOT_FOUND]: "ApiErrors.userNotFound",
+  [ApiErrorType.NETWORK]: "ApiErrors.networkError",
+  [ApiErrorType.TIMEOUT]: "ApiErrors.timeout",
+  [ApiErrorType.SERVER_ERROR]: "ApiErrors.serverError",
 };
+
+export const isInfrastructureSpecificError = (
+  error: unknown,
+): error is SpecificError =>
+  error instanceof SpecificError &&
+  error.apiErrorType !== undefined &&
+  InfrastructureApiErrorTypes.includes(error.apiErrorType);
 
 export class SpecificError extends Error {
   public apiErrorType?: ApiErrorType;
@@ -36,6 +55,7 @@ export class SpecificError extends Error {
   ) {
     if (typeof params === "string") {
       super(params);
+      this.apiErrorType = params;
       this.apiErrorKey = ErrorMessageI18nKeys[params];
     } else {
       super(params.apiErrorType);

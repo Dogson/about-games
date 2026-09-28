@@ -6,23 +6,26 @@ import { useTranslation } from "react-i18next";
 import useAppRoutes from "./useAppRoutes.hook.ts";
 import type { CreateGameDTO } from "../data-access/games/model/games.model.ts";
 import updateOneVideo from "../data-access/videos/updateOneVideo.ts";
-import { SpecificError } from "../types/error/error.types.ts";
-import type { GamesListItem } from "../models/Game.model.ts";
-import updateOneGame from "../data-access/games/updateOneGame.ts";
+import {
+  isInfrastructureSpecificError,
+  SpecificError,
+} from "../types/error/error.types.ts";
 
 export type UseCurrentVideo = {
   video?: Video;
   loading: boolean;
+  error?: SpecificError;
+  retry: () => Promise<void>;
   addGame: (game: CreateGameDTO) => Promise<void>;
   removeGame: (gameId: number) => Promise<void>;
   validateVideo: (onSuccess?: () => void) => Promise<void>;
   ignoreVideo: (onSuccess?: () => void) => Promise<void>;
-  markGameAsIgnored: (game: GamesListItem) => Promise<void>;
 };
 
 const useCurrentVideo = (videoId: number): UseCurrentVideo => {
   const [video, setVideo] = React.useState<Video>();
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<SpecificError>();
   const { goToParentRoute } = useAppRoutes();
   const { t } = useTranslation();
 
@@ -30,11 +33,16 @@ const useCurrentVideo = (videoId: number): UseCurrentVideo => {
     async (videoId: number) => {
       try {
         setLoading(true);
+        setError(undefined);
         setVideo(await getOneVideo(videoId));
       } catch (e) {
-        launchErrorToast(t("Video.notFound"));
-        goToParentRoute();
-        console.error(e);
+        if (isInfrastructureSpecificError(e)) {
+          setError(e);
+        } else {
+          launchErrorToast(t("Video.notFound"));
+          goToParentRoute();
+          console.error(e);
+        }
       } finally {
         setLoading(false);
       }
@@ -46,6 +54,10 @@ const useCurrentVideo = (videoId: number): UseCurrentVideo => {
 
   useEffect(() => {
     fetchVideo(videoId);
+  }, [fetchVideo, videoId]);
+
+  const retry = useCallback(async () => {
+    await fetchVideo(videoId);
   }, [fetchVideo, videoId]);
 
   const addGame = async (game: CreateGameDTO) => {
@@ -114,35 +126,15 @@ const useCurrentVideo = (videoId: number): UseCurrentVideo => {
     }
   };
 
-  const markGameAsIgnored = async (
-    game: GamesListItem,
-    onSuccess?: () => void,
-  ) => {
-    if (!video) return;
-    const gamesListGameIndex = video.games.findIndex((g) => g.id === game.id);
-    try {
-      await updateOneGame(game.id, { ignoreDuringSearch: true });
-      const updatedGames = [...video.games];
-      updatedGames[gamesListGameIndex] = { ...game, ignoreDuringSearch: true };
-      setVideo({ ...video, games: updatedGames });
-      onSuccess?.();
-    } catch (e) {
-      if (e instanceof SpecificError) {
-        launchErrorToast(t(`${e.apiErrorKey}`));
-      } else {
-        console.error(e);
-      }
-    }
-  };
-
   return {
     video,
     loading,
+    error,
+    retry,
     addGame,
     removeGame,
     validateVideo,
     ignoreVideo,
-    markGameAsIgnored,
   };
 };
 

@@ -18,6 +18,12 @@ export const launchErrorToast = (message: string, key?: string): void => {
   }, 100);
 };
 
+export const launchWarningToast = (message: string, key?: string): void => {
+  setTimeout(() => {
+    toast.warning(message, getOptions(key || message));
+  }, 100);
+};
+
 const getOptions = (id: string) => ({
   autoClose: 5000,
   hideProgressBar: true,

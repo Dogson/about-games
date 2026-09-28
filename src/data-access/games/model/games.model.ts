@@ -4,7 +4,6 @@ export type CreateGameDTO = {
   igdbId: number;
   title: string;
   releaseDate: string | null;
-  ignoreDuringSearch?: boolean;
   companies: string[];
   coverImg: string | null;
   boxartImg: string | null;

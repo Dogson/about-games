@@ -1,7 +1,7 @@
 import type { Meta } from "@storybook/react-vite";
 import GameListForVideo, {
   type GameListForVideoProps,
-} from "../GameListForVideo.component";
+} from "../GameListForVideo.component.tsx";
 import mockGames from "../../../mocks/games.mocks.json";
 
 export default {

@@ -29,6 +29,11 @@ export const routes = {
       goTo: (params: { id: number; title: string }) =>
         `/admin/channels/${createSlug(params.id, params.title)}`,
     },
+    video: {
+      path: "/admin/videos/:videoIdTitle",
+      goTo: (params: { id: number; title: string }) =>
+        `/admin/videos/${createSlug(params.id, params.title)}`,
+    },
   },
   game: {
     path: "/games/:gameIdTitle",
@@ -46,19 +51,6 @@ export const routes = {
           params.videoId,
           params.videoTitle,
         )}`,
-      admin: {
-        path: "/games/:gameIdTitle/:videoIdTitle/admin",
-        goTo: (params: {
-          gameId: number;
-          gameTitle: string;
-          videoId: number;
-          videoTitle: string;
-        }) =>
-          `/games/${createSlug(params.gameId, params.gameTitle)}/${createSlug(
-            params.videoId,
-            params.videoTitle,
-          )}/admin`,
-      },
     },
   },
 };

@@ -1,5 +1,5 @@
 import React, { type ReactNode } from "react";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "./AuthContext.ts";
 import useAuthContext from "./useAuthContext.ts";
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({

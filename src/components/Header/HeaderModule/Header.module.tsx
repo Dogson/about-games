@@ -23,7 +23,7 @@ const HeaderModule: React.FC<{ noSearch?: boolean }> = ({
   return (
     <motion.header
       className="fixed top-0 right-0 left-0 z-50 flex items-center
-        justify-between bg-gradient-to-t from-black/0 via-black/80 via-10%
+        justify-between gap-5 bg-gradient-to-t from-black/0 via-black/80 via-10%
         to-black/100 px-5 py-3"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}

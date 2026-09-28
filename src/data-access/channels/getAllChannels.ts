@@ -1,8 +1,8 @@
 import { AxiosError } from "axios";
-import ApiConfig from "../../config/api.config";
-import { api } from "../../helpers/axios/axios";
-import { ApiErrorType, SpecificError } from "../../types/error/error.types";
-import type { Channel } from "../../models/Channel.model";
+import ApiConfig from "../../config/api.config.ts";
+import { api } from "../../helpers/axios/axios.ts";
+import { ApiErrorType, SpecificError } from "../../types/error/error.types.ts";
+import type { Channel } from "../../models/Channel.model.ts";
 
 const getAllChannels = async (): Promise<Channel[]> => {
   try {

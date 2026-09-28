@@ -1,8 +1,8 @@
 import { AxiosError } from "axios";
-import ApiConfig from "../../config/api.config";
-import { api } from "../../helpers/axios/axios";
-import { ApiErrorType, SpecificError } from "../../types/error/error.types";
-import type { LogEvent } from "./logging.model";
+import ApiConfig from "../../config/api.config.ts";
+import { api } from "../../helpers/axios/axios.ts";
+import { ApiErrorType, SpecificError } from "../../types/error/error.types.ts";
+import type { LogEvent } from "./logging.model.ts";
 
 const getLastLogs = async (): Promise<LogEvent[]> => {
   try {

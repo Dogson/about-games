@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from "react";
+import { AxiosError } from "axios";
 import { launchErrorToast } from "../../helpers/toasts/toasts.ts";
 import i18n from "i18next";
 import { api } from "../../helpers/axios/axios.ts";
@@ -18,6 +19,10 @@ const AxiosErrorHandler: React.FC<React.PropsWithChildren> = ({ children }) => {
     const responseInterceptor = api.interceptors.response.use(
       (response) => response,
       async (error) => {
+        if (!(error instanceof AxiosError) || !error.response) {
+          return Promise.reject(error);
+        }
+
         if (error.response.status === 401) {
           launchErrorToast(
             i18n.t(`${ErrorMessageI18nKeys[ApiErrorType.SESSION_EXPIRED]}`),

@@ -1,8 +1,14 @@
 import React, { useCallback, useEffect } from "react";
-import { launchErrorToast } from "../helpers/toasts/toasts.ts";
+import {
+  launchErrorToast,
+  launchSuccessToast,
+} from "../helpers/toasts/toasts.ts";
 import { useTranslation } from "react-i18next";
 import useAppRoutes from "./useAppRoutes.hook.ts";
-import { SpecificError } from "../types/error/error.types.ts";
+import {
+  isInfrastructureSpecificError,
+  SpecificError,
+} from "../types/error/error.types.ts";
 import type { Channel } from "../models/Channel.model.ts";
 import getOneChannel from "../data-access/channels/getOneChannel.ts";
 import deleteOneChannel from "../data-access/channels/deleteOneChannel.ts";
@@ -12,13 +18,16 @@ import type { UpdateChannelDTO } from "../data-access/channels/model/channels.mo
 export type UseCurrentChannel = {
   channel?: Channel;
   loading: boolean;
+  error?: SpecificError;
+  fetchChannel: () => Promise<void>;
   deleteChannel: () => Promise<void>;
-  updateChannel: (channel: Partial<Channel>) => Promise<void>;
+  updateChannel: (channel: UpdateChannelDTO) => Promise<void>;
 };
 
 const useCurrentChannel = (channelId: number): UseCurrentChannel => {
   const [channel, setChannel] = React.useState<Channel | undefined>(undefined);
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<SpecificError>();
   const { goToParentRoute } = useAppRoutes();
   const { t } = useTranslation();
 
@@ -26,11 +35,16 @@ const useCurrentChannel = (channelId: number): UseCurrentChannel => {
     async () => {
       try {
         setLoading(true);
+        setError(undefined);
         setChannel(await getOneChannel(channelId));
       } catch (e) {
-        launchErrorToast(t("Channel.notFound"));
-        goToParentRoute();
-        console.error(e);
+        if (isInfrastructureSpecificError(e)) {
+          setError(e);
+        } else {
+          launchErrorToast(t("Channel.notFound"));
+          goToParentRoute();
+          console.error(e);
+        }
       } finally {
         setLoading(false);
       }
@@ -48,6 +62,7 @@ const useCurrentChannel = (channelId: number): UseCurrentChannel => {
     if (!channel) return;
     try {
       await deleteOneChannel(channel.id);
+      launchSuccessToast(t("Admin.deleteChannelSuccess"));
       goToParentRoute();
     } catch (e) {
       if (e instanceof SpecificError) {
@@ -65,6 +80,7 @@ const useCurrentChannel = (channelId: number): UseCurrentChannel => {
       try {
         setLoading(true);
         await updateOneChannel(channelId, channelUpdateDto);
+        launchSuccessToast(t("Admin.editChannelSuccess"));
         setChannel(await getOneChannel(channelId));
       } catch (e) {
         if (e instanceof SpecificError) {
@@ -83,6 +99,8 @@ const useCurrentChannel = (channelId: number): UseCurrentChannel => {
   return {
     channel,
     loading,
+    error,
+    fetchChannel,
     deleteChannel,
     updateChannel,
   };

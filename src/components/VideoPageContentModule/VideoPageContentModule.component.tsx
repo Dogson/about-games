@@ -1,31 +1,38 @@
 import type React from "react";
-import { formatDateLocalized } from "../../helpers/utils/datetime.utils";
-import GameBackButton from "../Buttons/GameBackButton/GameBackButton.component";
-import MainButton from "../Buttons/MainButton/MainButton.component";
-import GameListForVideo from "../GameListForVideo/GameListForVideo.component";
-import IgdbGameSearch from "../IgdbGamesSearch/IgdbGamesSearch.component";
-import { Separator } from "../Separator/Separator.component";
-import VideoDescription from "../VideoDescription/VideoDescription.component";
-import YoutubeVideo from "../YoutubeVideo/YoutubeVideo.component";
-import type { Game, GamesListItem } from "../../models/Game.model";
+import { formatDateLocalized } from "../../helpers/utils/datetime.utils.ts";
+import GameBackButton from "../Buttons/GameBackButton/GameBackButton.component.tsx";
+import MainButton from "../Buttons/MainButton/MainButton.component.tsx";
+import GameListForVideo from "../GameListForVideo/GameListForVideo.component.tsx";
+import IgdbGameSearch from "../IgdbGamesSearch/IgdbGamesSearch.component.tsx";
+import { Separator } from "../Separator/Separator.component.tsx";
+import VideoDescription from "../VideoDescription/VideoDescription.component.tsx";
+import YoutubeVideo from "../YoutubeVideo/YoutubeVideo.component.tsx";
+import type { Game, GamesListItem } from "../../models/Game.model.ts";
 import { useContext, useState } from "react";
-import useAppRoutes from "../../hooks/useAppRoutes.hook";
+import useAppRoutes from "../../hooks/useAppRoutes.hook.ts";
 import { useTranslation } from "react-i18next";
-import useCurrentVideo from "../../hooks/useCurrentVideo.hook";
-import useIgdbSearch from "../../hooks/useIgdbSearch.hook";
-import IconButton from "../Buttons/IconButton/IconButton.component";
+import useCurrentVideo from "../../hooks/useCurrentVideo.hook.ts";
+import useIgdbSearch from "../../hooks/useIgdbSearch.hook.ts";
+import IconButton from "../Buttons/IconButton/IconButton.component.tsx";
 import { FiChevronRight } from "react-icons/fi";
 import { FiChevronLeft } from "react-icons/fi";
 import { LuSettings } from "react-icons/lu";
-import { AuthContext } from "../../contexts/auth/AuthContext";
-import { getYoutubeChannelUrlFromHandle } from "../../helpers/utils/youtube.utils";
-import Modal from "../Modals/Modal/Modal.component";
-import LanguageCode from "../LanguageCode/LanguageCode.component";
+import { AuthContext } from "../../contexts/auth/AuthContext.ts";
+import { UnverifiedVideosListContext } from "../../contexts/unverifiedVideosList/UnverifiedVideosListContext.ts";
+import { getYoutubeChannelUrlFromHandle } from "../../helpers/utils/youtube.utils.ts";
+import Modal from "../Modals/Modal/Modal.component.tsx";
+import LanguageCode from "../LanguageCode/LanguageCode.component.tsx";
 import { Helmet } from "react-helmet";
+import SmartLink from "../SmartLink/SmartLink.component.tsx";
+import { routes } from "../../router/routes.config.ts";
+import InlineError from "../InlineError/InlineError.component.tsx";
+import Skeleton from "../Skeleton/Skeleton.component.tsx";
 
 type VideoPageContentProps = {
   game?: Game;
   currentVideoId: number;
+  currentVideoRank?: number;
+  totalVideoCount?: number;
   goToPreviousVideo?: () => void;
   goToNextVideo?: () => void;
   isFirstVideo?: boolean;
@@ -34,6 +41,8 @@ type VideoPageContentProps = {
 
 const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
   game,
+  currentVideoRank,
+  totalVideoCount,
   currentVideoId,
   goToNextVideo,
   goToPreviousVideo,
@@ -41,15 +50,19 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
   isLastVideo,
 }) => {
   const { isAdmin } = useContext(AuthContext);
+  const { refreshUnverifiedVideos } = useContext(UnverifiedVideosListContext);
   const { i18n, t } = useTranslation();
-  const { goToGame, isAdminRoute, goToAdminChildRoute } = useAppRoutes();
+  const { goToGame, goBackToGame, isAdminRoute, goToAdminChildRoute } =
+    useAppRoutes();
   const {
     video,
+    loading,
+    error,
+    retry,
     addGame,
     removeGame,
     validateVideo,
     ignoreVideo,
-    markGameAsIgnored,
   } = useCurrentVideo(currentVideoId);
   const {
     searchValue,
@@ -73,12 +86,9 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
     removeGame(game.id);
   };
 
-  const handleMarkGameAsIgnored = (game: GamesListItem) => {
-    markGameAsIgnored(game);
-  };
-
   const handleValidateVideo = () => {
     validateVideo(() => {
+      refreshUnverifiedVideos();
       if (goToNextVideo && !isLastVideo) {
         goToNextVideo();
       }
@@ -88,6 +98,7 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
   const handleIgnoreVideo = () => {
     setShowIgnoreVideoModal(false);
     ignoreVideo(() => {
+      refreshUnverifiedVideos();
       if (goToNextVideo && !isLastVideo) {
         goToNextVideo();
       }
@@ -110,59 +121,134 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
           {t("Video.ignoreModal.body")}
         </Modal>
       )}
+      {loading && !video && (
+        <div className="relative flex w-full flex-col gap-5 px-5 pt-15 md:px-30 md:pt-20">
+          {game && (
+            <div className="flex items-center gap-2 self-start md:absolute md:top-18 md:left-5">
+              <Skeleton className="h-4 w-4" />
+              <Skeleton className="h-12 w-9 rounded-lg" />
+            </div>
+          )}
+          <div
+            className="max-w-container relative flex w-full min-w-0 flex-1
+              flex-col items-center gap-4"
+          >
+            <div className="flex w-full flex-col items-center gap-5">
+              <div className="flex w-full justify-center">
+                <div
+                  className={`flex w-full flex-col gap-3 ${
+                    isAdminRoute ? "max-w-[460px]" : "max-w-[960px]"
+                  }`}
+                >
+                  <Skeleton className="h-8 w-2/3 rounded-lg" />
+                  <Skeleton className="aspect-video w-full rounded-lg" />
+                </div>
+              </div>
+            </div>
+            <Separator direction="horizontal" bulletSize="sm" />
+            <div className="flex w-full flex-col items-start gap-4 md:flex-row">
+              <div className="flex min-w-0 flex-1 flex-col items-start gap-2">
+                <div className="flex w-full items-center gap-2">
+                  <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
+                  <Skeleton className="h-9 min-w-0 flex-1 rounded-lg" />
+                </div>
+                <Skeleton className="h-26 w-full rounded-xl" />
+              </div>
+              <div className="relative mt-2 flex shrink-0 flex-col gap-3">
+                <Skeleton className="h-5 w-36 rounded-lg" />
+                <div className="grid grid-cols-3 gap-3 px-2 pt-2">
+                  <Skeleton className="h-32 w-24 rounded-xl" />
+                  <Skeleton className="h-32 w-24 rounded-xl" />
+                  <Skeleton className="h-32 w-24 rounded-xl" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      {error && !video && (
+        <div className="flex w-full flex-1 flex-col items-center justify-center px-5">
+          <div className="max-w-container w-full">
+            <InlineError
+              message={t(`${error.apiErrorKey ?? "ApiErrors.unknown"}`)}
+              onRetry={retry}
+            />
+          </div>
+        </div>
+      )}
       {video && (
         <>
           <Helmet>
             <title>{`${video.title} - about games`}</title>
           </Helmet>
-          <div className="relative px-30 pt-20">
+          <div
+            className={
+              "relative flex flex-col gap-5 px-5 pt-15 md:px-30 md:pt-20"
+            }
+          >
             {game && (
-              <div className="absolute top-18 left-5 self-start">
+              <div className="self-start md:absolute md:top-18 md:left-5">
                 <GameBackButton
                   onClick={() =>
-                    goToGame && goToGame({ title: game.title, id: game.id })
+                    goBackToGame &&
+                    goBackToGame({ title: game.title, id: game.id })
                   }
                   gameCoverImgUrl={game.boxartImg}
                 />
               </div>
             )}
             <div
-              className="max-w-container relative flex w-full flex-1 flex-col
-                items-center gap-4"
+              className="max-w-container relative flex w-full min-w-0 flex-1
+                flex-col items-center gap-4"
             >
-              <div className="flex w-full items-center justify-evenly">
-                {goToPreviousVideo && (
-                  <IconButton
-                    Icon={FiChevronLeft}
-                    onClick={goToPreviousVideo}
-                    disabled={isFirstVideo}
-                  />
-                )}
+              <div className="flex w-full flex-col items-center gap-5">
                 <YoutubeVideo
                   youtubeId={video.youtubeId}
                   seekTo={seekTo}
                   title={video.title}
                   smallContainer={isAdminRoute}
                 />
-                {goToNextVideo && (
-                  <IconButton
-                    Icon={FiChevronRight}
-                    onClick={goToNextVideo}
-                    disabled={isLastVideo}
-                  />
+                {goToPreviousVideo && goToNextVideo && (
+                  <div className="flex items-center gap-5">
+                    <IconButton
+                      Icon={FiChevronLeft}
+                      onClick={goToPreviousVideo}
+                      disabled={isFirstVideo}
+                    />
+                    <div className="flex gap-1">
+                      <span className="font-title text-xl font-bold">
+                        {currentVideoRank}
+                      </span>
+                      <span className="pt-2">/ {totalVideoCount}</span>
+                    </div>
+                    <IconButton
+                      Icon={FiChevronRight}
+                      onClick={goToNextVideo}
+                      disabled={isLastVideo}
+                    />
+                  </div>
                 )}
               </div>
               <Separator direction="horizontal" bulletSize="sm" />
-              <div className="flex w-full items-start gap-4">
+              <div
+                className="flex w-full flex-col items-start gap-4 md:flex-row"
+              >
                 <div className="flex flex-col items-start gap-2">
                   <div
                     className="flex w-full flex-row items-center
                       justify-between"
                   >
-                    <a
-                      href={getYoutubeChannelUrlFromHandle(
-                        video.ytChannel.youtubeHandle,
-                      )}
+                    <SmartLink
+                      to={
+                        isAdminRoute
+                          ? routes.admin.channel.goTo({
+                              id: video.ytChannel.id,
+                              title: video.ytChannel.name,
+                            })
+                          : getYoutubeChannelUrlFromHandle(
+                              video.ytChannel.youtubeHandle,
+                            )
+                      }
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-ghost flex gap-2"
@@ -183,7 +269,7 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                           )}
                         </span>
                       </div>
-                    </a>
+                    </SmartLink>
                     <LanguageCode language={video.ytChannel.language} />
                   </div>
                   <VideoDescription
@@ -197,7 +283,12 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                       <IconButton
                         noCircle
                         Icon={LuSettings}
-                        onClick={goToAdminChildRoute}
+                        onClick={() =>
+                          goToAdminChildRoute({
+                            videoId: video.id,
+                            videoTitle: video.title,
+                          })
+                        }
                         isSmall
                       />
                     </div>
@@ -207,9 +298,6 @@ const VideoPageContentModule: React.FC<VideoPageContentProps> = ({
                     onGameClick={handleClickGame}
                     onDeleteGame={isAdminRoute ? handleDeleteGame : undefined}
                     isAdminRoute={isAdminRoute}
-                    onMarkGameAsIgnored={
-                      isAdminRoute ? handleMarkGameAsIgnored : undefined
-                    }
                   />
                   {isAdminRoute && !video.validated && (
                     <MainButton onClick={handleValidateVideo}>

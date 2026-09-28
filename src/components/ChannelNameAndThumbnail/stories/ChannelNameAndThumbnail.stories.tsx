@@ -1,6 +1,6 @@
 import ChannelNameAndThumbnail, {
   type ChannelNameAndThumbnailProps,
-} from "../ChannelNameAndThumbnail.component";
+} from "../ChannelNameAndThumbnail.component.tsx";
 import type { Meta, StoryFn } from "@storybook/react-vite";
 
 export default {

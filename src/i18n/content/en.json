@@ -17,14 +17,15 @@
     "videos": "Videos",
     "save": "Save",
     "delete": "Delete",
-    "close": "Close"
+    "close": "Close",
+    "retry": "Retry"
   },
   "GameSearch": {
     "noResults": "No games found",
     "searchPlaceholder": "Search for a game"
   },
   "GamePageHeader": {
-    "about": "about"
+    "about": "about..."
   },
   "GameListForVideo": {
     "gamesItsAbout": "Games covered",
@@ -38,26 +39,33 @@
     "gameMasterMode": "Game Master Mode: ON",
     "manageChannels": "Manage YouTube channels",
     "reviewVideos": "Review videos",
-    "reviewVideosLabel": "You have {{count}} video(s) pending review",
+    "reviewVideosLabel": "{{count}} video(s) pending review",
     "createChannel": "Add a channel",
-    "logs": "API logs"
+    "fetchNewVideos": "Fetch new videos",
+    "logs": "API logs",
+    "backToAdmin": "Back to admin",
+    "createChannelSuccess": "Channel added successfully.",
+    "editChannelSuccess": "Channel edited successfully.",
+    "deleteChannelSuccess": "Channel deleted successfully.",
+    "unignoreAllVideos": "Unignore all ignored videos",
+    "unignoreSuccess": "The game generation has started for {{count}} videos",
+    "unignoreNoChanges": "No changes have been made",
+    "addedOn": "Added on"
   },
   "ChannelForm": {
     "errors": {
       "required": "This field is required",
       "invalidRegexp": "Invalid regular expression",
-      "invalidLanguage": "Invalid language",
-      "invalidAttribute": "Invalid attribute"
+      "invalidLanguage": "Invalid language"
     },
     "youtubeHandle": "YouTube channel handle",
     "language": "Language",
-    "parsingAttribute": "Attribute to parse",
-    "title": "Video title",
-    "description": "Video description",
     "ignoreEpisodesContaining": "Ignore episodes containing these regexps",
-    "ignoreSearchIn": "Ignore search for game in these regexps",
-    "endParsingAfter": "Stop parsing after these regexps",
     "ignoreEpisodesMissing": "Ignore episodes missing these regexps",
+    "playlistsIds": "Playlist IDs (only fetch videos from these playlists)",
+    "additionalGameCandidateAIPrompt": "Additional instructions for game detection",
+    "viewDefaultPrompt": "View default prompt",
+    "defaultGameDetectionPromptTitle": "Default game-detection prompt",
     "deleteChannel": {
       "title": "Delete channel",
       "message": "Are you sure you want to delete this channel? This action is irreversible.",
@@ -90,7 +98,10 @@
     "forbidden": "You don't have permission for this route.",
     "sessionExpired": "Session expired, please log in again.",
     "unknown": "An unknown error occurred",
-    "userNotFound": "User not found"
+    "userNotFound": "User not found",
+    "networkError": "Couldn't reach the server. Check your connection and try again.",
+    "timeout": "The server took too long to respond. Please try again.",
+    "serverError": "Something went wrong on the server. Please try again later."
   },
   "Video": {
     "notFound": "Video not found",
@@ -104,11 +115,14 @@
   "Game": {
     "tba": "TBA",
     "notFound": "Game not found",
-    "ignoreDuringSearch": "Ignore this game during automatic game detection",
     "noVideosTitle": "No videos found.",
     "noVideosDescription": "You can broaden your language preferences to include more videos."
   },
   "IgdbGameSearch": {
     "noResults": "No games found"
-  }
+  },
+  "Channel": {
+    "notFound": "Channel not found"
+  },
+  "errorHasOccured": "An error occurred"
 }

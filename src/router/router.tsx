@@ -7,7 +7,6 @@ import GamePage from "../pages/GamePage/GamePage.component.tsx";
 import VideoPage from "../pages/VideoPage/VideoPage.component.tsx";
 import AuthRoute from "./AuthRoute.tsx";
 import AdminHomePage from "../pages/AdminHomePage/AdminHomePage.component.tsx";
-import AdminChannelsListPage from "../pages/AdminChannelsListPage/AdminChannelsListPage.component.tsx";
 import AdminChannelPage from "../pages/AdminChannelPage/AdminChannelPage.component.tsx";
 import AdminVideoCarouselPage from "../pages/AdminVideoCarouselPage/AdminVideoCarouselPage.component.tsx";
 import AdminCreateChannelPage from "../pages/AdminCreateChannelPage/AdminCreateChannelPage.component.tsx";
@@ -37,11 +36,6 @@ export const router = createBrowserRouter([
         children: [{ path: "", element: <AdminHomePage /> }],
       },
       {
-        path: routes.admin.channels.path,
-        element: <AuthRoute />,
-        children: [{ path: "", element: <AdminChannelsListPage /> }],
-      },
-      {
         path: routes.admin.channel.path,
         element: <AuthRoute />,
         children: [{ path: "", element: <AdminChannelPage /> }],
@@ -57,7 +51,7 @@ export const router = createBrowserRouter([
         children: [{ path: "", element: <AdminVideoCarouselPage /> }],
       },
       {
-        path: routes.game.video.admin.path,
+        path: routes.admin.video.path,
         element: <AuthRoute />,
         children: [{ path: "", element: <VideoPage /> }],
       },

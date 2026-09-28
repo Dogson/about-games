@@ -5,19 +5,23 @@ import { launchErrorToast } from "../helpers/toasts/toasts.ts";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../router/routes.config.ts";
 import { useTranslation } from "react-i18next";
-import updateOneGame from "../data-access/games/updateOneGame.ts";
-import { SpecificError } from "../types/error/error.types.ts";
 import { ChannelsSettingsContext } from "../contexts/channelsSettings/ChannelsSettingsContext.ts";
+import {
+  isInfrastructureSpecificError,
+  type SpecificError,
+} from "../types/error/error.types.ts";
 
 export type UseCurrentGame = {
   game?: Game;
   loading: boolean;
-  changeGameOptions: (options: Partial<Game>) => void;
+  error?: SpecificError;
+  retry: () => Promise<void>;
 };
 
-const useCurrentGame = (gameId: number): UseCurrentGame => {
+const useCurrentGame = (gameId: number | null): UseCurrentGame => {
   const [game, setGame] = React.useState<Game>();
   const [loading, setLoading] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<SpecificError>();
   const { languages } = useContext(ChannelsSettingsContext);
   const navigate = useNavigate();
   const { t } = useTranslation();
@@ -26,13 +30,18 @@ const useCurrentGame = (gameId: number): UseCurrentGame => {
     async (gameId: number) => {
       try {
         setLoading(true);
+        setError(undefined);
         setGame(
           await getOneGame(gameId, { onlyValidatedVideos: true, languages }),
         );
       } catch (e) {
-        console.error(e);
-        launchErrorToast(t("Game.notFound"));
-        navigate(routes.home.goTo());
+        if (isInfrastructureSpecificError(e)) {
+          setError(e);
+        } else {
+          console.error(e);
+          launchErrorToast(t("Game.notFound"));
+          navigate(routes.home.goTo());
+        }
       } finally {
         setLoading(false);
       }
@@ -42,32 +51,23 @@ const useCurrentGame = (gameId: number): UseCurrentGame => {
     [navigate, languages],
   );
 
-  const changeGameOptions = async (options: Partial<Game>) => {
-    if (!options || !game) return;
-    const currGame = { ...game };
-    try {
-      setGame({ ...game, ...options });
-      await updateOneGame(gameId, options);
-    } catch (e) {
-      setGame(currGame);
-      if (e instanceof SpecificError) {
-        launchErrorToast(t(`${e.apiErrorKey}`));
-      } else {
-        launchErrorToast(t("ApiErrors.unknown"));
-      }
-    }
-  };
-
   useEffect(() => {
     if (gameId && languages) {
       fetchGame(gameId);
     }
   }, [fetchGame, gameId, languages]);
 
+  const retry = useCallback(async () => {
+    if (gameId) {
+      await fetchGame(gameId);
+    }
+  }, [fetchGame, gameId]);
+
   return {
     game,
     loading,
-    changeGameOptions,
+    error,
+    retry,
   };
 };
 

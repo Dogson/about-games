@@ -4,10 +4,7 @@ import type { CreateGameDTO } from "../../data-access/games/model/games.model.ts
 export const mapIgdbGamesToCreateGamesDTO = (
   igdbGame: IGDBGame,
 ): CreateGameDTO => {
-  const firstReleaseDate =
-    igdbGame.release_dates && igdbGame.release_dates.length > 0
-      ? Math.min(...(igdbGame.release_dates || []).map((date) => date.date))
-      : undefined;
+  const firstReleaseDate = getFirstReleaseDate(igdbGame);
 
   return {
     title: igdbGame.name,
@@ -24,13 +21,15 @@ export const mapIgdbGamesToCreateGamesDTO = (
     companies: (igdbGame.involved_companies || []).map(
       (company) => company.company.name,
     ),
-    ignoreDuringSearch: false,
   };
 };
 
 export const getFirstReleaseDate = (igdbGame: IGDBGame): number | null => {
-  return igdbGame.release_dates && igdbGame.release_dates.length > 0
-    ? Math.min(...(igdbGame.release_dates || []).map((date) => date.date))
+  const releaseDates = igdbGame.release_dates
+    ?.map((date) => date.date)
+    .filter((date) => date);
+  return releaseDates && releaseDates.length > 0
+    ? Math.min(...(releaseDates || []))
     : null;
 };
 
@@ -45,4 +44,26 @@ export const createSlug = (id: number, title: string): string => {
 export const getIdFromSlug = (slug: string): number | null => {
   const match = slug.match(/^(\d+)-/);
   return match ? parseInt(match[1], 10) : null;
+};
+
+export const sortSameTitleGamesByReleaseDate = (
+  igdbGames: IGDBGame[],
+): IGDBGame[] => {
+  const firstOccurrence = new Map<string, number>();
+
+  igdbGames.forEach((game, index) => {
+    if (!firstOccurrence.has(game.name)) {
+      firstOccurrence.set(game.name, index);
+    }
+  });
+
+  return [...igdbGames].sort((gameA, gameB) => {
+    if (gameA.name === gameB.name) {
+      return (
+        (getFirstReleaseDate(gameA) || 0) - (getFirstReleaseDate(gameB) || 0)
+      );
+    }
+
+    return firstOccurrence.get(gameA.name)! - firstOccurrence.get(gameB.name)!;
+  });
 };

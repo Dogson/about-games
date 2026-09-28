@@ -3,7 +3,7 @@ const ApiConfig = {
     login: "/auth/login",
     sessionTest: "/auth/validate",
     games: "/games",
-    igdbSearch: "/igdbSearch",
+    igdbSearch: "/games/igdbSearch",
     channels: "/channels",
     videos: "/videos",
     logs: {

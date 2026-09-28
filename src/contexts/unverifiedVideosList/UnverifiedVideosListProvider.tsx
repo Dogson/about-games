@@ -7,24 +7,32 @@ export const UnverifiedVideosListProvider: React.FC<{
 }> = ({ children }) => {
   const {
     isLoadingVideos,
+    error,
     goToNextUnverifiedVideo,
     goToPreviousUnverifiedVideo,
+    refreshUnverifiedVideos,
     isFirstVideo,
     isLastVideo,
     unverifiedVideosCount,
+    totalVideosCount,
     currentVideo,
+    currentVideoIdx,
   } = useUnverifiedVideosListContext();
 
   return (
     <UnverifiedVideosListContext.Provider
       value={{
         isLoadingVideos,
+        error,
         goToNextUnverifiedVideo,
         goToPreviousUnverifiedVideo,
+        refreshUnverifiedVideos,
         isFirstVideo,
         isLastVideo,
         unverifiedVideosCount,
+        totalVideosCount,
         currentVideo,
+        currentVideoIdx,
       }}
     >
       {children}
