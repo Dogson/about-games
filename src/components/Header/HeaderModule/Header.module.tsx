@@ -7,6 +7,7 @@ import useAppRoutes from "../../../hooks/useAppRoutes.hook.ts";
 import { useNavigate } from "react-router-dom";
 import { routes } from "../../../router/routes.config.ts";
 import type { GamesListItem } from "../../../models/Game.model.ts";
+import useMediaQuery from "../../../hooks/useMediaQuery.hook.ts";
 
 const HeaderModule: React.FC<{ noSearch?: boolean }> = ({
   noSearch = false,
@@ -14,11 +15,16 @@ const HeaderModule: React.FC<{ noSearch?: boolean }> = ({
   const { games, searchText, onChangeSearchText, loading } = useSearchBox();
   const { goToGame } = useAppRoutes();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery("(max-width: 639px)");
+  const [isSearchOpen, setIsSearchOpen] = React.useState(false);
 
   const handleClickGame = (game: GamesListItem) => {
     onChangeSearchText("");
     goToGame(game);
   };
+
+  const handleOpenSearch = React.useCallback(() => setIsSearchOpen(true), []);
+  const handleCloseSearch = React.useCallback(() => setIsSearchOpen(false), []);
 
   return (
     <motion.header
@@ -29,7 +35,10 @@ const HeaderModule: React.FC<{ noSearch?: boolean }> = ({
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
-      <button onClick={() => navigate(routes.home.goTo())}>
+      <button
+        className={isMobile && isSearchOpen ? "hidden" : ""}
+        onClick={() => navigate(routes.home.goTo())}
+      >
         <Logo inline />
       </button>
       {!noSearch && (
@@ -39,6 +48,10 @@ const HeaderModule: React.FC<{ noSearch?: boolean }> = ({
           onChangeSearchText={onChangeSearchText}
           games={games}
           loading={loading}
+          isMobile={isMobile}
+          isSearchOpen={isSearchOpen}
+          onOpenSearch={handleOpenSearch}
+          onCloseSearch={handleCloseSearch}
         />
       )}
     </motion.header>
