@@ -3,8 +3,6 @@ import { useTranslation } from "react-i18next";
 import GameCard from "../GameCard/GameCard.component.tsx";
 import { getYearFromDate } from "../../helpers/utils/datetime.utils.ts";
 import { Separator } from "../Separator/Separator.component.tsx";
-import IconButton from "../Buttons/IconButton/IconButton.component.tsx";
-import { LuArrowLeft } from "react-icons/lu";
 
 export type GamePageHeaderProps = {
   title: string;
@@ -12,7 +10,6 @@ export type GamePageHeaderProps = {
   coverImg: string | null;
   boxartImg: string | null;
   companies: string[];
-  onBackClick: () => void;
 };
 
 const GamePageHeader: React.FC<GamePageHeaderProps> = ({
@@ -21,7 +18,6 @@ const GamePageHeader: React.FC<GamePageHeaderProps> = ({
   coverImg,
   boxartImg,
   companies,
-  onBackClick,
 }) => {
   const { t } = useTranslation();
   return (
@@ -34,25 +30,20 @@ const GamePageHeader: React.FC<GamePageHeaderProps> = ({
         className="absolute top-0 right-0 left-0 h-60 w-full bg-cover bg-center
           md:h-72"
       />
-      <IconButton
-        noCircle
-        Icon={LuArrowLeft}
-        isSmall
-        onClick={onBackClick}
-        iconClassName="text-white"
-        className="absolute top-13 left-4"
-      />
       <div
         className={
           "max-w-container flex w-full flex-col gap-1 md:flex-row md:gap-5"
         }
       >
-        <GameCard
-          title={title}
-          releaseDate={releaseDate}
-          imgUrl={boxartImg}
-          canBeHovered={false}
-        />
+        <div className="w-30 shrink-0 md:w-39">
+          <GameCard
+            isFluid
+            title={title}
+            releaseDate={releaseDate}
+            imgUrl={boxartImg}
+            canBeHovered={false}
+          />
+        </div>
         <div className="relative flex flex-1 flex-col md:mt-27">
           <span className="text-ghost text-xs opacity-50">
             {t("GamePageHeader.about")}

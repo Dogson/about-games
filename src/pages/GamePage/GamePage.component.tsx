@@ -13,11 +13,9 @@ import { ChannelsSettingsContext } from "../../contexts/channelsSettings/Channel
 import InlineError from "../../components/InlineError/InlineError.component.tsx";
 import { Separator } from "../../components/Separator/Separator.component.tsx";
 import Skeleton from "../../components/Skeleton/Skeleton.component.tsx";
-import IconButton from "../../components/Buttons/IconButton/IconButton.component.tsx";
-import { LuArrowLeft } from "react-icons/lu";
 
 const GamePage: React.FC = () => {
-  const { currentGameId, goToVideo, goToParentRoute, goBack } = useAppRoutes();
+  const { currentGameId, goToVideo, goToParentRoute } = useAppRoutes();
   const [showLanguageModal, setShowLanguageModal] = useState(false);
   const { languages, changeLanguages } = useContext(ChannelsSettingsContext);
   const { t } = useTranslation();
@@ -54,19 +52,11 @@ const GamePage: React.FC = () => {
             <div className="absolute top-0 right-0 left-0 h-60 w-full md:h-72">
               <Skeleton light className="h-full w-full" />
             </div>
-            <IconButton
-              noCircle
-              Icon={LuArrowLeft}
-              isSmall
-              onClick={goBack}
-              iconClassName="text-white"
-              className="absolute top-13 left-4"
-            />
             <div
               className="max-w-container flex w-full flex-col gap-1
                 md:flex-row md:gap-5"
             >
-              <Skeleton className="h-52 w-39 shrink-0 rounded-xl" />
+              <Skeleton className="aspect-[3/4] w-30 shrink-0 rounded-xl md:w-39" />
               <div className="relative flex flex-1 flex-col gap-2 md:mt-27">
                 <Skeleton className="h-3 w-16 rounded-lg" />
                 <Skeleton className="h-9 w-52 rounded-lg md:w-72" />
@@ -117,7 +107,6 @@ const GamePage: React.FC = () => {
             boxartImg={game.boxartImg}
             coverImg={game.coverImg}
             companies={game.companies}
-            onBackClick={goBack}
           />
           <div className="flex w-full flex-col items-center px-5">
             <div className="max-w-container">
