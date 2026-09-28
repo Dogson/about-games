@@ -16,6 +16,7 @@ export type GameCardProps = {
   onDelete?: () => void;
   isFlat?: boolean;
   alwaysShowTitle?: boolean;
+  isFluid?: boolean;
 };
 
 const GameCard: React.FC<GameCardProps> = ({
@@ -28,6 +29,7 @@ const GameCard: React.FC<GameCardProps> = ({
   onClick,
   onDelete,
   alwaysShowTitle = false,
+  isFluid = false,
 }) => {
   const [hovered, setHovered] = React.useState(false);
   const { t } = useTranslation();
@@ -37,7 +39,7 @@ const GameCard: React.FC<GameCardProps> = ({
       className={`slide-in relative flex flex-shrink-0 flex-col justify-end
         rounded-xl bg-black bg-cover bg-center pt-5 shadow outline-2
         outline-transparent duration-100 ${isFlat ? "shadow-0" : "shadow-md"}
-        ${isSmall ? "h-32 w-24" : "h-52 w-39"}
+        ${isSmall ? "h-32 w-24" : isFluid ? "aspect-[3/4] w-full" : "h-52 w-39"}
         ${canBeHovered ? "cursor-pointer" : ""} ${
           hovered || !canBeHovered
             ? `outline-turquoise transition-all
