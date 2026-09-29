@@ -34,7 +34,7 @@ const PageLayout: React.FC<{
           Icon={LuArrowLeft}
           onClick={() => navigate(routes.admin.goTo())}
           hoverText={t("Admin.backToAdmin")}
-          className="absolute top-13 left-4"
+          className="absolute top-13 left-4 z-20"
         />
       )}
 

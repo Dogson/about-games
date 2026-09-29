@@ -15,6 +15,7 @@ export type InputProps = {
   clearable?: boolean;
   size?: "sm" | "md";
   onFocus?: () => void;
+  autoFocus?: boolean;
   type?: "password" | "number" | "text";
 };
 
@@ -32,6 +33,7 @@ const Input: React.FC<InputProps> = ({
   size = "md",
   type = "text",
   onFocus,
+  autoFocus = false,
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value);
@@ -57,6 +59,7 @@ const Input: React.FC<InputProps> = ({
         <input
           type={type}
           spellCheck={false}
+          autoFocus={autoFocus}
           value={value}
           onChange={handleChange}
           placeholder={placeholder}

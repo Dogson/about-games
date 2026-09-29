@@ -26,7 +26,7 @@ const GameGrid: React.FC<GameGridProps> = ({
   const firstSkeletonRef = useRef<HTMLDivElement | null>(null);
 
   const columns = Math.max(
-    1,
+    2,
     Math.floor((gridWidth + COLUMN_GAP) / (COLUMN_WIDTH + COLUMN_GAP)),
   );
 
@@ -58,16 +58,15 @@ const GameGrid: React.FC<GameGridProps> = ({
   }, [onScrollEnd, games, hasMore]);
 
   const baseGridClassName =
-    "max-w-container grid w-full grid-cols-[repeat(auto-fit,160px)] justify-center gap-x-5 gap-y-5 p-4";
-  const gridClassName = `${baseGridClassName} auto-rows-fr`;
+    "max-w-container grid w-full grid-cols-2 justify-center gap-x-3 gap-y-5 p-2 sm:grid-cols-[repeat(auto-fit,160px)] sm:gap-x-5 sm:p-4";
   const initialSkeletonClassName =
-    `${baseGridClassName} auto-rows-[13rem] overflow-hidden h-[calc(3*13rem_+_2*1.25rem_+_2rem)]`;
+    `${baseGridClassName} overflow-hidden sm:auto-rows-[13rem] sm:h-[calc(3*13rem_+_2*1.25rem_+_2rem)]`;
 
   const renderSkeletonCard = (
     key: string,
     ref?: React.Ref<HTMLDivElement>,
   ) => (
-    <div key={key} ref={ref} className="h-52 w-39">
+    <div key={key} ref={ref} className="aspect-[3/4] w-full">
       <Skeleton className="h-full w-full rounded-xl" />
     </div>
   );
@@ -75,10 +74,12 @@ const GameGrid: React.FC<GameGridProps> = ({
   return (
     <div
       ref={gridRef}
-      className={showInitialSkeleton ? initialSkeletonClassName : gridClassName}
+      className={
+        showInitialSkeleton ? initialSkeletonClassName : baseGridClassName
+      }
     >
       {showInitialSkeleton ? (
-        Array.from({ length: 18 }, (_, index) =>
+        Array.from({ length: columns * 3 }, (_, index) =>
           renderSkeletonCard(`initial-${index}`),
         )
       ) : (
@@ -91,6 +92,7 @@ const GameGrid: React.FC<GameGridProps> = ({
             >
               <GameCard
                 isFlat={false}
+                isFluid
                 title={game.title}
                 imgUrl={game.boxartImg}
                 releaseDate={game.releaseDate}

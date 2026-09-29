@@ -10,6 +10,7 @@ export type SearchInputProps = {
   isLoading?: boolean;
   size?: "sm" | "md";
   onFocus?: () => void;
+  autoFocus?: boolean;
 };
 
 const SearchInput: React.FC<SearchInputProps> = ({
@@ -19,6 +20,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
   searchText,
   size = "md",
   onFocus,
+  autoFocus,
   isLoading,
 }) => {
   return (
@@ -31,6 +33,7 @@ const SearchInput: React.FC<SearchInputProps> = ({
       clearable={!!onClear}
       size={size}
       onFocus={onFocus}
+      autoFocus={autoFocus}
       loading={isLoading}
     />
   );

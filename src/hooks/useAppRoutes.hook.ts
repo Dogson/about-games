@@ -17,7 +17,6 @@ type UseAppRoutes = {
   currentChannelId: number | null;
   isAdminRoute: boolean;
   goToParentRoute: () => void;
-  goBack: () => void;
   goToAdminChildRoute: (params?: {
     videoId: number;
     videoTitle: string;
@@ -107,14 +106,6 @@ const useAppRoutes = (): UseAppRoutes => {
     navigate(parentPath);
   }, [location.pathname, navigate]);
 
-  const goBack = useCallback(() => {
-    if (location.key === "default") {
-      navigate(routes.home.goTo());
-    } else {
-      navigate(-1);
-    }
-  }, [location.key, navigate]);
-
   const goToChannel = (channel: { id: number; title: string }) => {
     navigate(
       routes.admin.channel.goTo({
@@ -140,7 +131,6 @@ const useAppRoutes = (): UseAppRoutes => {
     currentVideoId,
     currentChannelId,
     goToParentRoute,
-    goBack,
     goToAdminChildRoute,
     isAdminRoute,
   };
